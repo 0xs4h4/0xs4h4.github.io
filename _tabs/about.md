@@ -7,7 +7,7 @@ order: 4
 ![About](beardenx.jpg)
 
 > `Disclaimer:` I am not responsible for any illegal activities.
-{: .prompt-tip }
+{: .prompt-warning }
 
 Hello! I'm Beardenx (Bear Den), a cybersecurity enthusiast with a focus on Red Teaming. With a background in FinTech and penetration testing, I've progressed from Junior Security Engineer to a key Offensive Team member at one of Malaysia's leading investment firms.
 
