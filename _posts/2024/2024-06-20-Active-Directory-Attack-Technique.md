@@ -1,5 +1,5 @@
 ---
-title: Active Directory Attack Technique - CRTP
+title: Active Directory Attack Technique
 date: 2024-06-20 05:00:00 +0800
 categories: [Cert, CRTP]
 tags: [Cert]     # TAG names should always be lowercase
