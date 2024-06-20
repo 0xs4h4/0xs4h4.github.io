@@ -1,7 +1,7 @@
 ---
 title: Web Application Pentest Checklist
 date: 2024-06-20 05:00:00 +0800
-categories: [Pentest Checklist]
+categories: [Pentest Checklist, Web]
 tags: [Checklist]     # TAG names should always be lowercase
 description: This checklist is meticulously curated to guide a web application penetration tester through a series of steps, tasks, and checks necessary for performing a comprehensive and effective penetration test.
 ---

@@ -1,7 +1,7 @@
 ---
 title: Bypass AMSI Like a King - CRTP
 date: 2024-06-20 05:00:00 +0800
-categories: [Cert]
+categories: [Cert, CRTP]
 tags: [Cert]     # TAG names should always be lowercase
 description: Describes how to bypass the Anti-Malware Scan Interface (AMSI) using PowerShell.
 ---

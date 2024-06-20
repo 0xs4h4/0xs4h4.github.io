@@ -1,7 +1,7 @@
 ---
 title: Active Directory Attack Technique - CRTP
 date: 2024-06-20 05:00:00 +0800
-categories: [Cert]
+categories: [Cert, CRTP]
 tags: [Cert]     # TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques, starting with enumeration, the essential first step in any AD attack strategy.
 ---
