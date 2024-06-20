@@ -1,10 +1,16 @@
 ---
 title: Challenge 1:Let's Do The Discovery Dive.
 date: 2024-05-14 05:00:00 +0800
-categories: [Cert, CWAE]
+categories: [Write-Up, CWAE]
 tags: [Cert, Write-Up]     # TAG names should always be lowercase
-description: Challenge 1 - Enumerate the target
+description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
+
+## Challenge/Task :
+
+- Enumerate the domain
+- Find all subdomain
+- Find open ports/services for all live subdomain
 
 ### 1. Subdomain Enumeration
 
