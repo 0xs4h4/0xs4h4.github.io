@@ -53,7 +53,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 **HTTP Security Headers**
 
-- [ ]  Examine HTTP Headers for Security Configurations on [**SecurityHeaders.io**](http://securityheaders.io/).
+- [ ]  Examine HTTP Headers for Security Configurations on [**SecurityHeaders.io**](https://securityheaders.io/).
 
 **Error Handling**
 
@@ -67,7 +67,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 **SSL/TLS**
 
-- [ ]  Check for Secure SSL/TLS Configurations using **sslscan, SSLyze, [TestSSL.sh](http://testssl.sh/)**.
+- [ ]  Check for Secure SSL/TLS Configurations using **sslscan, SSLyze, [TestSSL.sh](https://testssl.sh/)**.
 
 ---
 
