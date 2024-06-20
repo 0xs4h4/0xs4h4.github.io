@@ -14,7 +14,7 @@ timezone: Asia/Kuala_Lumpur
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Beardenx # the main title
+title: $[Beard3nx] # the main title
 
 tagline: Sharing the edge of offensive security. # it will display as the sub-title
 
