@@ -7,9 +7,7 @@ description: This checklist is meticulously curated to guide a web application p
 ---
 
 
-This checklist is meticulously curated to guide a web application penetration tester through a series of steps, tasks, and checks necessary for performing a comprehensive and effective penetration test. Each section is strategically categorized, focusing on various vital aspects of web application security, ranging from information gathering to meticulous testing of authentication, session management, data validation, and business logic, among others. Utilize this checklist as a roadmap to navigate through the penetration testing process, ensuring each critical component of the web application's security posture is assessed, vulnerabilities are identified, and potential threats are mitigated.
-
-### **1. Information Gathering**
+## 1. Information Gathering
 
 **WHOIS Lookup**
 
@@ -49,7 +47,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **2. Security Misconfiguration and Deployment Management Testing**
+## **2. Security Misconfiguration and Deployment Management Testing**
 
 **HTTP Security Headers**
 
@@ -71,7 +69,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **3. Identity Management Testing**
+## **3. Identity Management Testing**
 
 - [ ]  Verify Role-Based Access Controls.
 - [ ]  Test for Insecure Direct Object References (IDOR).
@@ -83,7 +81,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **4. Authentication Testing**
+## **4. Authentication Testing**
 
 **Default Credentials**
 
@@ -109,7 +107,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### 5**. Authorization Testing**
+## 5**. Authorization Testing**
 
 - [ ]  Test for Horizontal and Vertical Privilege Escalation.
 - [ ]  Verify Proper Function Level Access Control.
@@ -120,7 +118,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **6. Session Management Testing**
+## **6. Session Management Testing**
 
 **Session Timeout**
 
@@ -144,7 +142,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **7. Data Validation Testing**
+## **7. Data Validation Testing**
 
 **Cross-Site Scripting (XSS)**
 
@@ -191,7 +189,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **8. Error Handling and Logging**
+## **8. Error Handling and Logging**
 
 - [ ]  Test for Verbose Error Handling.
 - [ ]  Verify Secure Logging Practices.
@@ -199,7 +197,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **9. Business Logic Testing**
+## **9. Business Logic Testing**
 
 **Role-Based Access Control**
 
@@ -222,7 +220,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **10. API and Web Service Testing**
+## **10. API and Web Service Testing**
 
 **REST API**
 
@@ -242,7 +240,7 @@ This checklist is meticulously curated to guide a web application penetration te
 
 ---
 
-### **11. Miscellaneous**
+## **11. Miscellaneous**
 
 - [ ]  Check for Potential Denial of Service (DoS) Vulnerabilities.
 - [ ]  Test for Insecure File Uploads.
