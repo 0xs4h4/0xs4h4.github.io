@@ -4,8 +4,6 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-![About](beardenx.jpg)
-
 > `Disclaimer:` I am not responsible for any illegal activities.
 {: .prompt-warning }
 
