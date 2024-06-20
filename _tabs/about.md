@@ -4,7 +4,7 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
+> `Disclaimer:` I am not responsible for any illegal activities.
 {: .prompt-tip }
 
 Hello! I'm Beardenx (Bear Den), a cybersecurity enthusiast with a focus on Red Teaming. With a background in FinTech and penetration testing, I've progressed from Junior Security Engineer to a key Offensive Team member at one of Malaysia's leading investment firms.
