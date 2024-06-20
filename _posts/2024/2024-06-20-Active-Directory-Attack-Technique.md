@@ -2,8 +2,8 @@
 title: Active Directory Attack Technique - CRTP
 date: 2024-06-20 05:00:00 +0800
 categories: [Cert]
-tags: [cert]     # TAG names should always be lowercase
-description: This playbook covers both passive and active reconnaissance techniques, providing a comprehensive guide for collecting information about the target organization.
+tags: [Cert]     # TAG names should always be lowercase
+description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques, starting with enumeration, the essential first step in any AD attack strategy.
 ---
 
 # 0. Reading List
@@ -32,12 +32,6 @@ description: This playbook covers both passive and active reconnaissance techniq
 > - Identifies potential entry points and privileges escalation paths.
 > - Provides insights into the security posture and defensive mechanisms of the target environment.
 > - Understanding AD attack techniques is crucial for Red Team professionals to effectively simulate real-world attacks and assess the security posture of an organization.
-
-> **Active Directory Kill Chain Attack:**
-> 
-> 
-> ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/4aa25e05-c752-4482-aa45-322232993347/8bf61b5f-e6eb-4d93-ba1a-4c9f858492d9/23133a62-3556-4e17-b123-8ea09b12e7c7.png)
-> 
 
 ---
 
