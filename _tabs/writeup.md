@@ -15,9 +15,9 @@ Recently, I have joined a training for Certified WebAppSec Expert (CWAE) that wa
 - [Challenge 7 : **The Return Of Sceindamus Clavem**](https://beardenx.github.io/posts/Challenge-7-The-Return-of-Sceindamus-Clavem/)
 - [Challenge 8 : **Inquisitio et Expugnatio**](https://beardenx.github.io/posts/Challenge-8-Inquisitio-et-Expugnatio/)
 - [Challenge 9 : **Database Exploitation (Part 2)**](https://beardenx.github.io/posts/Challenge-9-Database-Exploitation-Part-2/)
-- Challenge 10 : **ShadowFetch**
-- Challenge 11 : **The Game of Exfiltration**
-- Challenge 12 : **When things aren't working, go out of band**
-- Challenge 13 : **Reverse Shells Are Not for The Weak**
-- Challenge 14 : **The Unseen Obvious**
-- Challenge 15 : **The Final Nail**
+- [Challenge 10 : **ShadowFetch**](https://beardenx.github.io/posts/Challenge-10-ShadowFetch/)
+- [Challenge 11 : **The Game of Exfiltration**](https://beardenx.github.io/posts/Challenge-11-The-Game-of-Exfiltration/)
+- [Challenge 12 : **When things aren't working, go out of band**](https://beardenx.github.io/posts/Challenge-12-When-things-aren't-working-go-out-of-band/)
+- [Challenge 13 : **Reverse Shells Are Not for The Weak**](https://beardenx.github.io/posts/Challenge-13-Reverse-Shells-Are-Not-for-The-Weak/)
+- [Challenge 14 : **The Unseen Obvious**](https://beardenx.github.io/posts/Challenge-14-The-Unseen-Obvious/)
+- [Challenge 15 : **The Final Nail**](https://beardenx.github.io/posts/Challenge-15-The-Final-Nail/)
