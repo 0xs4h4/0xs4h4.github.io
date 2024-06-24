@@ -11,7 +11,7 @@ description: This is a detailed writeup created for challenges associated with t
 1. Stored Cross-Site Scripting (XSS)
 2. DOM-Based Cross-Site Scripting (XSS)
 
-### 1. Stored Cross-Site Scripting (XSS)
+### 1. First XSS - Stored Cross-Site Scripting (XSS)
 
 **Proof-of-Concept (POC):**
 
@@ -39,3 +39,16 @@ XSS found using confirm function.
 
 ![POC-xss](/img/cwae/xss7.png){: w="400" h="400" }{: .normal }
 
+### 2. Second XSS – DOM Based XSS
+
+Upon checking the chat function, my message is not sent to the server. 
+![POC-xss](/img/cwae/xss8.png){: w="400" h="400" }{: .normal }
+
+Looking at the source code, it just a DOM function.
+![POC-xss](/img/cwae/xss9.png){: w="400" h="400" }{: .normal }
+
+Send the XSS payload and it popup the confirm ().
+![POC-xss](/img/cwae/xss10.png){: w="400" h="400" }{: .normal }
+
+So from the vulnerabilities, I can craft a link that contains xss payload and send it to everyone.
+![POC-xss](/img/cwae/xss11.png){: w="400" h="400" }{: .normal }
