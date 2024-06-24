@@ -1,5 +1,5 @@
 ---
-title: Challenge 2:Case Of Client Side Code
+title: Challenge 2:Case Of Client Side Code (Part 1)
 date: 2024-05-14 05:00:00 +0800
 categories: [Write-Up, CWAE]
 tags: [Cert, Write-Up]     # TAG names should always be lowercase
