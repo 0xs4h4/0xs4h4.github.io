@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Active Directory (AD) Attack Technique
 date: 2024-06-20 05:00:00 +0800
 categories: [Cert, CRTP]
