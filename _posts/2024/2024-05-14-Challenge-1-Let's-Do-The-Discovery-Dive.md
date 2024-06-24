@@ -17,9 +17,10 @@ description: This is a detailed writeup created for challenges associated with t
 **Tools Used: Sublist3r, Netlas**
 
 **Netlas :** Attack Surface tool . Can be used to find subdomain
-![Netlas Scanning Result](/img/cwae/netlas.png){: w="400" h="400" }
+![Netlas Scanning Result](/img/cwae/netlas.png){: w="400" h="400" }{: .normal }
+
 **Sublist3r :** Open Source tool. Can find here on the [github.](https://github.com/aboul3la/Sublist3r) 
-![Sublist3r Scanning Result](/img/cwae/sublist3r.png){: w="400" h="400" }
+![Sublist3r Scanning Result](/img/cwae/sublist3r.png){: w="400" h="400" }{: .normal }
 
 **Findings:**
 
@@ -29,7 +30,7 @@ description: This is a detailed writeup created for challenges associated with t
 ### 2. Open Ports for Each Accessible Host
 
 Tool Used: PortWhisper. My own custom tool. Can find on my [github](https://github.com/beardenx/PortWhisper)
-![Port Scanning Result](/img/cwae/portscan.png){: w="400" h="400" }
+![Port Scanning Result](/img/cwae/portscan.png){: w="400" h="400" }{: .normal }
 
 - **`health.the-abstractors.com`**
     - Open Ports: [22,8080,9091]
@@ -37,4 +38,4 @@ Tool Used: PortWhisper. My own custom tool. Can find on my [github](https://gith
     - Open Ports: [25,80,443]
 
 ### 3. Technology Used
-![Technology Scanning Result](/img/cwae/wappalyzer.png){: w="400" h="400" }
+![Technology Scanning Result](/img/cwae/wappalyzer.png){: w="400" h="400" }{: .normal }
