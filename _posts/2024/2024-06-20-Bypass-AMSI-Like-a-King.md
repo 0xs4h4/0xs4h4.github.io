@@ -6,13 +6,6 @@ tags: [Cert]     # TAG names should always be lowercase
 description: Describes how to bypass the Anti-Malware Scan Interface (AMSI) using PowerShell.
 ---
 
----
-title: Bypass AMSI Like a King
-date: 2024-06-20 05:00:00 +0800
-categories: [Cert, CRTP]
-tags: [Cert]     # TAG names should always be lowercase
----
-
 # Summary
 
 This document describes how to bypass the Anti-Malware Scan Interface (AMSI) using PowerShell. It involves loading the `amsi.dll` into memory, finding the memory address of the `AmsiScanBuffer` function, and changing the memory protection to allow writing and executing code. Shellcode is then injected, and a PowerShell script is run. This method is mainly used for cybersecurity research and testing purposes and should be used responsibly.
