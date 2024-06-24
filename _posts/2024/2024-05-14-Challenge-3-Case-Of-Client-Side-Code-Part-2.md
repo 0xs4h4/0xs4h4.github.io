@@ -25,5 +25,6 @@ We send the payload and click okey. By default, our payload will be sent to the 
 ![POC-xss](/img/cwae/xss14.png){: w="400" h="400" }{: .normal }
 
 To see if our payload is successful or not, go to xss payload fires. The XSS is executed and appear in the console. 
+
 ![POC-xss](/img/cwae/xss15.png){: w="400" h="400" }{: .normal }
 ![POC-xss](/img/cwae/xss16.png){: w="400" h="400" }{: .normal }
