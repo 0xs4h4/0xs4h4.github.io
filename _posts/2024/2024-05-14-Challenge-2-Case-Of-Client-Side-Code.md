@@ -31,9 +31,9 @@ However, in content, seems we can execute the payload but the alert is not pop-u
 Upon checking the source code, there is a line to avoid the system from execute the alert and prompt function. 
 ![POC-xss](/img/cwae/xss5.png){: w="400" h="400" }{: .normal }
 
-We try to use other function which is confirm ()
+We try to use other function which is confirm function.
 ![POC-xss](/img/cwae/xss6.png){: w="400" h="400" }{: .normal }
 
-XSS found using confirm ()
+XSS found using confirm function.
 ![POC-xss](/img/cwae/xss7.png){: w="400" h="400" }{: .normal }
 
