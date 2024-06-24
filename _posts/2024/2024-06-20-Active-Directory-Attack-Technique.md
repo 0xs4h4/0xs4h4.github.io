@@ -63,7 +63,7 @@ AD enumeration involves gathering detailed information about the Active Director
     | Command | Objective |
     | --- | --- |
     | Get-DomainPolicy | Get domain policy for current domain  |
-    | Get-DomainPolicy | Select-Object -ExpandProperty SystemAccess | Will show us the policy configurations of the Domain about system access |
+    | Get-DomainPolicy | Select-Object -ExpandProperty SystemAccess . Will show us the policy configurations of the Domain about system access |
     | Get-DomainPolicy | Select-Object -ExpandProperty KerberosPolicy | Will show us the policy configurations of the Domain about kerberos |
     | (Get-DomainPolicyData).systemaccess | Get domain policy for current domain  |
     | (Get-DomainPolicyData -domain moneycorp.local).systemaccess | Get domain policy for another domain  |
