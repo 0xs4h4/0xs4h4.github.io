@@ -1,14 +1,23 @@
 ---
 # the default layout is 'page'
-icon: fas fa-book
+icon: fas fa-info-book
 order: 4
 ---
 
-> `Disclaimer:` I am not responsible for any illegal activities.
-{: .prompt-warning }
+Recently, I have joined a training for Certified WebAppSec Expert that was organized by Enciphers. During the training, participants have to submit 15 challenges and score more than 80% to get the certificate. So here is my compilation of my writeup. 
 
-Hello! I'm *Beardenx* (Bear Den), a cybersecurity enthusiast with a focus on Red Teaming. With a background in FinTech and penetration testing, I've grown from a Junior Security Engineer to a key member of the Offensive Team at one of Malaysia's leading investment firms.
-
-I love staying updated in this ever-changing field, that's why I created this site. It's a handy guide for everything related to Offensive Security. Whether you're a seasoned professional or just beginning your journey, I provide invaluable tools and insights to navigate the cybersecurity landscape.
-
-I designed this for my personal growth, but I hope it serves as a valuable resource for you too. Let's dive in and tackle those security challenges together!
+- [Challenge 1 : **Reconnaissance**](https://beardenx.github.io/posts/Challenge-1-Let's-Do-The-Discovery-Dive/)
+- [Challenge 2 : **Case Of Client Side Code (Part 1)**](https://beardenx.github.io/posts/Challenge-2-Case-Of-Client-Side-Code/)
+- Challenge 3 : **Case Of Client Side Code (Part 2)**
+- Challenge 4 : **GhostScript Infiltration**
+- Challenge 5 : **Altering The Unalterable**
+- Challenge 6 : **Unlocking secrets, one card at a time**
+- Challenge 7 : **Unlocking secrets, one card at a time**
+- Challenge 8 : **The Return Of Sceindamus Clavem**
+- Challenge 9 : **Inquisitio et Expugnatio**
+- Challenge 10 : **ShadowFetch**
+- Challenge 11 : **The Game of Exfiltration**
+- Challenge 12 : **When things aren't working, go out of band**
+- Challenge 13 : **Reverse Shells Are Not for The Weak**
+- Challenge 14 : **The Unseen Obvious**
+- Challenge 15 : **The Final Nail**
