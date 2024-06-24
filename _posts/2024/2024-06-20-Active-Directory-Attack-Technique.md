@@ -23,26 +23,16 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 AD enumeration involves gathering detailed information about the Active Directory environment, such as user accounts, group memberships, domain policies, and network structure.
 
-- Get Current Domain
-    
-    
-    | Command | Objective |
-    | --- | --- |
-    | Get-Domain | Get Current Domain |
-- Enumerate Other Domains4
-    
-    
-    | Command | Objective |
-    | --- | --- |
-    | Get-Domain -Domain <DomainName> | Get Object of another domain |
-- Get Domain SID
-    
-    
-    | Command | Objective |
-    | --- | --- |
-    | Get-DomainSID | Get domain SID for the currect domain |
-- Get Domain Policy
-    
+```bash
+#Get Current Domain
+Get-Domain
+
+#Enumerate Other Domains
+Get-Domain -Domain <DomainName>
+
+#Get Domain SID
+Get-DomainSID
+```
     
     | Command | Objective |
     | --- | --- |
