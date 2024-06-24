@@ -19,23 +19,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 ---
 
-# 1. Introduction
-
-> **Purpose and Scope:**
-> 
-> - **Purpose**: This playbook is designed to provide a comprehensive guide to Active Directory (AD) attack techniques, starting with enumeration, the essential first step in any AD attack strategy.
-> - **Scope**: Covering a range of methods and tools, this playbook will help you systematically gather information, identify vulnerabilities, and exploit them to achieve your objectives within an AD environment.
-
-> **Importance in Red Team Operations:**
-> 
-> - Understanding the AD structure helps in planning and executing attacks effectively.
-> - Identifies potential entry points and privileges escalation paths.
-> - Provides insights into the security posture and defensive mechanisms of the target environment.
-> - Understanding AD attack techniques is crucial for Red Team professionals to effectively simulate real-world attacks and assess the security posture of an organization.
-
----
-
-# 2. Enumerating Active Directory by using PowerView
+# 1. Enumerating Active Directory by using PowerView
 
 AD enumeration involves gathering detailed information about the Active Directory environment, such as user accounts, group memberships, domain policies, and network structure.
 
@@ -259,7 +243,7 @@ AD enumeration involves gathering detailed information about the Active Director
 
 ---
 
-# 3. Local Privilege Escalation
+# 2. Local Privilege Escalation
 
 > **In Active Directory Environment, there are multiple scenarios which lead to privilege escalation. We had a look at the following:**
 > 
@@ -283,7 +267,7 @@ AD enumeration involves gathering detailed information about the Active Director
 > - https://github.com/enjoiz/Privesc
 > - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-# 4. Local Privilege Escalation by using PowerUp
+# 3. Local Privilege Escalation by using PowerUp
 
 - Check for any priviliege escalation path
     
