@@ -30,9 +30,14 @@ After changing to XML format, the Json format earlier for URL is changing to <ur
 
 We try to perform XXE (XML External Entity) injection attack. Below is  the payload. 
 
+```jsx
 <!DOCTYPE data [<!ENTITY file SYSTEM "file:///etc/passwd">]>
+```
 This declaration defines the structure of the XML document and can include entity declarations.
-Entity Declaration is <!ENTITY file SYSTEM "file:///etc/passwd">
+Entity Declaration is 
+```jsx
+<!ENTITY file SYSTEM "file:///etc/passwd">
+```
 This entity declaration defines an entity named file that references the /etc/passwd file on the server's filesystem using the file:/// URI scheme.
 Within the XML document, the file entity is referenced inside the <url> element. This means that the contents of the /etc/passwd file will be inserted into the XML document at the location where "&file"; is referenced.
 
