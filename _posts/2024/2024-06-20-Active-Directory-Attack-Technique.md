@@ -24,6 +24,8 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 AD enumeration involves gathering detailed information about the Active Directory environment, such as user accounts, group memberships, domain policies, and network structure.
 
 Get Current Domain
+> Get Current Domain
+{: .prompt-info }
 ```bash
 Get-Domain
 ```
@@ -55,7 +57,7 @@ Get-DomainPolicy | Select-Object -ExpandProperty KerberosPolicy
 (Get-DomainPolicyData -domain moneycorp.local).systemaccess
 ```
 
-Get Domain Policy
+Get Domain Controllers
 ```bash
 # Get Domain Controllers
 Get-DomainController
