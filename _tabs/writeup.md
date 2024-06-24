@@ -11,7 +11,7 @@ Recently, I have joined a training for Certified WebAppSec Expert (CWAE) that wa
 - [Challenge 3 : **Case Of Client Side Code (Part 2)**](https://beardenx.github.io/posts/Challenge-3-Case-Of-Client-Side-Code-Part-2/)
 - [Challenge 4 : **GhostScript Infiltration**](https://beardenx.github.io/posts/Challenge-4-GhostScript-Infiltration/)
 - [Challenge 5 : **Altering The Unalterable**](https://beardenx.github.io/posts/Challenge-5-Altering-the-Unalterable/)
-- [Challenge 6 : **Unlocking secrets, one card at a time**](https://beardenx.github.io/Unlocking-secrets-one-card-at-a-time)
+- [Challenge 6 : **Unlocking secrets, one card at a time**](https://beardenx.github.io/posts/Challenge-6-Unlocking-secrets-one-card-at-a-time/)
 - Challenge 7 : **The Return Of Sceindamus Clavem**
 - Challenge 8 : **Inquisitio et Expugnatio**
 - Challenge 9 : **Challenge 9: Database Exploitation (Part 2)**
