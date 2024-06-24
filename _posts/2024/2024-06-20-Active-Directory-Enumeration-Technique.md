@@ -378,37 +378,3 @@ Invoke-SessionHunter -FailSafe
 # Opsec Friendly Command for Listing Sessions on Remote Machines
 Invoke-SessionHunter -NoPortScan -Targets <Location file save>
 ```
----
-
-# 2. Local Privilege Escalation
-
-> **In Active Directory Environment, there are multiple scenarios which lead to privilege escalation. We had a look at the following:**
-> 
-> - Hunting for Local Admin access on other machines
-> - Hunting for high privilege domain accounts (like a Domain Administrator)
-> - I have local admin access on a machine -> A Domain Admin has a session on that machine -> I steal his token and impersonate him -> Profit!
-
-> **There are various ways of locally escalting privilege on Windows:**
-> 
-> - Missing Patches
-> - Automated Deployment and AutoLogon password in clear text
-> - AlwaysInstallElevated (Any user can run MSI on SYSTEM)
-> - Misconfigured Services
-> - DLL Hijacking and more
-> - NTLM Relaying a.k.a Wont’t Fix
-> - NTLM Relaying example - https://github.com/antonioCoco/RemotePotato0
-
-> **We can use below tools for complete coverage:**
-> 
-> - https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1
-> - https://github.com/enjoiz/Privesc
-> - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
-
-# 3. Local Privilege Escalation by using PowerUp
-
-- Check for any priviliege escalation path
-    
-    
-    | Command | Objective |
-    | --- | --- |
-    | Invoke-AllChecks | Check for any priviliege escalation path |

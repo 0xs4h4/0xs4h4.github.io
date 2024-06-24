@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Active Directory (AD) | Reading Material
-date: 2024-06-20 05:00:00 +0800
+date: 2024-06-19 05:00:00 +0800
 categories: [Cert, CRTP]
 tags: [Cert, Active Directory]     # TAG names should always be lowercase
 description: List of my reading material and tools used when performing Active Directory Security Testing
