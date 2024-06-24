@@ -1,6 +1,6 @@
 ---
 title: Challenge 12:When things aren't working, go out of band
-date: 2024-05-14 05:00:00 +0800
+date: 2024-05-15 05:04:00 +0800
 categories: [Write-Up, CWAE]
 tags: [Cert, Write-Up]     # TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 

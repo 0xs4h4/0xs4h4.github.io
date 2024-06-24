@@ -1,6 +1,6 @@
 ---
 title: Challenge 2:Case Of Client Side Code (Part 1)
-date: 2024-05-14 05:00:00 +0800
+date: 2024-05-14 05:01:00 +0800
 categories: [Write-Up, CWAE]
 tags: [Cert, Write-Up]     # TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
