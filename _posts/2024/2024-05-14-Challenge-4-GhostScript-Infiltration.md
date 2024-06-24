@@ -32,6 +32,7 @@ I visited the domain and found out few interesting files including details.rtf.
 ![POC-otb](/img/cwae/otb6.png){: w="400" h="400" }{: .normal }
 
 Using cat command, I read the file and found an interesting credential which may belongs to dev team,
+
 ![POC-otb](/img/cwae/otb7.png){: w="400" h="400" }{: .normal }
 
 I use the credential and try to login to the system using the credential. 
