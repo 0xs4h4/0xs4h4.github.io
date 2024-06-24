@@ -30,17 +30,20 @@ Get Current Domain
 Get-Domain
 ```
 
-Enumerate Other Domains
+> Enumerate Other Domains
+{: .prompt-info }
 ```bash
 Get-Domain -Domain <DomainName>
 ```
 
-Get Domain SID
+> Get Domain SID
+{: .prompt-info }
 ```bash
 Get-DomainSID
 ```
 
-Get Domain Policy
+> Get Domain Policy
+{: .prompt-info }
 ```bash
 Get-DomainPolicy
 
@@ -57,7 +60,8 @@ Get-DomainPolicy | Select-Object -ExpandProperty KerberosPolicy
 (Get-DomainPolicyData -domain moneycorp.local).systemaccess
 ```
 
-Get Domain Controllers
+> Get Domain Controllers
+{: .prompt-info }
 ```bash
 # Get Domain Controllers
 Get-DomainController
@@ -66,7 +70,8 @@ Get-DomainController
 Get-DomainController -Domain <DomainName>
 ```
 
-Enumerate Domain Users
+> Enumerate Domain Users
+{: .prompt-info }
 ```bash
 Get-DomainUser
 
@@ -101,7 +106,8 @@ Get-NetSession -ComputerName <ComputerName>
 Find-DomainUserLocation -Domain <DomainName> | Select-Object UserName, SessionFromName
 ```
 
-Enumerate Domain Computers
+> Enumerate Domain Computers
+{: .prompt-info }
 ```bash
 Get-DomainComputer
 
@@ -122,7 +128,8 @@ Get-DomainComputer -Ping -Properties OperatingSystem, Name, DnsHostName | Sort-O
 ```
 
 
-Enumerate Domain Groups and Domain Group Members
+> Enumerate Domain Groups and Domain Group Members
+{: .prompt-info }
 ```bash
 Get-DomainGroup
 
@@ -190,7 +197,8 @@ Get-LastLoggedon -ComputerName dcrop-adminsrv
 Get-DomainGPOLocalGroup | Select-Object GPODisplayName, GroupName
 ```
 
-Enumerate Domain Admin and Privilege Groups
+> Enumerate Domain Admin and Privilege Groups
+{: .prompt-info }
 ```bash
 Get-DomainGroup *admin*
 
@@ -219,7 +227,8 @@ Get-NetLocalGroupMember -GroupName Administrators | Select-Object MemberName, Is
 Get-NetLocalGroupMember -ComputerName dcorp-dc -GroupName Administrators
 ```
 
-Enumerate Shares
+> Enumerate Shares
+{: .prompt-info }
 ```bash
 Find-DomainShare
 
@@ -239,7 +248,8 @@ Invoke-FileFinder -Verbose
 Get-NetFileServer
 ```
 
-Enumerate Group Policy Objects (GPO)
+> Enumerate Group Policy Objects (GPO)
+{: .prompt-info }
 ```bash
 Get-DomainGPO
 
@@ -274,7 +284,8 @@ Get-NetOU -Identity "OU=Test,OU=test,DC=test,DC=local" | Get-NetGPO
 Get-DomainGPO -Identity '{7478F170-6A0C-490C-B355-9E4618BC785D}'
 ```
 
-Enumerate Organizational Units (OU)
+> Enumerate Organizational Units (OU)
+{: .prompt-info }
 ```bash
 Get-DomainOU
 
@@ -291,7 +302,8 @@ Get-DomainOU -Properties Name | Sort-Object -Property Name
 Get-NetUser -ADSPath "OU=TestOU,OU=TestOU,DC=test,DC=local"
 ```
 
-Enumerate Access Control Lists (ACL)
+> Enumerate Access Control Lists (ACL)
+{: .prompt-info }
 ```bash
 Get-DomainObjectAcl -SamAccountName student1 -ResolveGUIDs
 
@@ -320,7 +332,8 @@ Get-DomainObjectAcl -Identity "Domain Admins" -ResolveGUIDs -Verbose
 Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match "studentx"}
 ```
 
-Enumerate Domain Trusts
+> Enumerate Domain Trusts
+{: .prompt-info }
 ```bash
 Get-DomainTrust
 
@@ -334,7 +347,8 @@ Get-DomainTrustMapping
 Get-ForestDomain | %{Get-DomainTrust -Domain $_.Name} | ?{$_.TrustAttributes -eq "FILTER_SIDS"}
 ```
 
-Enumerate Forest Trusts
+> Enumerate Forest Trusts
+{: .prompt-info }
 ```bash
 Get-ForestDomain
 
@@ -348,7 +362,8 @@ Get-ForestTrust
 Get-ForestTrust -Forest <ForestName>
 ```
 
-User Hunting (Pretty Noisy)
+> User Hunting (Pretty Noisy)
+{: .prompt-info }
 ```bash
 Find-LocalAdminAccess -Verbose
 
