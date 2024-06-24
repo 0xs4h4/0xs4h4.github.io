@@ -1,30 +1,16 @@
 ---
 layout: post
-title: Active Directory (AD) Attack Technique
+title: Active Directory (AD) | Enumeration Technique
 date: 2024-06-20 05:00:00 +0800
 categories: [Cert, CRTP]
-tags: [Cert]     # TAG names should always be lowercase
+tags: [Cert, Active Directory]     # TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques, starting with enumeration, the essential first step in any AD attack strategy.
----
-
-# 0. Reading List
-
-> **Reading List**
-> 
-> - [AV Evasion](https://csbygb.gitbook.io/pentips/windows/avevasion)
-> - https://hackmag.com/security/fck-amsi/
-> - https://amsi.fail/
-> - https://blog.f-secure.com/hunting-for-amsi-bypasses/
-> - https://www.mdsec.co.uk/2018/06/exploring-powershell-amsi-and-logging-evasion/
-> - https://medium.com/@vanitasnk/tales-to-redteam-ops-crtp-review-3da3ba427e76
-
 ---
 
 # 1. Enumerating Active Directory by using PowerView
 
 AD enumeration involves gathering detailed information about the Active Directory environment, such as user accounts, group memberships, domain policies, and network structure.
 
-Get Current Domain
 > Get Current Domain
 {: .prompt-info }
 ```bash
