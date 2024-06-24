@@ -6,36 +6,36 @@ tags: [Cert, Write-Up]     # TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 
-## Challenge/Task :
+### Challenge/Task
 
-- Enumerate the domain
-- Find all subdomain
-- Find open ports/services for all live subdomain
+1. Enumerate the domain
+2. Find all subdomain
+3. Find Open Ports/Service for all live subdomain
+---
 
 ### 1. Subdomain Enumeration
 
-Tools Used: Sublist3r, Netlas
+**Tools Used: Sublist3r, Netlas**
 
-### a. Netlas
+**Netlas :** Attack Surface tool . Can be used to find subdomain
 ![Netlas Scanning Result](/img/cwae/netlas.png)
-### b. Sublist3r
+**Sublist3r :** Open Source tool. Can find here on the [github.](https://github.com/aboul3la/Sublist3r) 
 ![Sublist3r Scanning Result](/img/cwae/sublist3r.png)
 
 **Findings:**
 
 - `health.the-abstractors.com`
 - `the-abstractors.com`
-
+---
 ### 2. Open Ports for Each Accessible Host
 
-Tool Used: Custom Tool
+Tool Used: PortWhisper. My own custom tool. Can find on my [github](https://github.com/beardenx/PortWhisper)
 ![Port Scanning Result](/img/cwae/portscan.png)
-
 
 - **`health.the-abstractors.com`**
     - Open Ports: [22,8080,9091]
 - **`the-abstractors.com`**
     - Open Ports: [25,80,443]
-
+---
 ### 3. Technology Used
 ![Technology Scanning Result](/img/cwae/wappalyzer.png)

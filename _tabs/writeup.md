@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
-icon: fas fa-info-book
-order: 4
+icon: fas fa-book
+order: 3
 ---
 
 Recently, I have joined a training for Certified WebAppSec Expert that was organized by Enciphers. During the training, participants have to submit 15 challenges and score more than 80% to get the certificate. So here is my compilation of my writeup. 
