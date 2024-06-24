@@ -8,7 +8,7 @@ description: This is a detailed writeup created for challenges associated with t
 
 ### Challenge/Task
 
-1. Command Injection
+1. Insecure deserialization
 
 **Proof-of-Concept (POC):**
 
