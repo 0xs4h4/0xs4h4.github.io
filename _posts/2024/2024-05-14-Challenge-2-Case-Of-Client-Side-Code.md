@@ -6,35 +6,34 @@ tags: [Cert, Write-Up]     # TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 
-## Challenge/Task :
+### Challenge/Task
 
-- Stored Cross-Site Scripting (XSS)
-- DOM-Based Cross-Site Scripting (XSS)
+1. Stored Cross-Site Scripting (XSS)
+2. DOM-Based Cross-Site Scripting (XSS)
 
-### 1. Subdomain Enumeration
+### 1. Stored Cross-Site Scripting (XSS)
 
-Tools Used: Sublist3r, Netlas
+**Proof-of-Concept (POC):**
 
-### a. Netlas
-![Netlas Scanning Result](/img/cwae/xss1.png)
-### b. Sublist3r
-![Sublist3r Scanning Result](/img/cwae/sublist3r.png)
+From previous challenge, we have found a website which is https://the-abstractors.com/. After further checking, there is a signup page that everyone can register as a user.
 
-**Findings:**
+(/img/cwae/theabstractor.png){: w="400" h="400" }{: .normal }
+(/img/cwae/signup.png){: w="400" h="400" }{: .normal }
 
-- `health.the-abstractors.com`
-- `the-abstractors.com`
+As a tester, we will play around all the functions/button/form inside the website. There is a page where we can write a post. I try to inject xss script inside all the field. In the Title field, the payload can’t be executed because the <> tag is been encoded
+(/img/cwae/xss1.png){: w="400" h="400" }{: .normal }
+(/img/cwae/xss2.png){: w="400" h="400" }{: .normal }
 
-### 2. Open Ports for Each Accessible Host
+However, in content, seems we can execute the payload but the alert is not pop-up. 
+(/img/cwae/xss3.png){: w="400" h="400" }{: .normal }
+(/img/cwae/xss4.png){: w="400" h="400" }{: .normal }
 
-Tool Used: Custom Tool
-![Port Scanning Result](/img/cwae/portscan.png)
+Upon checking the source code, there is a line to avoid the system from execute the alert and prompt function. 
+(/img/cwae/xss5.png){: w="400" h="400" }{: .normal }
 
+We try to use other function which is confirm ()
+(/img/cwae/xss6.png){: w="400" h="400" }{: .normal }
 
-- **`health.the-abstractors.com`**
-    - Open Ports: [22,8080,9091]
-- **`the-abstractors.com`**
-    - Open Ports: [25,80,443]
+XSS found using confirm ()
+(/img/cwae/xss7.png){: w="400" h="400" }{: .normal }
 
-### 3. Technology Used
-![Technology Scanning Result](/img/cwae/wappalyzer.png)

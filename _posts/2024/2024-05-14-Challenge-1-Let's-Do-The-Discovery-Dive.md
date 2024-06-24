@@ -8,7 +8,7 @@ description: This is a detailed writeup created for challenges associated with t
 
 ### Challenge/Task
 
-1. Enumerate the domain
+1. Enumerate the domain : **the-abstractors.com**
 2. Find all subdomain
 3. Find Open Ports/Service for all live subdomain
 
