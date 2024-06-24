@@ -6,7 +6,7 @@ tags: [Checklist]        # TAG names should always be lowercase
 description: A comprehensive guideline designed to steer an API penetration tester through a series of essential steps, procedures, and considerations necessary for conducting a robust and effective penetration test.
 ---
 
-### **1. Information Gathering**
+# **1. Information Gathering**
 
 **API Documentation Review:**
 
@@ -20,7 +20,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **2. Security Misconfiguration and Deployment Management Testing**
+# **2. Security Misconfiguration and Deployment Management Testing**
 
 **SSL/TLS Configuration:**
 
@@ -32,7 +32,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **3. Authentication Testing**
+# **3. Authentication Testing**
 
 **Token Generation:**
 
@@ -46,7 +46,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **4. Authorization Testing**
+# **4. Authorization Testing**
 
 **Role-Based Access Control:**
 
@@ -58,7 +58,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **5. Session Management Testing**
+# **5. Session Management Testing**
 
 **Session Token Security:**
 
@@ -70,7 +70,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **6. Data Validation Testing**
+# **6. Data Validation Testing**
 
 **Input Validation:**
 
@@ -79,7 +79,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **7. Error Handling and Logging**
+# **7. Error Handling and Logging**
 
 **Error Message Review:**
 
@@ -91,7 +91,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **8. Business Logic Testing**
+# **8. Business Logic Testing**
 
 **Rate Limiting:**
 
@@ -103,7 +103,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **9. API Specific Testing**
+# **9. API Specific Testing**
 
 **REST API:**
 
@@ -115,7 +115,7 @@ description: A comprehensive guideline designed to steer an API penetration test
 
 ---
 
-### **10. Miscellaneous**
+# **10. Miscellaneous**
 
 **Denial of Service (DoS) Vulnerabilities:**
 

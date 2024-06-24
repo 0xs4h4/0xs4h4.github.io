@@ -6,13 +6,13 @@ tags: [Cert, Write-Up]     # TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 
-## Challenge/Task
+# Challenge/Task
 
 1. Enumerate the domain : **the-abstractors.com**
 2. Find all subdomain
 3. Find Open Ports/Service for all live subdomain
 
-## 1. Subdomain Enumeration
+# 1. Subdomain Enumeration
 
 **Tools Used: Sublist3r, Netlas**
 
@@ -27,7 +27,7 @@ description: This is a detailed writeup created for challenges associated with t
 - `health.the-abstractors.com`
 - `the-abstractors.com`
 
-## 2. Open Ports for Each Accessible Host
+# 2. Open Ports for Each Accessible Host
 
 Tool Used: PortWhisper. My own custom tool. Can find on my [github](https://github.com/beardenx/PortWhisper)
 ![Port Scanning Result](/img/cwae/portscan.png){: w="400" h="400" }{: .normal }
@@ -37,5 +37,5 @@ Tool Used: PortWhisper. My own custom tool. Can find on my [github](https://gith
 - **`the-abstractors.com`**
     - Open Ports: [25,80,443]
 
-## 3. Technology Used
+# 3. Technology Used
 ![Technology Scanning Result](/img/cwae/wappalyzer.png){: w="400" h="400" }{: .normal }

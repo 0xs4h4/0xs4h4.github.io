@@ -6,7 +6,7 @@ tags: [Red Team, Payload, SQLi]        # TAG names should always be lowercase
 description: A comprehensive list of SQL injection payloads that can be used for testing and exploiting SQL injection vulnerabilities in web applications..
 ---
 
-### **SQL Injection Payload List**
+# **SQL Injection Payload List**
 
 ```jsx
 or 1=1
