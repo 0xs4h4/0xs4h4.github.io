@@ -14,6 +14,7 @@ description: List of my reading material and tools used when performing Active D
 - https://blog.f-secure.com/hunting-for-amsi-bypasses/
 - https://www.mdsec.co.uk/2018/06/exploring-powershell-amsi-and-logging-evasion/
 - https://medium.com/@vanitasnk/tales-to-redteam-ops-crtp-review-3da3ba427e76
+- https://medium.com/@varunrajamirtharaj/how-to-clear-crtp-certified-red-team-professional-certification-ee601f7ae885
 
 # 1. Tools 
 
@@ -21,3 +22,9 @@ description: List of my reading material and tools used when performing Active D
 - [Bypass AMSI - Amsi Fail](https://amsi.fail/)
 - [PowerView](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 - [PowerUp](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1)
+
+# 2. Attack Cycle of Active Directory 
+![AD](/img/crtp/ADattackpath.png){: w="400" h="400" }{: .normal }
+
+Attack Methodology — Kill Chain
+![AD](/img/crtp/crtp.png){: w="400" h="400" }{: .normal }
