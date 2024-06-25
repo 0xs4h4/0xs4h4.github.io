@@ -15,7 +15,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  - Hunting for Local Admin access on other machines
  - Hunting for high privilege domain accounts (like a Domain Administrator)
  - **Example Scenario :** I have local admin access on a machine **-->** A Domain Admin has a session on that machine **-->** I steal his token and impersonate him **-->** Profit!
-s
+
  **There are various ways of locally escalting privilege on Windows:**
  
  - Missing Patches
@@ -84,4 +84,4 @@ Find-DomainUserLocation
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
-Pass The Hash
+Using OverPass-the-Hash
