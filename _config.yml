@@ -42,7 +42,7 @@ social:
     - https://github.com/username # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
-    - https://www.linkedin.com/in/muhammad-saharuddin
+    # - https://www.linkedin.com/in/muhammad-saharuddin
 
 # Site Verification Settings
 webmaster_verifications:
