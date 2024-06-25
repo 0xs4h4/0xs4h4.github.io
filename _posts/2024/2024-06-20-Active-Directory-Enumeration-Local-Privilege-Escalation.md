@@ -32,7 +32,7 @@ s
  - https://github.com/enjoiz/Privesc
  - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-# 2. Local Privilege Escalation by using PowerUp
+# 2. Check for any privilege escalation path - PowerUp
 
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
@@ -46,7 +46,7 @@ Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 ```
 
-# 3. Local Privilege Escalation by using Find-PSRemotingLocalAdminAccess.ps1
+# 3. Identify any machine in the domain where our user has local administrative - Find-PSRemotingLocalAdminAccess.ps1
 
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
@@ -71,3 +71,17 @@ We can also use PowerShell Remoting
 ```bash
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
+
+# 4. Identify a machine in the domain where a Domain Admin session is available - PowerView
+
+A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
+{: .prompt-info }
+```bash
+Find-DomainUserLocation
+```
+
+# 5. Extract Credentials from LSASS using Mimikatz
+
+Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
+
+Pass The Hash
