@@ -2,15 +2,15 @@
 title: Challenge 3:Case Of Client Side Code (Part 2)
 date: 2024-05-14 05:03:00 +0800
 categories: [Write-Up, CWAE]
-tags: [Cert, Write-Up]     ## TAG names should always be lowercase
+tags: [Cert, Write-Up]     # TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 
-## Challenge/Task
+# Challenge/Task
 
 1. Blind Cross-Site Scripting (XSS)
 
-## 1. Third XSS - Blind Cross-Site Scripting (XSS)
+# 1. Third XSS - Blind Cross-Site Scripting (XSS)
 
 **Proof-of-Concept (POC):**
 

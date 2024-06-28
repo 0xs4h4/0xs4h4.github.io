@@ -2,16 +2,16 @@
 title: Challenge 2:Case Of Client Side Code (Part 1)
 date: 2024-05-14 05:01:00 +0800
 categories: [Write-Up, CWAE]
-tags: [Cert, Write-Up]     ## TAG names should always be lowercase
+tags: [Cert, Write-Up]     # TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 
-## Challenge/Task
+# Challenge/Task
 
 1. Stored Cross-Site Scripting (XSS)
 2. DOM-Based Cross-Site Scripting (XSS)
 
-## 1. First XSS - Stored Cross-Site Scripting (XSS)
+# 1. First XSS - Stored Cross-Site Scripting (XSS)
 
 **Proof-of-Concept (POC):**
 
@@ -39,7 +39,7 @@ XSS found using confirm function.
 
 ![POC-xss](/img/cwae/xss7.png){: w="400" h="400" }{: .normal }
 
-## 2. Second XSS – DOM Based XSS
+# 2. Second XSS – DOM Based XSS
 
 Upon checking the chat function, my message is not sent to the server. 
 ![POC-xss](/img/cwae/xss8.png){: w="400" h="400" }{: .normal }

