@@ -146,6 +146,9 @@ $marshalClass::Copy($stopitplease, 0, $notaddress, $stopitplease.Length)
 ```
 
 ## 8. Run you powershell script
+
+```jsx
 Run your powershell here
 Unblock-File -Path .\malas.ps1
 . .\malas.ps1
+```
