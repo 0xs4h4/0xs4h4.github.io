@@ -7,7 +7,7 @@ tags: [Cert, Active Directory]     # TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques, starting with enumeration, the essential first step in any AD attack strategy.
 ---
 
-# 1. Enumerating Active Directory by using PowerView
+## 1. Enumerating Active Directory by using PowerView
 
 AD enumeration involves gathering detailed information about the Active Directory environment, such as user accounts, group memberships, domain policies, and network structure.
 
