@@ -41,7 +41,7 @@ First step for local privilege escalation, we will try to check for any privileg
 Invoke-AllChecks
 ```
 
-![Result](/img/crtp/result1.png){: w="400" h="400" }{: .normal }
+![Result](/img/crtp/result1.png){: .light .w-75 .shadow .rounded-10 w='1212' h='668' }
 
 ```bash
 #Abuse the service and add our current domain user to the local Administrator group
