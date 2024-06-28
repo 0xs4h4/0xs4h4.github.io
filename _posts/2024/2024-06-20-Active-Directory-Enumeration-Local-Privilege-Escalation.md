@@ -32,7 +32,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  - https://github.com/enjoiz/Privesc
  - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-## 2. Check for any privilege escalation path - PowerUp
+## Check for any privilege escalation path - PowerUp
 
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
@@ -48,7 +48,7 @@ Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 
 Now, our user is a local admin !
 
-## 3. Identify any machine in the domain where our user has local administrative - Find-PSRemotingLocalAdminAccess.ps1
+## Identify any machine in the domain where our user has local administrative - Find-PSRemotingLocalAdminAccess.ps1
 
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
@@ -74,7 +74,7 @@ We can also use PowerShell Remoting
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
 
-## 4. Identify a machine in the domain where a Domain Admin session is available - PowerView
+## Identify a machine in the domain where a Domain Admin session is available - PowerView
 
 A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
 {: .prompt-info }
@@ -82,7 +82,7 @@ A request will be sent to Domain Controller to retrieve all ComputerName and mem
 Find-DomainUserLocation
 ```
 
-## 5. Extract Credentials from LSASS - Invoke Mimikatz
+## Extract Credentials from LSASS - Invoke Mimikatz
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
@@ -111,7 +111,7 @@ Invoke-command -ScriptBlock{Set-MpPreference -DisableIOAVProtection $true} -Sess
 Invoke-command -ScriptBlock ${function:Invoke-Mimi} -Session $sess
 ```
 
-## 6. Using OverPass-the-Hash - Rubeus
+## Using OverPass-the-Hash - Rubeus
 
 Finally, use OverPass-the-Hash to use svcadmin's credentials.
 
@@ -142,7 +142,7 @@ Note that we did not need to have direct access to dcorp-mgmt from student machi
 winrs -r:dcorp-dc cmd /c set username USERNAME=svcadmin
 ```
 
-## 7. Domain Admin Escalation using Derivative Local Admin - Find-PSRemotingLocalAdminAccess.ps1
+## Domain Admin Escalation using Derivative Local Admin - Find-PSRemotingLocalAdminAccess.ps1
 
 {: .prompt-info }
 ```bash
