@@ -66,7 +66,7 @@ Next step, we will try to identify any computers/machines in the domain where ou
 #Identify a computer within the network domain where the current user has local admin privileges.
 Find-PSRemotingLocalAdminAccess
 ```
-
+![Result](/img/crtp/result3.png){: width="972" height="589" }
 We can connect to the machine who has the local administrative access by using winrs
 
 ```bash
@@ -76,12 +76,14 @@ winrs -r:dcorp-adminsrv cmd
 set username
 set computername
 ```
+![Result](/img/crtp/result4.png){: width="972" height="589" }
 
 We can also use PowerShell Remoting
 
 ```bash
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
+![Result](/img/crtp/result5.png){: width="972" height="589" }
 
 ## 4. Identify a machine in the domain where a Domain Admin session is available - PowerView
 
