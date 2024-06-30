@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Active Directory (AD) | Local Privilege Escalation
+title: Active Directory (AD) | Local Privilege Escalation (Part 1)
 date: 2024-06-25 7:40:00 +0800
 categories: [Cert, CRTP]
 tags: [Cert, Active Directory]     # TAG names should always be lowercase
