@@ -92,6 +92,13 @@ A request will be sent to Domain Controller to retrieve all ComputerName and mem
 ```bash
 Find-DomainUserLocation
 ```
+![Result](/img/crtp/result6.png){: width="972" height="589" }
+
+Now, we can abuse this using winrs or PowerShell Remoting!
+
+**Abuse using winrs**
+![Result](/img/crtp/result7.png){: width="972" height="589" }
+
 
 ## 5. Extract Credentials from LSASS - Invoke Mimikatz
 
