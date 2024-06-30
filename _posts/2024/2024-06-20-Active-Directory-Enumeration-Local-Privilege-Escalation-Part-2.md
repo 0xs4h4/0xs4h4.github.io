@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Active Directory (AD) | Local Privilege Escalation (Part 2)
-date: 2024-06-25 7:40:00 +0800
+date: 2024-07-01 12:41:00 +0800
 categories: [Cert, CRTP]
 tags: [Cert, Active Directory]     # TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
