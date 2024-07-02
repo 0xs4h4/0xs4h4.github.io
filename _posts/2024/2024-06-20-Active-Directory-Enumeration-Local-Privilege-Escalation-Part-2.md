@@ -76,7 +76,7 @@ winrs -r:dcorp-dc cmd /c set username USERNAME=svcadmin
 ---
 ```
 
-## Domain Admin Escalation using Derivative Local Admin (Find-PSRemotingLocalAdminAccess.ps1)
+## 6. Domain Admin Escalation using Derivative Local Admin (Find-PSRemotingLocalAdminAccess.ps1)
 
 
 ```jsx
