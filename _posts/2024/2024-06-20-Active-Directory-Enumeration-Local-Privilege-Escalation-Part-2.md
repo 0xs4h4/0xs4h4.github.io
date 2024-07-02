@@ -1,12 +1,10 @@
 ---
-layout: post
 title: Active Directory (AD) | Local Privilege Escalation (Part 2)
 date: 2024-07-01 00:41:00 +0800
-categories: [Cert, CRTP]
-tags: [Cert]     # TAG names should always be lowercase
-render_with_liquid: false
-description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
-render_with_liquid: false
+categories: [Pentest Checklist, Mobile]
+tags: [Checklist]       # TAG names should always be lowercase
+description: Step-by-step to configure your environment for mobile application pentest
+---
 ---
 
 This tutorial will guide you how to write a post in the _Chirpy_ template, and it's worth reading even if you've used Jekyll before, as many features require specific variables to be set.
