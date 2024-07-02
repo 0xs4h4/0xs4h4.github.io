@@ -7,7 +7,7 @@ tags: [Cert, Active Directory]     # TAG names should always be lowercase
 description: List of my reading material and tools used when performing Active Directory Security Testing
 ---
 
-## 0. Reading Material
+# 0. Reading Material
  
 - [AV Evasion](https://csbygb.gitbook.io/pentips/windows/avevasion)
 - https://hackmag.com/security/fck-amsi/
@@ -17,14 +17,14 @@ description: List of my reading material and tools used when performing Active D
 - https://medium.com/@varunrajamirtharaj/how-to-clear-crtp-certified-red-team-professional-certification-ee601f7ae885
 - https://www.theblackgem.net/2023/06/installing-bloodhound-on-windows.html
 
-## 1. Tools 
+# 1. Tools 
 
 - [Bypass AMSI - Own Script](https://beardenx.github.io/posts/Bypass-AMSI-Like-a-King/)
 - [Bypass AMSI - Amsi Fail](https://amsi.fail/)
 - [PowerView](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 - [PowerUp](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1)
 
-## 2. Attack Cycle of Active Directory 
+# 2. Attack Cycle of Active Directory 
 ![AD](/img/crtp/ADattackpath.png){: w="400" h="400" }{: .normal }
 
 Attack Methodology — Kill Chain
