@@ -9,7 +9,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 ## 1. Local Privilege Escalation
 
- ### Scenarios which lead to privilege escalation:
+### Scenarios which lead to privilege escalation:
  
  - Hunting for Local Admin access on other machines
  - Hunting for high privilege domain accounts (like a Domain Administrator)
