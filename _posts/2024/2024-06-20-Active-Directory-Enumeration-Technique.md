@@ -11,7 +11,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 AD enumeration involves gathering detailed information about the Active Directory environment, such as user accounts, group memberships, domain policies, and network structure.
 
-> Enumerate Domain
+> ### Enumerate Domain
 {: .prompt-info }
 ```jsx
 Get-Domain
@@ -32,7 +32,7 @@ Get-DomainPolicy | Select-Object -ExpandProperty KerberosPolicy
 (Get-DomainPolicyData -domain moneycorp.local).systemaccess
 ```
 
-> Enumerate Domain Controllers
+> ### Enumerate Domain Controllers
 {: .prompt-info }
 ```jsx
 ## Get Domain Controllers
