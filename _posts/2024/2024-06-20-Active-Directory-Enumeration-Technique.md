@@ -13,7 +13,7 @@ AD enumeration involves gathering detailed information about the Active Director
 
 > Enumerate Domain
 {: .prompt-info }
-```bash
+```jsx
 Get-Domain
 Get-Domain -Domain <DomainName>
 Get-DomainSID
@@ -34,7 +34,7 @@ Get-DomainPolicy | Select-Object -ExpandProperty KerberosPolicy
 
 > Enumerate Domain Controllers
 {: .prompt-info }
-```bash
+```jsx
 # Get Domain Controllers
 Get-DomainController
 Get-DomainController -Domain <DomainName>
@@ -42,7 +42,7 @@ Get-DomainController -Domain <DomainName>
 
 > Enumerate Domain Users
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainUser
 
 # Save All Domain Users to a File
@@ -78,7 +78,7 @@ Find-DomainUserLocation -Domain <DomainName> | Select-Object UserName, SessionFr
 
 > Enumerate Domain Computers
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainComputer
 
 # Get a List of Live Computers in the Current Domain
@@ -100,7 +100,7 @@ Get-DomainComputer -Ping -Properties OperatingSystem, Name, DnsHostName | Sort-O
 
 > Enumerate Domain Groups and Domain Group Members
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainGroup
 
 # Get Details of the Domain Admins Group
@@ -169,7 +169,7 @@ Get-DomainGPOLocalGroup | Select-Object GPODisplayName, GroupName
 
 > Enumerate Domain Admin and Privilege Groups
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainGroup *admin*
 
 # Save All Domain Groups to a File
@@ -199,7 +199,7 @@ Get-NetLocalGroupMember -ComputerName dcorp-dc -GroupName Administrators
 
 > Enumerate Shares
 {: .prompt-info }
-```bash
+```jsx
 Find-DomainShare
 
 # Enumerate Domain Shares Current User Has Access
@@ -220,7 +220,7 @@ Get-NetFileServer
 
 > Enumerate Group Policy Objects (GPO)
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainGPO
 
 # Get GPO Applied on an OU
@@ -256,7 +256,7 @@ Get-DomainGPO -Identity '{7478F170-6A0C-490C-B355-9E4618BC785D}'
 
 > Enumerate Organizational Units (OU)
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainOU
 
 # See Just Name of the OUs
@@ -274,7 +274,7 @@ Get-NetUser -ADSPath "OU=TestOU,OU=TestOU,DC=test,DC=local"
 
 > Enumerate Access Control Lists (ACL)
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainObjectAcl -SamAccountName student1 -ResolveGUIDs
 
 # Get ACLs Associated with the Specified Prefix
@@ -304,7 +304,7 @@ Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match "stu
 
 > Enumerate Domain Trusts
 {: .prompt-info }
-```bash
+```jsx
 Get-DomainTrust
 
 # Enumerate Trusts for Another Domain
@@ -319,7 +319,7 @@ Get-ForestDomain | %{Get-DomainTrust -Domain $_.Name} | ?{$_.TrustAttributes -eq
 
 > Enumerate Forest Trusts
 {: .prompt-info }
-```bash
+```jsx
 Get-ForestDomain
 
 # Enumerate Forest Trusts for Another Domain
@@ -334,7 +334,7 @@ Get-ForestTrust -Forest <ForestName>
 
 > User Hunting (Pretty Noisy)
 {: .prompt-info }
-```bash
+```jsx
 Find-LocalAdminAccess -Verbose
 
 # Find Local Admins on All Machines of the Domain
