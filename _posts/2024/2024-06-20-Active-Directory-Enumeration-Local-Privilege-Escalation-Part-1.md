@@ -41,7 +41,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 **Tools Used:** PowerView
 
-Start by checking for any privilege escalation paths. If any services can be abused, add your domain user to the local admin group.
+This step ensures you can escalate your privileges on the current machine to gain local admin rights. Start by checking for any privilege escalation paths. If any services can be abused, add your domain user to the local admin group.
 
 ### Check for any priviliege escalation path
 ```bash
@@ -68,7 +68,7 @@ Now, our user is a local admin !
 
 **Tools Used:** Find-PSRemotingLocalAdminAccess.ps1
 
-Next, identify any computers/machines in the domain where our user has local administrative access.
+After gaining local admin rights on one machine, identifying other machines where you have local admin access helps in expanding your control over the network. This can give you access to more resources, data, or higher-privilege accounts. So, you have to identify any computers/machines in the domain where our user has local administrative access.
 
 ### Identifying Computers with Local Admin Access
 
@@ -96,7 +96,7 @@ Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 
 **Tools Used:** PowerView
 
-Send a request to the Domain Controller to retrieve all ComputerName and membership of the domain admin's group with an admin session.
+Even with local admin access on multiple machines, the ultimate goal is often to gain domain admin rights. Identifying where domain admin accounts have active sessions can provide an opportunity to steal their tokens and impersonate them, further escalating your privileges within the domain. So we need to send a request to the Domain Controller to retrieve all ComputerName and membership of the domain admin's group with an admin session.
 
 ### Finding Domain User Locations
 ```bash
