@@ -5,7 +5,6 @@ categories: [Pentest Checklist, Mobile]
 tags: [Checklist]       # TAG names should always be lowercase
 description: Step-by-step to configure your environment for mobile application pentest
 ---
----
 
 This tutorial will guide you how to write a post in the _Chirpy_ template, and it's worth reading even if you've used Jekyll before, as many features require specific variables to be set.
 
