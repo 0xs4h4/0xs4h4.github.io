@@ -3,7 +3,7 @@ layout: post
 title: Active Directory (AD) | Local Privilege Escalation (Part 2)
 date: 2024-07-01 00:41:00 +0800
 categories: [Cert, CRTP]
-tags: [Cert, Active Directory]     # TAG names should always be lowercase
+tags: [Cert]     # TAG names should always be lowercase
 render_with_liquid: false
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 render_with_liquid: false
