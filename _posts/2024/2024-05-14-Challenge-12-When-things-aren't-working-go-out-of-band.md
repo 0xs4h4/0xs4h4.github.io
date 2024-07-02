@@ -1,6 +1,5 @@
 ---
 title: Challenge 12:When things aren't working, go out of band
-author: beard3nx
 date: 2024-05-15 05:04:00 +0800
 categories: [Write-Up, CWAE]
 tags: [Cert, Write-Up]     ## TAG names should always be lowercase
