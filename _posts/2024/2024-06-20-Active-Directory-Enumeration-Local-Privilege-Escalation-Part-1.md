@@ -40,9 +40,10 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 ## Step 1: Check for Privilege Escalation Paths
 
 **Tools Used:** PowerView
+
 Start by checking for any privilege escalation paths. If any services can be abused, add your domain user to the local admin group.
 
-#### Check for any priviliege escalation path
+### Check for any priviliege escalation path
 ```bash
 Invoke-AllChecks
 ```
@@ -50,7 +51,7 @@ Invoke-AllChecks
 _Invoke-AllChecks_
 
 
-#### Abusing Services
+### Abusing Services
 Add your current domain user to the local Administrators group.
 
 ```bash
@@ -66,6 +67,7 @@ Now, our user is a local admin !
 ## Step 2: Identify Machines with Local Admin Access
 
 **Tools Used:** Find-PSRemotingLocalAdminAccess.ps1
+
 Next, identify any computers/machines in the domain where our user has local administrative access.
 
 ### Identifying Computers with Local Admin Access
@@ -93,6 +95,7 @@ Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ## Step 3: Identify Machines with Domain Admin Sessions
 
 **Tools Used:** PowerView
+
 Send a request to the Domain Controller to retrieve all ComputerName and membership of the domain admin's group with an admin session.
 
 ### Finding Domain User Locations
