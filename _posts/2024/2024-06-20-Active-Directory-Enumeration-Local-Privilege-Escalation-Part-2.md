@@ -7,7 +7,7 @@ tags: [Cert, Active Directory]     # TAG names should always be lowercase
 render_with_liquid: false
 ---
 
-### 5. Extract Credentials from LSASS (Invoke Mimikatz)
+## Extract Credentials from LSASS (Invoke Mimikatz)
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
@@ -38,7 +38,7 @@ Invoke-command -ScriptBlock ${function:Invoke-Mimi} -Session $sess
 ---
 ```
 
-# 6. Using OverPass-the-Hash (Rubeus)
+### Using OverPass-the-Hash (Rubeus)
 
 Finally, use OverPass-the-Hash to use svcadmin's credentials.
 
