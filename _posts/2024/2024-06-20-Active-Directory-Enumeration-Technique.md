@@ -11,7 +11,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 AD enumeration involves gathering detailed information about the Active Directory environment, such as user accounts, group memberships, domain policies, and network structure.
 
-> ### Enumerate Domain
+### > Enumerate Domain
 {: .prompt-info }
 ```jsx
 Get-Domain
@@ -32,7 +32,7 @@ Get-DomainPolicy | Select-Object -ExpandProperty KerberosPolicy
 (Get-DomainPolicyData -domain moneycorp.local).systemaccess
 ```
 
-> ### Enumerate Domain Controllers
+### > Enumerate Domain Controllers
 {: .prompt-info }
 ```jsx
 ## Get Domain Controllers
@@ -40,7 +40,7 @@ Get-DomainController
 Get-DomainController -Domain <DomainName>
 ```
 
-> Enumerate Domain Users
+### > Enumerate Domain Users
 {: .prompt-info }
 ```jsx
 Get-DomainUser
@@ -76,7 +76,7 @@ Get-NetSession -ComputerName <ComputerName>
 Find-DomainUserLocation -Domain <DomainName> | Select-Object UserName, SessionFromName
 ```
 
-> Enumerate Domain Computers
+### > Enumerate Domain Computers
 {: .prompt-info }
 ```jsx
 Get-DomainComputer
@@ -98,7 +98,7 @@ Get-DomainComputer -Ping -Properties OperatingSystem, Name, DnsHostName | Sort-O
 ```
 
 
-> Enumerate Domain Groups and Domain Group Members
+### > Enumerate Domain Groups and Domain Group Members
 {: .prompt-info }
 ```jsx
 Get-DomainGroup
@@ -167,7 +167,7 @@ Get-LastLoggedon -ComputerName dcrop-adminsrv
 Get-DomainGPOLocalGroup | Select-Object GPODisplayName, GroupName
 ```
 
-> Enumerate Domain Admin and Privilege Groups
+### > Enumerate Domain Admin and Privilege Groups
 {: .prompt-info }
 ```jsx
 Get-DomainGroup *admin*
@@ -197,7 +197,7 @@ Get-NetLocalGroupMember -GroupName Administrators | Select-Object MemberName, Is
 Get-NetLocalGroupMember -ComputerName dcorp-dc -GroupName Administrators
 ```
 
-> Enumerate Shares
+### > Enumerate Shares
 {: .prompt-info }
 ```jsx
 Find-DomainShare
@@ -218,7 +218,7 @@ Invoke-FileFinder -Verbose
 Get-NetFileServer
 ```
 
-> Enumerate Group Policy Objects (GPO)
+### > Enumerate Group Policy Objects (GPO)
 {: .prompt-info }
 ```jsx
 Get-DomainGPO
@@ -254,7 +254,7 @@ Get-NetOU -Identity "OU=Test,OU=test,DC=test,DC=local" | Get-NetGPO
 Get-DomainGPO -Identity '{7478F170-6A0C-490C-B355-9E4618BC785D}'
 ```
 
-> Enumerate Organizational Units (OU)
+### > Enumerate Organizational Units (OU)
 {: .prompt-info }
 ```jsx
 Get-DomainOU
@@ -272,7 +272,7 @@ Get-DomainOU -Properties Name | Sort-Object -Property Name
 Get-NetUser -ADSPath "OU=TestOU,OU=TestOU,DC=test,DC=local"
 ```
 
-> Enumerate Access Control Lists (ACL)
+### > Enumerate Access Control Lists (ACL)
 {: .prompt-info }
 ```jsx
 Get-DomainObjectAcl -SamAccountName student1 -ResolveGUIDs
@@ -302,7 +302,7 @@ Get-DomainObjectAcl -Identity "Domain Admins" -ResolveGUIDs -Verbose
 Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match "studentx"}
 ```
 
-> Enumerate Domain Trusts
+### > Enumerate Domain Trusts
 {: .prompt-info }
 ```jsx
 Get-DomainTrust
@@ -317,7 +317,7 @@ Get-DomainTrustMapping
 Get-ForestDomain | %{Get-DomainTrust -Domain $_.Name} | ?{$_.TrustAttributes -eq "FILTER_SIDS"}
 ```
 
-> Enumerate Forest Trusts
+### > Enumerate Forest Trusts
 {: .prompt-info }
 ```jsx
 Get-ForestDomain
@@ -332,7 +332,7 @@ Get-ForestTrust
 Get-ForestTrust -Forest <ForestName>
 ```
 
-> User Hunting (Pretty Noisy)
+### > User Hunting (Pretty Noisy)
 {: .prompt-info }
 ```jsx
 Find-LocalAdminAccess -Verbose
