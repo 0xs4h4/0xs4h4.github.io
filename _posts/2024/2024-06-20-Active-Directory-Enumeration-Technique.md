@@ -1,7 +1,7 @@
 ---
-layout: post
+author: beard3nx
 title: Active Directory (AD) | Enumeration Technique
-date: 2024-06-20 05:00:00 +0800
+date: 2024-06-20 05:00:00
 categories: [Cert, CRTP]
 tags: [Cert, Active Directory]     ## TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques, starting with enumeration, the essential first step in any AD attack strategy.
@@ -18,22 +18,17 @@ Get-Domain
 Get-Domain -Domain <DomainName>
 Get-DomainSID
 Get-DomainPolicy
-```
 
-#### Show System Access Policy Configurations
-```bash
+// Show System Access Policy Configurations
 Get-DomainPolicy | Select-Object -ExpandProperty SystemAccess
-```
 
-#### Show Kerberos Policy Configurations
-```bash
+// Show Kerberos Policy Configurations
 Get-DomainPolicy | Select-Object -ExpandProperty KerberosPolicy
-```
 
-## Get Domain Policy Data
+// Get Domain Policy Data
 (Get-DomainPolicyData).systemaccess
 
-## Get Domain Policy for Another Domain
+// Get Domain Policy for Another Domain
 (Get-DomainPolicyData -domain moneycorp.local).systemaccess
 ```
 
