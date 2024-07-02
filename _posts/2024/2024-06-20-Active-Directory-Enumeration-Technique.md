@@ -1,6 +1,5 @@
 ---
 title: Active Directory (AD) | Enumeration Technique
-author: beard3nx
 date: 2024-06-20 05:00:00
 categories: [Cert, CRTP]
 tags: [Cert, Active Directory]     // TAG names should always be lowercase
