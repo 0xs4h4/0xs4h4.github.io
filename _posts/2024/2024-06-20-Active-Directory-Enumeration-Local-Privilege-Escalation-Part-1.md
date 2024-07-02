@@ -11,13 +11,17 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 
 ## Local Privilege Escalation
 
-### Scenarios which lead to privilege escalation
+### Scenarios Leading to Privilege Escalation
  
- - Hunting for Local Admin access on other machines
- - Hunting for high privilege domain accounts (like a Domain Administrator)
- - Example Scenario : I have local admin access on a machine --> A Domain Admin has a session on that machine --> I steal his token and impersonate him --> Profit!
+ - Hunting for Local Admin Access: Gain local admin access on other machines.
+ - Hunting for High Privilege Domain Accounts: Target accounts like Domain Administrator.
+ - Example Scenario : 
+    1. I have local admin access on a machine
+    2. A Domain Admin has a session on that machine
+    3. I steal his token and impersonate him
+    4. Profit!
 
-### Ways of locally escalting privilege on Windows
+### Methods of Local Privilege Escalation on Windows
  
  - Missing Patches
  - Automated Deployment and AutoLogon password in clear text
@@ -27,16 +31,16 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  - NTLM Relaying a.k.a Wont’t Fix
  - NTLM Relaying example - https://github.com/antonioCoco/RemotePotato0
 
-### Tools for complete coverage
+### Essential Tools for Complete Coverage
  
  - https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1
  - https://github.com/enjoiz/Privesc
  - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-## **First Step :** Check for any privilege escalation path
+## Step 1: Check for Privilege Escalation Paths
 
 **Tools Used:** PowerView
-First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
+Start by checking for any privilege escalation paths. If any services can be abused, add your domain user to the local admin group.
 
 #### Check for any priviliege escalation path
 ```bash
@@ -45,9 +49,10 @@ Invoke-AllChecks
 ![Result](/img/crtp/result1.png){: width="972" height="589" }
 _Invoke-AllChecks_
 
-Let’s use the abuse function for Invoke-ServiceAbuse and add our current domain user to the local Administrators group. 
 
-#### Abuse the service and add our current domain user to the local Administrator group
+#### Abusing Services
+Add your current domain user to the local Administrators group.
+
 ```bash
 Invoke-ServiceAbuse
 Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
@@ -58,20 +63,20 @@ _Invoke-AllChecks_
 
 Now, our user is a local admin !
 
-## **Second Step :** Identify any machine in the domain where our user has local administrative 
+## Step 2: Identify Machines with Local Admin Access
 
 **Tools Used:** Find-PSRemotingLocalAdminAccess.ps1
-Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
+Next, identify any computers/machines in the domain where our user has local administrative access.
 
-#### Identify a computer within the network domain where the current user has local admin privileges.
+### Identifying Computers with Local Admin Access
+
 ```bash
 Find-PSRemotingLocalAdminAccess
 ```
 ![Result](/img/crtp/result3.png){: width="972" height="589" }
-We can connect to the machine who has the local administrative access by using winrs
 
-
-#### Checking the username and computername in the remote winrs session
+We can connect to the machine with local administrative access using winrs or powershell remoting.
+### Using winrs
 ```bash
 winrs -r:dcorp-adminsrv cmd
 set username
@@ -79,17 +84,18 @@ set computername
 ```
 ![Result](/img/crtp/result4.png){: width="972" height="589" }
 
-We can also use PowerShell Remoting
-
+### PowerShell Remoting
 ```bash
 Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
 ![Result](/img/crtp/result5.png){: width="972" height="589" }
 
-## **Third Step :**Identify a machine in the domain where a Domain Admin session is available (PowerView)
+## Step 3: Identify Machines with Domain Admin Sessions
 
-A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
+**Tools Used:** PowerView
+Send a request to the Domain Controller to retrieve all ComputerName and membership of the domain admin's group with an admin session.
 
+### Finding Domain User Locations
 ```bash
 Find-DomainUserLocation
 ```
