@@ -1,6 +1,6 @@
 ---
 title: Active Directory (AD) | Enumeration Technique
-date: 2024-06-20 05:00:00
+date: 2024-06-20 05:00:00 +0800
 categories: [Cert, CRTP]
 tags: [Cert, Active Directory]     // TAG names should always be lowercase
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques, starting with enumeration, the essential first step in any AD attack strategy.
