@@ -2,18 +2,18 @@
 title: Mobile Application Pentest Checklist
 date: 2023-11-06 05:00:00 +0800
 categories: [Pentest Checklist, Mobile]
-tags: [Checklist]       # TAG names should always be lowercase
+tags: [Checklist]       ## TAG names should always be lowercase
 description: Step-by-step to configure your environment for mobile application pentest
 ---
 
 
-# Pre-quisite
+## Pre-quisite
 
 - Mobexler
 - Genymotion
 - Frida (for Dynamic Analysis)
 
-# Step-by-step
+## Step-by-step
 
 1. Setting Mobexler network
 2. MobSF - uploading APK
@@ -24,7 +24,7 @@ description: Step-by-step to configure your environment for mobile application p
 - launch the wifi adb app
 - Go to terminal and use command "adb connect x.x.x.x:xxxx
 
-# Configure Frida
+## Configure Frida
 
 - Download frida server-android-arm64
 - unxz file.xz
@@ -35,7 +35,7 @@ description: Step-by-step to configure your environment for mobile application p
 - (anti-root device)
 frida -U -f com.android.insecurebankv2 --codeshare dzonerzy/fridantiroot --no-pause
 
-# Configure Buprsuite
+## Configure Buprsuite
 
 - export burp.der
 - drag to mobexler

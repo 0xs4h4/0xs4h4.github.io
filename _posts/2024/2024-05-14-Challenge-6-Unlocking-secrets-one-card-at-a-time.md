@@ -2,17 +2,17 @@
 title: Challenge 6:Unlocking secrets, one card at a time
 date: 2024-05-14 05:06:00 +0800
 categories: [Write-Up, CWAE]
-tags: [Cert, Write-Up]     # TAG names should always be lowercase
+tags: [Cert, Write-Up]     ## TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 
-# Challenge/Task
+## Challenge/Task
 
 1. Unlocking secrets, one card at a time
 
 **Proof-of-Concept (POC):**
 
-# 1. Finding a Unique ID across the Web (Failed). # 
+## 1. Finding a Unique ID across the Web (Failed). ## 
 
 This is my post on private page. ID for the post is 459.
 ![POC-otb](/img/cwae/uts1.png){: w="400" h="400" }{: .normal }
@@ -20,7 +20,7 @@ This is my post on private page. ID for the post is 459.
 I try to change to other ID which is 453 to view other private post. But it is forbidden.
 ![POC-otb](/img/cwae/uts2.png){: w="400" h="400" }{: .normal }
 
-# 2. Finding a Unique ID across the Web (Success) # 
+## 2. Finding a Unique ID across the Web (Success) ## 
 
 I try to crawl and discovering all the functionalities and web content inside the web and found out another UUID inside a PRO page.
 

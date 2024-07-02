@@ -2,11 +2,11 @@
 title: Active Directory (AD) | Local Privilege Escalation (Part 2)
 date: 2024-07-01 00:00:00
 categories: [Cert, CRTP]
-tags: [cert,active directory]     # TAG names should always be lowercase
+tags: [cert,active directory]     ## TAG names should always be lowercase
 render_with_liquid: false
 ---
 
-## Extract Credentials from LSASS (Invoke Mimikatz)
+#### Extract Credentials from LSASS (Invoke Mimikatz)
 
 Once we have remote admin session on the remote machine, we will extract credentials from LSASS. Bear in mind , **to avoid LSASS unless you have nothing to do.**
 
@@ -37,7 +37,7 @@ Invoke-command -ScriptBlock ${function:Invoke-Mimi} -Session $sess
 ---
 ```
 
-### Using OverPass-the-Hash (Rubeus)
+###### Using OverPass-the-Hash (Rubeus)
 
 Finally, use OverPass-the-Hash to use svcadmin's credentials.
 
@@ -47,7 +47,7 @@ Run the below commands from an elevated shell on the student VM to use Rubeus.
 ---
 ArgSplit.bat
 
-#Run the above commands in the same command prompt session
+##Run the above commands in the same command prompt session
 set "z=t"
 set "y=g"
 set "x=t"
@@ -74,7 +74,7 @@ winrs -r:dcorp-dc cmd /c set username USERNAME=svcadmin
 ---
 ```
 
-# 7. Domain Admin Escalation using Derivative Local Admin (Find-PSRemotingLocalAdminAccess.ps1)
+## 7. Domain Admin Escalation using Derivative Local Admin (Find-PSRemotingLocalAdminAccess.ps1)
 
 
 ```jsx

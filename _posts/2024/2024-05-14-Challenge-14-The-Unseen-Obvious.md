@@ -2,11 +2,11 @@
 title: Challenge 14:The Unseen Obvious
 date: 2024-05-15 05:06:00 +0800
 categories: [Write-Up, CWAE]
-tags: [Cert, Write-Up]     # TAG names should always be lowercase
+tags: [Cert, Write-Up]     ## TAG names should always be lowercase
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 
-# Challenge/Task
+## Challenge/Task
 
 1. Command Injection
 
