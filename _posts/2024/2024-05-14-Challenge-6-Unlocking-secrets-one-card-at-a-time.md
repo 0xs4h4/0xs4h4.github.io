@@ -3,6 +3,7 @@ title: Challenge 6:Unlocking secrets, one card at a time
 date: 2024-05-14 05:06:00 +0800
 categories: [Write-Up, CWAE]
 tags: [Cert, Write-Up]     ## TAG names should always be lowercase
+render_with_liquid: false
 description: This is a detailed writeup created for challenges associated with the Certified Web AppSecurity Expert (CWAE) certification. 
 ---
 

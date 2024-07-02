@@ -3,6 +3,7 @@ title: API Pentest Checklist
 date: 2023-11-07 05:00:00 +0800
 categories: [Pentest Checklist, API]
 tags: [Checklist]        ## TAG names should always be lowercase
+render_with_liquid: false
 description: A comprehensive guideline designed to steer an API penetration tester through a series of essential steps, procedures, and considerations necessary for conducting a robust and effective penetration test.
 ---
 

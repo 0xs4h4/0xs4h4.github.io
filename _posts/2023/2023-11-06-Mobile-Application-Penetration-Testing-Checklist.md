@@ -3,6 +3,7 @@ title: Mobile Application Pentest Checklist
 date: 2023-11-06 05:00:00 +0800
 categories: [Pentest Checklist, Mobile]
 tags: [Checklist]       ## TAG names should always be lowercase
+render_with_liquid: false
 description: Step-by-step to configure your environment for mobile application pentest
 ---
 

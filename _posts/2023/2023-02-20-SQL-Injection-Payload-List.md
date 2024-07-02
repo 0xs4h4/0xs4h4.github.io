@@ -3,6 +3,7 @@ title: SQL Injection Payload List
 date: 2023-02-20 05:00:00 +0800
 categories: [Red Team, Payload]
 tags: [Red Team, Payload, SQLi]        ## TAG names should always be lowercase
+render_with_liquid: false
 description: A comprehensive list of SQL injection payloads that can be used for testing and exploiting SQL injection vulnerabilities in web applications..
 ---
 

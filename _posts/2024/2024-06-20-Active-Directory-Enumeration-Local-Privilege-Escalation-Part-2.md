@@ -4,6 +4,8 @@ date: 2024-07-01 00:00:00 +0800
 categories: [Cert, CRTP]
 tags: [cert,active directory]     ## TAG names should always be lowercase
 render_with_liquid: false
+render_with_liquid: false
+description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
 #### Extract Credentials from LSASS (Invoke Mimikatz)
