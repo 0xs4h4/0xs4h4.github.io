@@ -9,7 +9,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 ---
 
 
-## 1. Local Privilege Escalation
+## Local Privilege Escalation
 
 ### Scenarios which lead to privilege escalation
  
@@ -33,15 +33,15 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  - https://github.com/enjoiz/Privesc
  - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-## 2. Check for any privilege escalation path (PowerUp)
+## **First Step :** Check for any privilege escalation path
 
+**Tools Used:** PowerView
 First step for local privilege escalation, we will try to check for any privilege escalation path. Then if we found any services that can be abused, we can add our domain user to the local admin group.
 
 #### Check for any priviliege escalation path
 ```bash
 Invoke-AllChecks
 ```
-
 ![Result](/img/crtp/result1.png){: width="972" height="589" }
 _Invoke-AllChecks_
 
@@ -58,8 +58,9 @@ _Invoke-AllChecks_
 
 Now, our user is a local admin !
 
-## 3. Identify any machine in the domain where our user has local administrative (Find-PSRemotingLocalAdminAccess.ps1)
+## **Second Step :** Identify any machine in the domain where our user has local administrative 
 
+**Tools Used:** Find-PSRemotingLocalAdminAccess.ps1
 Next step, we will try to identify any computers/machines in the domain where our user has local administrative access. 
 
 #### Identify a computer within the network domain where the current user has local admin privileges.
@@ -85,7 +86,7 @@ Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
 ![Result](/img/crtp/result5.png){: width="972" height="589" }
 
-## 4. Identify a machine in the domain where a Domain Admin session is available (PowerView)
+## **Third Step :**Identify a machine in the domain where a Domain Admin session is available (PowerView)
 
 A request will be sent to Domain Controller to retrieve all ComputerName and membership of the domain admin's group which has admin session there.
 
