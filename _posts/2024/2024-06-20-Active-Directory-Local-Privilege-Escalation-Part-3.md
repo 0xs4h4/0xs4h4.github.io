@@ -8,7 +8,7 @@ render_with_liquid: false
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
-## Step 6: Derivative Local Admin Escalation
+## **Step 6: Derivative Local Admin Escalation**
 
 **Objective**: Escalate privileges to domain admin using derivative local admin access on dcorp-adminsrv.
 

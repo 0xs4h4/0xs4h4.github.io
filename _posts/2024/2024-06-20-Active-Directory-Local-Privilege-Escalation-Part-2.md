@@ -8,7 +8,7 @@ render_with_liquid: false
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
-## Step 4: Extract Credential
+## **Step 4: Extract Credential**
 
 **Tools Used:** SafetyKatz.exe
 
@@ -190,7 +190,7 @@ SID : S-1-5-21-719815819-3726368948-3917688648-1118
   rc4_hmac_old_exp b38ff50264b74508085d82c69794a4d8
 ```
 
-## Step 5: OverPass-the-Hash with Rubeus
+## **Step 5: OverPass-the-Hash with Rubeus**
 
 Finally, use OverPass-the-Hash to leverage svcadmin's credentials. Execute the following command on the student VM:
 

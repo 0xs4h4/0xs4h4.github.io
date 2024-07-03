@@ -9,7 +9,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
 ---
 
 
-## Local Privilege Escalation
+## **Local Privilege Escalation**
 
 ### Scenarios Leading to Privilege Escalation
  
@@ -63,7 +63,7 @@ Invoke-ServiceAbuse -Name 'AbyssWebServer' -UserName 'dcorp\studentx' -Verbose
 _Now, our user is a local admin !_
 
 
-## Step 2: Identify Machines with Local Admin Access
+## **Step 2: Identify Machines with Local Admin Access**
 
 **Tools Used:** Find-PSRemotingLocalAdminAccess.ps1
 
@@ -92,7 +92,7 @@ Enter-PSSession -ComputerName dcorp-adminsrv.dollarcorp.moneycorp.local
 ```
 ![Result](/img/crtp/result5.png){: width="972" height="589" }
 
-## Step 3: Identify Machines with Domain Admin Sessions
+## **Step 3: Identify Machines with Domain Admin Sessions**
 
 **Tools Used:** PowerView
 
