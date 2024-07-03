@@ -37,7 +37,7 @@ description: Designed to provide a comprehensive guide to Active Directory (AD) 
  - https://github.com/enjoiz/Privesc
  - https://github.com/peass-ng/PEASS-ng/blob/master/winPEAS/winPEASexe/README.md - Very NOISY
 
-## Step 1: Check for Privilege Escalation Paths
+## **Step 1: Check for Privilege Escalation Paths**
 
 **Tools Used:** PowerView
 
