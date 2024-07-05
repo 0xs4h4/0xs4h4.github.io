@@ -5,21 +5,21 @@ baseurl: ''
 lang: en
 prefer_datetime_locale:
 timezone: Asia/Kuala_Lumpur
-title: $[beard3nx]                         # the main title
+title: $(H0j3n)                          # the main title
 tagline: Knowledge sharing related to Cybersecurity
 description: >-
-  Sharing the edge of offensive security
+  Knowledge sharing related to Cybersecurity
 url: 'https://H0j3n.github.io'
 github:
-  username: beardenx             # change to your github username
+  username: H0j3n             # change to your github username
 twitter:
-  username: beardengx            # change to your twitter username
+  username: H0j3n            # change to your twitter username
 social:
-  name: 
+  name: H0j3n
   email:              # change to your email address
   links:
-    - https://twitter.com/beardenx      # change to your twitter homepage
-    - https://github.com/beardengx       # change to your github homepage
+    - https://twitter.com/h0j3n      # change to your twitter homepage
+    - https://github.com/H0j3n       # change to your github homepage
 
 google_site_verification:               # fill in to your verification string
 google_analytics:
@@ -29,7 +29,7 @@ google_analytics:
     cache_path:       # the local PV cache data, friendly to visitors from GFW region
 theme_mode:   # [light|dark]
 img_cdn:
-avatar: https://avatars.githubusercontent.com/beardenx
+avatar: https://avatars.githubusercontent.com/u/51261763?v=4
 toc: true
 comments:
   active:         # The global switch for posts comments, e.g., 'disqus'.  Keep it empty means disable
