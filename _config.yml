@@ -6,7 +6,7 @@ lang: en
 prefer_datetime_locale:
 timezone: Asia/Kuala_Lumpur
 title: $[beard3nx]                         # the main title
-tagline: Knowledge sharing related to Cybersecurity
+tagline: Sharing the edge of offensive security
 description: >-
   Sharing the edge of offensive security
 url: 'https://beardenx.github.io'
@@ -15,11 +15,11 @@ github:
 twitter:
   username: beardengx            # change to your twitter username
 social:
-  name: 
+  name: beardengx
   email:              # change to your email address
   links:
-    - https://twitter.com/beardenx      # change to your twitter homepage
-    - https://github.com/beardengx       # change to your github homepage
+    - https://twitter.com/beardengx     # change to your twitter homepage
+    - https://github.com/beardenx      # change to your github homepage
 
 google_site_verification:               # fill in to your verification string
 google_analytics:
