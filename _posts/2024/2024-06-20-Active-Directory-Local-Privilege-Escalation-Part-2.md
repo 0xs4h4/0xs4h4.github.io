@@ -1,5 +1,5 @@
 ---
-title: Active Directory (AD) | Local Privilege Escalation (Part 2)
+title: Active Directory (AD) | Exploiting Domain Admin (Part 1)
 date: 2024-07-01 00:00:00 +0800
 categories: [Cert, CRTP]
 tags: [Cert,Active Directory]     ## TAG names should always be lowercase
@@ -7,7 +7,17 @@ render_with_liquid: false
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
 ---
 
-## **Step 4: Extract Credential**
+## **Step 1: Identifying Machines with Domain Admin Sessions**
+
+**Tools Used:** PowerView. Identifying machines where domain admin accounts are actively logged in provides an opportunity to steal their tokens and elevate privileges within the domain. To identify machines where domain admin sessions are active, we can query the Domain Controller for information on ComputerNames and membership of the domain admin group with active sessions.
+
+```bash
+Find-DomainUserLocation
+```
+![Result](/img/crtp/result6.png){: width="972" height="589" }
+_There is a domain admin session on dcorp-mgmt server_
+
+## **Step 2: Extracting Credentials**
 
 **Tools Used:** SafetyKatz.exe
 
@@ -189,7 +199,7 @@ SID : S-1-5-21-719815819-3726368948-3917688648-1118
   rc4_hmac_old_exp b38ff50264b74508085d82c69794a4d8
 ```
 
-## **Step 5: OverPass-the-Hash with Rubeus**
+## **Step 3: OverPass-the-Hash with Rubeus**
 
 Finally, use OverPass-the-Hash to leverage svcadmin's credentials. Execute the following command on the student VM:
 
