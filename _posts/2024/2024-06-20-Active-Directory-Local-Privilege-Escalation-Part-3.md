@@ -1,6 +1,5 @@
 ---
 title: Active Directory (AD) | Local Privilege Escalation (Part 3)
-author: beardenx
 date: 2024-07-03 00:00:00 +0800
 categories: [Cert, CRTP]
 tags: [cert,active directory]     ## TAG names should always be lowercase
