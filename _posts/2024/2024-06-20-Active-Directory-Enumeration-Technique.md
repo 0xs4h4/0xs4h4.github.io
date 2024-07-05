@@ -2,7 +2,7 @@
 title: Active Directory (AD) | Enumeration Technique
 date: 2024-06-19 00:00:00 +0800
 categories: [Cert, CRTP]
-tags: [cert,active directory]     ## TAG names should always be lowercase
+tags: [Cert,Active Directory]     ## TAG names should always be lowercase
 render_with_liquid: false
 render_with_liquid: false
 description: Designed to provide a comprehensive guide to Active Directory (AD) attack techniques
