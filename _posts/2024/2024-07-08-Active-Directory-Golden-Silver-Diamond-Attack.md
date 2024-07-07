@@ -33,16 +33,19 @@ This attack provides persistent and stealthy access to resources authenticated v
 
 ## **Differences**
 - Scope of Attack:
+
 Golden Ticket: Targets the entire AD domain, allowing for domain-wide access.
 Silver Ticket: Targets specific services, limiting access to those services only.
 Diamond Ticket: Focuses on manipulating certificates for authentication, potentially affecting any resource authenticated via AD CS.
 
 - Prerequisites:
+
 Golden Ticket: Requires access to the KRBTGT account's password hash.
 Silver Ticket: Requires access to the password hash of a specific service account.
 Diamond Ticket: Requires access to an enterprise CA or sufficient privileges to issue certificates.
 
 - Detection and Mitigation:
+
 Golden Ticket: Difficult to detect due to legitimate-looking Kerberos tickets; mitigated by rotating KRBTGT account passwords and monitoring TGT lifetimes.
 Silver Ticket: Harder to detect as it does not involve the Domain Controller; mitigated by strong service account password policies and monitoring service ticket requests.
 Diamond Ticket: Bypasses traditional Kerberos monitoring; mitigated by securing AD CS environments, auditing certificate issuance, and controlling certificate template permissions.
