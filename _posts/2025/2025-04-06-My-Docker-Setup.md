@@ -42,3 +42,31 @@ sudo systemctl start docker
 ```bash
 sudo docker run hello-world
 ```
+
+## **Step 3: Build the Docker Image**
+
+In the same folder as your Dockerfile, run:
+
+```bash
+sudo docker build -t my-sec-env .
+```
+This will create a Docker image named my-sec-env with all your tools pre-installed.
+
+## **Step 4: Run Your Security Tools Container**
+
+Start your container:
+
+```bash
+sudo docker run -it my-sec-env
+
+```
+You’re now inside your own security lab! Use tools like:
+
+nmap
+pwntools
+curl, ping, htop, and more!
+
+To exit, just type:
+```bash
+exit
+```
