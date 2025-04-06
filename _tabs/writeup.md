@@ -9,5 +9,4 @@ This collection features my detailed write-ups on various topics. Feel free to u
 | Write-Up | Details |
     | --- | --- |
     | CWAE | [Certified Web AppSec Expert](https://beardenx.github.io/categories/cwae/) |
-    | CRTP | Coming Soon... | 
-    | CPENT| Coming Soon... |
+
