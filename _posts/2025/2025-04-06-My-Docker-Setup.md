@@ -1,10 +1,10 @@
 ---
-title: Docker Setup for Security Analysts
+title: My Docker Setup
 date: 2025-04-06 00:00:00 +0800
 categories: [Installation]
 tags: [docker]
 render_with_liquid: false
-description: EA simple and repeatable way to build your personal cybersecurity tools environment using Docker.
+description: A simple and repeatable way to build your personal cybersecurity tools environment using Docker.
 ---
 
 ## **Step 1: Install Docker**
