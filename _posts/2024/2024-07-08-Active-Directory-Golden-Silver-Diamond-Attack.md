@@ -18,21 +18,3 @@ A Silver Ticket attack forges a Kerberos Ticket Granting Service (TGS) ticket wi
 
 ## **Diamond Ticket Attack**
 A Diamond Ticket attack manipulates AD Certificate Services (AD CS) certificates, creating valid credentials to bypass Kerberos authentication. This technique provides persistent access to resources authenticated via certificates, bypassing traditional monitoring and potentially leading to widespread compromise.
-
-## **Key Differences**
-- **Scope of Attack:**
-  - **Golden Ticket:** Enables domain-wide access.
-  - **Silver Ticket:** Targets specific services.
-  - **Diamond Ticket:** Exploits certificate infrastructure.
-
-- **Prerequisites:**
-  - **Golden Ticket:** Access to KRBTGT password hash.
-  - **Silver Ticket:** Access to service account password hash.
-  - **Diamond Ticket:** Access to enterprise CA or certificate issuance rights.
-
-- **Detection and Mitigation:**
-  - **Golden Ticket:** Detection challenges due to genuine tickets; mitigated by frequent password changes and TGT monitoring.
-  - **Silver Ticket:** Less detectable without Domain Controller involvement; mitigated by stringent service account security.
-  - **Diamond Ticket:** Evades typical Kerberos monitoring; countered by securing AD CS, auditing certificate issuance, and controlling certificates.
-
-Explore how Golden, Silver, and Diamond Ticket attacks exploit AD's vulnerabilities, providing attackers with persistent access while challenging traditional security measures.
