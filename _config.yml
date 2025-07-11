@@ -29,7 +29,7 @@ google_analytics:
     cache_path:       # the local PV cache data, friendly to visitors from GFW region
 theme_mode:   # [light|dark]
 img_cdn:
-avatar: https://avatars.githubusercontent.com/beardenx
+avatar: https://avatars.githubusercontent.com/0xs4h4
 toc: true
 comments:
   active:         # The global switch for posts comments, e.g., 'disqus'.  Keep it empty means disable
