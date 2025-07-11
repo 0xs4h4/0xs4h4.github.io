@@ -5,17 +5,17 @@ baseurl: ''
 lang: en
 prefer_datetime_locale:
 timezone: Asia/Kuala_Lumpur
-title: $[beard3nx]                         # the main title
+title: SΔHΔ                         # the main title
 tagline: Sharing the edge of offensive security
 description: >-
   Sharing the edge of offensive security
 url: 'https://beardenx.github.io'
 github:
-  username: beardenx             # change to your github username
+  username: SΔHΔ             # change to your github username
 twitter:
-  username: beardengx            # change to your twitter username
+  username: SΔHΔ           # change to your twitter username
 social:
-  name: beardenx
+  name: SΔHΔ
   email:              # change to your email address
   links:
     - https://twitter.com/beard3nx     # change to your twitter homepage
