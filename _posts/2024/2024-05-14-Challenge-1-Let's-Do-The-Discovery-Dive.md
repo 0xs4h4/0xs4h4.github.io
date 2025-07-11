@@ -30,7 +30,7 @@ description: This is a detailed writeup created for challenges associated with t
 
 ## 2. Open Ports for Each Accessible Host
 
-Tool Used: PortWhisper. My own custom tool. Can find on my [github](https://github.com/beardenx/PortWhisper)
+Tool Used: PortWhisper. My own custom tool. Can find on my [github](https://github.com/0xs4h4/PortWhisper)
 ![Port Scanning Result](/img/cwae/portscan.png){: w="400" h="400" }{: .normal }
 
 - **`health.the-abstractors.com`**
