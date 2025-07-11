@@ -20,7 +20,7 @@ description: List of my reading material and tools used when performing Active D
 
 ## 1. Tools 
 
-- [Bypass AMSI - Own Script](https://beardenx.github.io/posts/Bypass-AMSI-Like-a-King/)
+- [Bypass AMSI - Own Script](https://0xs4h4.github.io/posts/Bypass-AMSI-Like-a-King/)
 - [Bypass AMSI - Amsi Fail](https://amsi.fail/)
 - [PowerView](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 - [PowerUp](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1)

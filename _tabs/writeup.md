@@ -8,5 +8,5 @@ This collection features my detailed write-ups on various topics. Feel free to u
 
 | Write-Up | Details |
     | --- | --- |
-    | CWAE | [Certified Web AppSec Expert](https://beardenx.github.io/categories/cwae/) |
+    | CWAE | [Certified Web AppSec Expert](https://0xs4h4.github.io/categories/cwae/) |
 

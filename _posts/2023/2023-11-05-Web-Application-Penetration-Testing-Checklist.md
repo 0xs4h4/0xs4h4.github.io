@@ -180,7 +180,7 @@ description: This checklist is meticulously curated to guide a web application p
 
 ```
 <head>
-<meta http-equiv="refresh" content="0; url=https://beardenx.github.io/index.html" />
+<meta http-equiv="refresh" content="0; url=https://0xs4h4.github.io/index.html" />
 </head>
 ```
 
