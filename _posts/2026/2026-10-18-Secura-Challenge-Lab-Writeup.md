@@ -228,6 +228,8 @@ PrivescCheck found two services whose program files we could edit:
 
 `ApacheServer` is useless — it already runs as `apache`, our own user. `MySQL` is the target: its program runs as **Administrator**, and we can write to it.
 
+![](/assets/img/posts/secura/privesccheck-mysql.jpg)
+
 We tried swapping the file, but it was locked (the service was running):
 
 ```powershell
