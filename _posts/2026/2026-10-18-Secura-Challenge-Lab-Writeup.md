@@ -372,6 +372,14 @@ impacket-secretsdump secura.yzx/charlotte:'Game2On4.!'@192.168.216.97
 
 The way in is Group Policy abuse.
 
+We ran BloodHound to map the domain's attack paths. The collector (`bloodhound-python`) pulled the domain data (users, groups, ACLs, GPOs) from the Domain Controller:
+
+![](/assets/img/posts/secura/bloodhound-collect.jpg)
+
+The graph showed the permission that opens the door — charlotte's WriteOwner on the Default Domain Policy:
+
+![](/assets/img/posts/secura/bloodhound-writeowner.jpg)
+
 A **GPO (Group Policy Object)** is a set of settings that the Domain Controller pushes out to computers and users. For example, a GPO can say "run this scheduled task at logon" for every machine in the domain. A scheduled task inside a GPO runs as **SYSTEM** on the machines that apply it — including the Domain Controller itself.
 
 charlotte holds a specific permission on the **Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`): **WriteOwner**. That one permission is enough to take over the whole GPO. The chain works like this:
