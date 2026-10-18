@@ -407,6 +407,8 @@ Administrator : d38e7c66048f80fd9566ab85afca76b1
 krbtgt        : 431f60ffa71152f8445bea272663d7c3
 ```
 
+![](/assets/img/posts/secura/dcsync-hashes.jpg)
+
 - **Administrator** hash lets us log in anywhere as the domain's top account (pass-the-hash).
 - **krbtgt** is the Kerberos master key. Whoever holds it can forge golden tickets — self-signed Kerberos tickets that give persistent Domain Admin access, even if every password is changed.
 
