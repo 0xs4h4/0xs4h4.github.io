@@ -467,3 +467,5 @@ nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'where /r C:\Users local.txt 
 | ERA (.96) | proof.txt | `C:\Users\Administrator\Desktop\proof.txt` | `5f01668ca7c20176d7578d8b58cfaaf2` |
 | DC01 (.97) | local.txt | `C:\Users\charlotte\Desktop\local.txt` | `d1b77d0baa79cc2722b9f10bfb513dc2` |
 | DC01 (.97) | proof.txt | `C:\Users\Administrator.DC01\Desktop\proof.txt` | `4903e006054592d4c58f6550c41d8741` |
+
+![](/assets/img/posts/secura/flags-all.jpg)
