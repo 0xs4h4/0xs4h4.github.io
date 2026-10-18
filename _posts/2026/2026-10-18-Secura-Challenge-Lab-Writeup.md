@@ -209,8 +209,6 @@ A Windows service is a program that runs quietly in the background. Each service
 
 If a service runs as Administrator, **and** a normal user can edit its program file, then that user can swap the file for their own. When the service runs, it launches their file — with Administrator's power.
 
-**Analogy.** Think of a Windows service as a courier with a permanent *all-access pass* to the Administrator-only area. The pass belongs to the courier, not the parcel. Every day the courier carries a fixed parcel (the service's own program, `mysqld.exe`). If we swap the parcel for our own (because the program is left writable), the courier still walks through the Administrator-only door and delivers *our* parcel — the pass doesn't care what's inside, only who is carrying it.
-
 PrivescCheck found two services whose program files we could edit:
 
 | Service        | Program file                    | Runs as           | Useful?                  |
@@ -234,8 +232,6 @@ We also couldn't restart the service (`net stop MySQL` → access denied) or reb
 The database program (`mysqld.exe`) already runs as Administrator. So if we can make the database run a command for us, that command runs as Administrator.
 
 MariaDB has a feature for this: **UDF (User-Defined Function)**. The idea is simple — we install a small plugin (a `.dll` file) that teaches the database a new function called `sys_eval`. Then calling `sys_eval('whoami')` makes the database run `whoami` and give us the result.
-
-**Analogy.** Think of the database as a butler who only knows a fixed list of tasks. A UDF is a new instruction card (the `.dll`) we hand the butler, teaching him one extra task — *"when you hear `sys_eval('whoami')`, go run `whoami` and bring back the result."* Because the butler works in the boss's office (the database runs as Administrator), anything he runs carries the boss's authority.
 
 Five things had to line up — and they all did here:
 
@@ -292,8 +288,6 @@ era\administrator
 
 Now that we are Administrator, the next goal is to collect credentials to reach the Domain Controller. Windows keeps secrets in a few places — the SAM (local account hashes) and LSA (service-account passwords, stored in a readable form).
 
-**Analogy.** Think of the box as a locked drawer of spare keys. As Administrator, we hold the master key, so we open the drawer and copy out the spare keys.
-
 We saved the `SAM`, `SYSTEM` and `SECURITY` hives and parsed them offline:
 
 ```powershell
@@ -321,8 +315,6 @@ No cached domain logins on ERA.
 ### 8.2 Domain Enumeration with adscan
 
 Next we map the domain — who has what permissions, and where the paths to Domain Admin are.
-
-**Analogy.** It's like drawing the map of a building before choosing which door to break down.
 
 We used our own tool `adscan`:
 
