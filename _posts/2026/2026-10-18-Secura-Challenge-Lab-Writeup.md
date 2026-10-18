@@ -126,6 +126,8 @@ For a stable, interactive shell, we logged in with Evil-WinRM using the given do
 evil-winrm -i 192.168.216.95 -u Eric.Wallows -p 'EricLikesRunning800'
 ```
 
+![](/assets/img/posts/secura/evilwinrm-shell.jpg)
+
 We grabbed WinPEAS (from the PEASS-ng project):
 
 ```bash
