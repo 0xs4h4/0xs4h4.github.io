@@ -238,6 +238,8 @@ So the "swap the binary" path was blocked. We used the database's own features i
 
 **What is a UDF, exactly?** A database only understands a fixed set of built-in commands (`SELECT`, `COUNT`, `LENGTH`, and so on). A UDF is a way to install a *plugin* — a compiled shared library (a `.dll` file on Windows) — that adds a brand-new function the database didn't have before. Once installed, you call it just like any built-in function. It's a documented, legitimate MariaDB feature: see [CREATE FUNCTION (UDF)](https://mariadb.com/docs/server/server-usage/user-defined-functions/create-function-udf) and the [User-Defined Functions overview](https://mariadb.com/docs/server/server-usage/user-defined-functions).
 
+**Analogy.** Think of the database as a butler who only knows a fixed list of tasks (`SELECT`, `COUNT`, and so on). A UDF is like handing the butler a new instruction card (the `.dll`) that teaches him one extra task — *"when you hear `sys_eval('whoami')`, go run the `whoami` command and bring back the result."* Because the butler works inside the boss's office (the database runs as Administrator), anything he runs carries the boss's authority, not yours.
+
 The library we want — `lib_mysqludf_sys` — adds a function called `sys_eval`. `sys_eval('whoami')` makes the database run the OS command `whoami` and hand back the output. Because the database is the `MySQL` service running as `.\Administrator`, that `whoami` runs as Administrator. The library and its full function list are documented at <https://github.com/mysqludf/lib_mysqludf_sys>.
 
 **The plan, step by step.** Five things have to line up for this to work. Each one is checked below against this environment.
@@ -293,7 +295,7 @@ C:\xampp\mysql\bin\mysql.exe -u root -e "CREATE FUNCTION sys_eval RETURNS STRING
 
 ### 7.4 Executing Commands as Administrator
 
-With the UDF registered, we just call `sys_eval` from SQL. The command runs inside `mysqld.exe` — the MySQL service — which runs as `.\Administrator`:
+**Concept.** We now have a SQL function that can run any OS command. Calling `sys_eval` executes that command inside `mysqld.exe` — the MySQL service — which runs as `.\Administrator`:
 
 ```powershell
 C:\xampp\mysql\bin\mysql.exe -u root -e "SELECT sys_eval('whoami');"
@@ -311,6 +313,10 @@ The output `era\administrator` proves that our commands now run as the local Adm
 ## 8.0 Post-Exploitation & Domain Enumeration
 
 ### 8.1 Credential Dumping with secretsdump
+
+**Concept.** Now that we are Administrator, the next goal is to collect credentials that help us reach the Domain Controller. A Windows box stores secrets in a few places — the SAM holds local account hashes, and LSA keeps service-account passwords in a reversible form. We dump these.
+
+**Analogy.** Think of the box as a locked drawer full of spare keys. As Administrator we hold the master key, so we open the drawer and copy out the spare keys — including one we didn't have before (`Almost4There8.?`).
 
 With a reverse shell as `era\Administrator`, we pulled the local credential stores. We saved the `SAM`, `SYSTEM` and `SECURITY` registry hives and parsed them offline with impacket's `secretsdump.py`:
 
@@ -344,6 +350,10 @@ Relevant `secretsdump.py` output:
 There were no cached domain logon credentials on ERA.
 
 ### 8.2 Domain Enumeration with adscan
+
+**Concept.** With credentials in hand, the next step is to map the Active Directory environment — who has which permissions, and where the paths to Domain Admin are. This is *domain enumeration*. Here we used our own tool `adscan` to query the Domain Controller.
+
+**Analogy.** It's like drawing the map of a building before choosing which door to break down — enumeration shows us the doors, and who holds the keys to each one.
 
 We enumerated the `secura.yzx` domain against the Domain Controller (`dc01.secura.yzx`) using `adscan` with the starting account `Eric.Wallows`:
 
