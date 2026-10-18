@@ -293,7 +293,7 @@ era\administrator
 
 `era\administrator` — we went from `apache` to **Administrator**.
 
-![](/assets/img/posts/secura/udf-whoami.jpg)
+![](/assets/img/posts/secura/udf-whoami-creds.jpg)
 
 ---
 
@@ -352,6 +352,8 @@ name          pass
 administrator Almost4There8.?
 charlotte     Game2On4.!
 ```
+
+![](/assets/img/posts/secura/udf-whoami-creds.jpg)
 
 A custom database named `creds` is a strong signal — it looks like a home-grown place to store passwords, which applications should never do.
 
