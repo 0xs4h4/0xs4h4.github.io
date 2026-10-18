@@ -221,6 +221,8 @@ The report's most important finding was in the `Services - Image File Permission
 
 **Concept.** A Windows service is a background program that keeps running independently of any logged-in user, and every service runs *as* a specific account (SYSTEM, a local admin, a service account, and so on). If a service runs as a privileged account **and** a low-privileged user can modify its executable, that user can swap the executable for a malicious one and have the service run it as the privileged account. This is the classic *writable-service-binary* privilege escalation.
 
+**Analogy.** Think of a Windows service as a courier who carries a permanent *all-access pass* to the Administrator-only area — the pass belongs to the courier, not to the parcel. Day to day the courier carries a fixed parcel (the service's own executable, `mysqld.exe`). If we can swap that parcel for our own (because the executable is left writable), the courier will still walk through the Administrator-only door and deliver *our* parcel — because the pass does not care what is inside the parcel, only who is carrying it.
+
 PrivescCheck flagged two service binaries as **writable by `NT AUTHORITY\Authenticated Users`** (a group that includes every authenticated user, including `apache`):
 
 | Service        | Image Path                      | Runs As           | Useful?                       |
