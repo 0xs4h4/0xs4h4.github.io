@@ -22,6 +22,8 @@ This report documents a penetration test performed against the **Secura** Active
 | VM3 — workstation       | `192.168.216.95`                       |
 | Assumed breach account  | `Eric.Wallows` / `EricLikesRunning800` |
 
+---
+
 ## 2.0 Attack Overview
 
 The engagement is a multi-stage Active Directory attack that chains several distinct weaknesses:
@@ -31,6 +33,8 @@ The engagement is a multi-stage Active Directory attack that chains several dist
 3. **Lateral movement** — the recovered credentials are used to access the next machine, pivoting through the network with port forwarding.
 4. **Privilege escalation** — a writable MariaDB service binary, combined with the MariaDB User-Defined Function (UDF) mechanism, is abused to escalate to local Administrator on the ERA host.
 5. **Domain compromise** — administrative control of the Domain Controller is achieved.
+
+---
 
 ## 3.0 Reconnaissance — Initial Network Enumeration
 
@@ -50,6 +54,8 @@ This host was confirmed as the **Domain Controller** for the `secura.yzx` domain
 
 ### 3.4 Evidence — Full Scan Output
 
+---
+
 ## 4.0 Enumeration — ManageEngine Applications Manager
 
 ### 4.1 Default Administrative Credentials
@@ -59,6 +65,8 @@ Browsing to `https://192.168.216.95:8443` presented a ManageEngine Applications 
 ### 4.2 Unrestricted File Upload (CVE-2020-14008)
 
 Once authenticated to the application, an enumeration of its functionality revealed a **file upload** feature. Testing demonstrated that the feature accepted **arbitrary file extensions** and wrote uploaded files into the directory `C:\Program Files\ManageEngine\AppManager14\working\`. Files placed in this directory are **executed by the server**, providing a direct path to remote code execution. This weakness corresponds to **CVE-2020-14008**, an arbitrary file-upload/remote code execution vulnerability in ManageEngine.
+
+---
 
 ## 5.0 Exploitation — Initial Foothold on VM3
 
@@ -122,6 +130,8 @@ The WinPEAS output was analysed and produced the following notable findings:
 - **Saved RDP connection** — a saved RDP profile to host `era.secura.local` (Administrator SID `500`).
 - **DPAPI credential files** — multiple encrypted credential files under the Administrator profile.
 
+---
+
 ## 6.0 Lateral Movement & Pivoting
 
 ### 6.1 RDCMan Stored Credentials (lead)
@@ -163,6 +173,8 @@ evil-winrm -i 192.168.216.96 -u apache -p 'New2Era4.!'
 ```
 
 A shell was obtained as the local userc **`era\apache`** (SID `S-1-5-21-1316868832-3073753287-3359562679-1003`, RID 1003 — a low-privileged local account).
+
+---
 
 ## 7.0 Privilege Escalation on ERA — MariaDB UDF
 
@@ -280,6 +292,8 @@ era\administrator
 
 The output `era\administrator` confirms that commands now execute as the local Administrator. This achieves **privilege escalation from `era\apache` to `era\Administrator`** on the ERA host.
 
+---
+
 ## 8.0 Post-Exploitation & Domain Enumeration
 
 ### 8.1 Credential Dumping with secretsdump
@@ -330,13 +344,15 @@ Key findings:
 - **Group Policy Preferences (cpassword)** present in SYSVOL — a lead for cleartext credentials.
 - **SMB/LDAP signing disabled** and **`MachineAccountQuota = 10`** (an RBCD prerequisite). No AD CS detected.
 
+---
+
 ## 9.0 Domain Compromise
 
 > _(pending — Domain Controller)_
+
+---
 
 ## 10.0 Flags
 
 - **local.txt:**
 - **proof.txt:**
-
----
