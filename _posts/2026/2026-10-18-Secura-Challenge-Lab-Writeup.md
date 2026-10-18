@@ -320,6 +320,8 @@ Two useful things came out:
 (Unknown User):Almost4There8.?
 ```
 
+![](/assets/img/posts/secura/secretsdump-era.jpg)
+
 No cached domain logins on ERA, so this machine alone does not reach the domain — we need a domain account.
 
 ---
