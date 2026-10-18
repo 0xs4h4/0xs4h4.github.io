@@ -293,6 +293,8 @@ era\administrator
 
 `era\administrator` — we went from `apache` to **Administrator**.
 
+![](/assets/img/posts/secura/udf-whoami.jpg)
+
 ---
 
 ## 8.0 Credential Dumping with secretsdump
