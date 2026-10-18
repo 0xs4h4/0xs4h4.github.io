@@ -360,7 +360,7 @@ nxc smb 192.168.216.97 -u 'charlotte' -p 'Game2On4.!'
 nxc winrm 192.168.216.97 -u 'charlotte' -p 'Game2On4.!'
 ```
 
-A first DCSync attempt as charlotte failed (she held only partial replication rights):
+charlotte is a normal domain user, not an admin. A first DCSync attempt as charlotte failed — she lacked the right to replicate secrets (section 9.3 explains the fix):
 
 ```bash
 impacket-secretsdump secura.yzx/charlotte:'Game2On4.!'@192.168.216.97
@@ -370,13 +370,18 @@ impacket-secretsdump secura.yzx/charlotte:'Game2On4.!'@192.168.216.97
 [-] DRSR SessionError: code: 0x20f7 - ERROR_DS_DRA_BAD_DN
 ```
 
-charlotte is a normal domain user, not an admin. But there is a path to Domain Admin here — Group Policy abuse.
+The way in is Group Policy abuse.
 
-A **GPO (Group Policy Object)** is a set of settings that the Domain Controller pushes out to computers and users. For example, a GPO can say "run this scheduled task at logon" for every machine in the domain. If a GPO holds a scheduled task, that task runs as **SYSTEM** on the machines that apply it — including the Domain Controller.
+A **GPO (Group Policy Object)** is a set of settings that the Domain Controller pushes out to computers and users. For example, a GPO can say "run this scheduled task at logon" for every machine in the domain. A scheduled task inside a GPO runs as **SYSTEM** on the machines that apply it — including the Domain Controller itself.
 
-charlotte has **WriteOwner on the Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`). WriteOwner means she can change who owns the GPO — and whoever owns it can edit its contents. That is the gap we abuse.
+charlotte holds a specific permission on the **Default Domain Policy** (GUID `{31B2F340-016D-11D2-945F-00C04FB984F9}`): **WriteOwner**. That one permission is enough to take over the whole GPO. The chain works like this:
 
-We used `pyGPOAbuse` to plant a scheduled task inside the Default Domain Policy. The task runs one command: add charlotte to the Domain Admins group.
+1. **Take ownership.** WriteOwner lets charlotte change the GPO's owner to herself.
+2. **Grant herself full control.** As the owner, she can give herself any permission on the GPO.
+3. **Edit the GPO.** With full control she can change its contents — for example, add a scheduled task.
+4. **The task runs as SYSTEM on the DC.** When Group Policy applies, the Domain Controller runs that task with SYSTEM rights.
+
+`pyGPOAbuse` automates steps 1–3 and plants the scheduled task for us:
 
 ```bash
 python3 pygpoabuse.py secura.yzx/charlotte:'Game2On4.!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net group "Domain Admins" charlotte /add /domain' -dc-ip 192.168.216.97
@@ -384,13 +389,19 @@ python3 pygpoabuse.py secura.yzx/charlotte:'Game2On4.!' -gpo-id '31B2F340-016D-1
 
 ![](/assets/img/posts/secura/pygpoabuse-task.png)
 
-We then forced the policy to apply straight away on **DC01 (192.168.216.97)** (normally Group Policy refreshes on a timer, but we don't want to wait):
+The important flags:
+
+- `-gpo-id` — which GPO to abuse (the Default Domain Policy).
+- `-command` — what the scheduled task runs. Here: `net group "Domain Admins" charlotte /add /domain`, which adds charlotte to the Domain Admins group.
+- `-dc-ip` — the Domain Controller where the change is made.
+
+The task is now inside the GPO, but it has not run yet. Group Policy normally refreshes on a timer, so we force it to apply right away from charlotte's WinRM shell on the DC:
 
 ```powershell
 gpupdate /force
 ```
 
-The scheduled task ran as SYSTEM on the Domain Controller and added charlotte to the Domain Admins group.
+The Domain Controller applied the modified GPO and ran the scheduled task as SYSTEM. That executed `net group "Domain Admins" charlotte /add /domain` — charlotte is now a **Domain Admin**.
 
 ### 9.3 DCSync — Full Domain Compromise
 
