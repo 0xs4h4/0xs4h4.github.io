@@ -1,6 +1,6 @@
 ---
 title: Fikklish — Proving Grounds Practice Writeup
-date: 2026-10-19 18:30:00 +0800
+date: 2026-10-19 14:00:00 +0800
 categories: [OSCP, Proving Grounds]
 tags: [oscp, proving-grounds, weblate, cve-2022-23915, mercurial, sudo, git-hooks, linux]
 description: >-
