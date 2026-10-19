@@ -2,7 +2,7 @@
 title: Secura — Challenge Lab Writeup
 date: 2026-10-18 20:30:00 +0800
 categories: [OSCP, Challenges]
-tags: [oscp, secura, active-directory, privilege-escalation, mariadb, udf, adscan, secretsdump, gpo]
+tags: [oscp, secura, active-directory, privilege-escalation, mariadb, udf, corvid-ad, secretsdump, gpo]
 description: >-
   Full walkthrough of the Secura (Challenge Lab 0) Active Directory environment —
   ManageEngine RCE, RDCMan credential theft, MariaDB UDF privilege escalation,
